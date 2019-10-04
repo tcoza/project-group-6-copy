@@ -1,13 +1,14 @@
+import java.util.Set;
 
 public abstract class AppUser {
-   private String name;
+   private String firstName;
    
-   public void setName(String value) {
-      this.name = value;
+   public void setFirstName(String value) {
+      this.firstName = value;
    }
    
-   public String getName() {
-      return this.name;
+   public String getFirstName() {
+      return this.firstName;
    }
    
    /**
@@ -25,6 +26,36 @@ public abstract class AppUser {
    
    public TutoringApplication getTutoringApplication() {
       return this.tutoringApplication;
+   }
+   
+   private String lastName;
+   
+   public void setLastName(String value) {
+      this.lastName = value;
+   }
+   
+   public String getLastName() {
+      return this.lastName;
+   }
+   
+   private static String username;
+   
+   public static void setUsername(String value) {
+      AppUser.username = value;
+   }
+   
+   public static String getUsername() {
+      return AppUser.username;
+   }
+   
+   private Set<Evaluation> evaluation;
+   
+   public void setEvaluation(Set<Evaluation> value) {
+      this.evaluation = value;
+   }
+   
+   public Set<Evaluation> getEvaluation() {
+      return this.evaluation;
    }
    
    }

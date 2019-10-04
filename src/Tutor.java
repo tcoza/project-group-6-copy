@@ -28,4 +28,20 @@ public class Tutor extends AppUser {
       return this.course;
    }
    
+   /**
+    * <pre>
+    *           1..1     0..*
+    * Tutor ------------------------- ScheduledSession
+    *           tutor        &lt;       scheduledSession
+    * </pre>
+    */
+   private Set<ScheduledSession> scheduledSession;
+   
+   public Set<ScheduledSession> getScheduledSession() {
+      if (this.scheduledSession == null) {
+         this.scheduledSession = new HashSet<ScheduledSession>();
+      }
+      return this.scheduledSession;
+   }
+   
    }

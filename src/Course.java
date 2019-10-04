@@ -2,14 +2,14 @@ import java.util.Set;
 import java.util.HashSet;
 
 public class Course {
-   private String code;
+   private String courseCode;
    
-   public void setCode(String value) {
-      this.code = value;
+   public void setCourseCode(String value) {
+      this.courseCode = value;
    }
    
-   public String getCode() {
-      return this.code;
+   public String getCourseCode() {
+      return this.courseCode;
    }
    
    /**
@@ -60,6 +60,33 @@ public class Course {
          this.tutor = new HashSet<Tutor>();
       }
       return this.tutor;
+   }
+   
+   private String name;
+   
+   public void setName(String value) {
+      this.name = value;
+   }
+   
+   public String getName() {
+      return this.name;
+   }
+   
+   /**
+    * <pre>
+    *           1..1     0..1
+    * Course ------------------------- SessionRequest
+    *           course        &gt;       sessionRequest
+    * </pre>
+    */
+   private SessionRequest sessionRequest;
+   
+   public void setSessionRequest(SessionRequest value) {
+      this.sessionRequest = value;
+   }
+   
+   public SessionRequest getSessionRequest() {
+      return this.sessionRequest;
    }
    
    }

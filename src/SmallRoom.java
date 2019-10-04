@@ -1,3 +1,5 @@
+import java.util.Set;
+import java.util.HashSet;
 
 public class SmallRoom extends Room {
    /**
@@ -15,6 +17,22 @@ public class SmallRoom extends Room {
    
    public TutoringApplication getTutoringApplication() {
       return this.tutoringApplication;
+   }
+   
+   /**
+    * <pre>
+    *           1..1     0..*
+    * SmallRoom ------------------------- PrivateSession
+    *           smallRoom        &lt;       privateSession
+    * </pre>
+    */
+   private Set<PrivateSession> privateSession;
+   
+   public Set<PrivateSession> getPrivateSession() {
+      if (this.privateSession == null) {
+         this.privateSession = new HashSet<PrivateSession>();
+      }
+      return this.privateSession;
    }
    
    }
