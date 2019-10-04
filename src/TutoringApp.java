@@ -1,11 +1,11 @@
 import java.util.Set;
 import java.util.HashSet;
 
-public class TutoringApplication {
+public class TutoringApp {
    /**
     * <pre>
     *           1..1     0..*
-    * TutoringApplication ------------------------- AppUser
+    * TutoringApp ------------------------- AppUser
     *           tutoringApplication        &gt;       appUser
     * </pre>
     */
@@ -21,7 +21,7 @@ public class TutoringApplication {
    /**
     * <pre>
     *           1..1     3..3
-    * TutoringApplication ------------------------- SmallRoom
+    * TutoringApp ------------------------- SmallRoom
     *           tutoringApplication        &gt;       smallRoom
     * </pre>
     */
@@ -37,7 +37,7 @@ public class TutoringApplication {
    /**
     * <pre>
     *           1..1     10..10
-    * TutoringApplication ------------------------- ClassRoom
+    * TutoringApp ------------------------- ClassRoom
     *           tutoringApplication        &gt;       classRoom
     * </pre>
     */

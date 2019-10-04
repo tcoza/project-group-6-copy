@@ -5,7 +5,7 @@
       <contents xmi:type="ecore:EAnnotation" xmi:id="_E_s8oOY4EemklMPirbxsew" source="codegen">
         <details xmi:id="_E_vY4OY4EemklMPirbxsew" key="codegenDirectory" value="/TutoringApp/src"/>
         <details xmi:id="_FAYSEOY4EemklMPirbxsew" key="observedFolders" value="/TutoringApp/src"/>
-        <details xmi:id="_DM7FgOY6EemklMPirbxsew" key="AssociatedSourceCode" value="/TutoringApp/src/Room.java;3105365060/1;/TutoringApp/src/AppUser.java;3707065390/1;/TutoringApp/src/SmallRoom.java;4169830321/1;/TutoringApp/src/ClassRoom.java;3822667262/1;/TutoringApp/src/Student.java;3446138548/1;/TutoringApp/src/Tutor.java;3572427066/1;/TutoringApp/src/TutorStatus.java;2070943136/1;/TutoringApp/src/Manager.java;1256475571/1;/TutoringApp/src/TutoringApplication.java;1171685590/1;/TutoringApp/src/Course.java;3339222687/1;/TutoringApp/src/Subject.java;2007726242/1;/TutoringApp/src/University.java;2339731/1;/TutoringApp/src/PrivateSession.java;1058991299/1;/TutoringApp/src/GroupSession.java;640418831/1;/TutoringApp/src/ScheduledSession.java;1067854255/1;/TutoringApp/src/SessionRequest.java;284940893/1;/TutoringApp/src/PrivateRequest.java;1648928723/1;/TutoringApp/src/GroupRequest.java;1955439438/1;/TutoringApp/src/Evaluation.java;2927932346/1;/TutoringApp/src/EvaluationComment.java;3420697393/1;/TutoringApp/src/EvaluationRating.java;1922274068/1;"/>
+        <details xmi:id="_DM7FgOY6EemklMPirbxsew" key="AssociatedSourceCode" value="/TutoringApp/src/Room.java;3105365060/1;/TutoringApp/src/AppUser.java;1885776438/1;/TutoringApp/src/SmallRoom.java;430515014/1;/TutoringApp/src/ClassRoom.java;2926485992/1;/TutoringApp/src/Student.java;2458912418/1;/TutoringApp/src/Tutor.java;3572427066/1;/TutoringApp/src/TutorStatus.java;2070943136/1;/TutoringApp/src/Manager.java;1256475571/1;/TutoringApp/src/Course.java;3339222687/1;/TutoringApp/src/Subject.java;2007726242/1;/TutoringApp/src/University.java;2339731/1;/TutoringApp/src/PrivateSession.java;1058991299/1;/TutoringApp/src/GroupSession.java;640418831/1;/TutoringApp/src/ScheduledSession.java;1067854255/1;/TutoringApp/src/SessionRequest.java;284940893/1;/TutoringApp/src/PrivateRequest.java;1648928723/1;/TutoringApp/src/GroupRequest.java;1955439438/1;/TutoringApp/src/Evaluation.java;2927932346/1;/TutoringApp/src/EvaluationComment.java;3420697393/1;/TutoringApp/src/EvaluationRating.java;1922274068/1;/TutoringApp/src/TutoringApp.java;3999978985/1;"/>
       </contents>
     </eAnnotations>
     <elementImport xmi:id="_nCOxYOY5EemklMPirbxsew">
@@ -95,6 +95,10 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3lqPlebKEemklMPirbxsew"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3lqPlubKEemklMPirbxsew" value="*"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_oURMUObOEemklMPirbxsew" name="isActiveAccount" visibility="public">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_rQo20ObOEemklMPirbxsew" value="true"/>
+      </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_1wYycOY6EemklMPirbxsew" name="Tutor">
       <generalization xmi:id="_EvARYOY8EemklMPirbxsew" general="_Zz0r0OY4EemklMPirbxsew"/>
@@ -120,7 +124,7 @@
     <packagedElement xmi:type="uml:Class" xmi:id="__qlVQOY7EemklMPirbxsew" name="Manager">
       <generalization xmi:id="_EQ8cYOY8EemklMPirbxsew" general="_Zz0r0OY4EemklMPirbxsew"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_Td_OUOY8EemklMPirbxsew" name="TutoringApplication">
+    <packagedElement xmi:type="uml:Class" xmi:id="_Td_OUOY8EemklMPirbxsew" name="TutoringApp">
       <ownedAttribute xmi:id="_lEOFM-Y8EemklMPirbxsew" name="appUser" type="_Zz0r0OY4EemklMPirbxsew" aggregation="composite" association="_lELo8OY8EemklMPirbxsew">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lEOFNOY8EemklMPirbxsew"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lEOFNeY8EemklMPirbxsew" value="*"/>
@@ -264,7 +268,7 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_NyoLlObMEemklMPirbxsew"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NyoLlebMEemklMPirbxsew" value="1"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_ONtlEebMEemklMPirbxsew" name="evaluationRating" type="_2XJYkObLEemklMPirbxsew" association="_ONtlEObMEemklMPirbxsew">
+      <ownedAttribute xmi:id="_ONtlEebMEemklMPirbxsew" name="evaluationRating" type="_2XJYkObLEemklMPirbxsew" aggregation="composite" association="_ONtlEObMEemklMPirbxsew">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ONtlEubMEemklMPirbxsew" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ONtlE-bMEemklMPirbxsew" value="1"/>
       </ownedAttribute>
@@ -290,7 +294,7 @@
       <ownedAttribute xmi:id="_7LMWYObLEemklMPirbxsew" name="starRating" visibility="public">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_ONtlFObMEemklMPirbxsew" name="evaluation" type="_wuQdcObLEemklMPirbxsew" aggregation="composite" association="_ONtlEObMEemklMPirbxsew">
+      <ownedAttribute xmi:id="_ONtlFObMEemklMPirbxsew" name="evaluation" type="_wuQdcObLEemklMPirbxsew" association="_ONtlEObMEemklMPirbxsew">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ONtlFebMEemklMPirbxsew" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ONtlFubMEemklMPirbxsew" value="1"/>
       </ownedAttribute>

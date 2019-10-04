@@ -5,17 +5,17 @@ public class SmallRoom extends Room {
    /**
     * <pre>
     *           3..3     1..1
-    * SmallRoom ------------------------- TutoringApplication
+    * SmallRoom ------------------------- TutoringApp
     *           smallRoom        &lt;       tutoringApplication
     * </pre>
     */
-   private TutoringApplication tutoringApplication;
+   private TutoringApp tutoringApplication;
    
-   public void setTutoringApplication(TutoringApplication value) {
+   public void setTutoringApplication(TutoringApp value) {
       this.tutoringApplication = value;
    }
    
-   public TutoringApplication getTutoringApplication() {
+   public TutoringApp getTutoringApplication() {
       return this.tutoringApplication;
    }
    

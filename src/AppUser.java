@@ -14,17 +14,17 @@ public abstract class AppUser {
    /**
     * <pre>
     *           0..*     1..1
-    * AppUser ------------------------- TutoringApplication
+    * AppUser ------------------------- TutoringApp
     *           appUser        &lt;       tutoringApplication
     * </pre>
     */
-   private TutoringApplication tutoringApplication;
+   private TutoringApp tutoringApplication;
    
-   public void setTutoringApplication(TutoringApplication value) {
+   public void setTutoringApplication(TutoringApp value) {
       this.tutoringApplication = value;
    }
    
-   public TutoringApplication getTutoringApplication() {
+   public TutoringApp getTutoringApplication() {
       return this.tutoringApplication;
    }
    

@@ -18,4 +18,14 @@ public class Student extends AppUser {
       return this.sessionRequest;
    }
    
+   private Boolean isActiveAccount = true;
+   
+   public void setIsActiveAccount(Boolean value) {
+      this.isActiveAccount = value;
+   }
+   
+   public Boolean getIsActiveAccount() {
+      return this.isActiveAccount;
+   }
+   
    }
