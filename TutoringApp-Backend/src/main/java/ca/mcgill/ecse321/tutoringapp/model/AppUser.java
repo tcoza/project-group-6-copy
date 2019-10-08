@@ -21,7 +21,7 @@ public void setLastName(String value) {
 public String getLastName() {
     return this.lastName;
 }
-private String username;
+private static String username;
 
 public static void setUsername(String value) {
     AppUser.username = value;

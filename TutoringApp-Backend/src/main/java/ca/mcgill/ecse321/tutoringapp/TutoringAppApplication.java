@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.tutoringApp;
+package ca.mcgill.ecse321.tutoringapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
