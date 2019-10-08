@@ -1,21 +1,21 @@
-package ca.mcgill.ecse321.tutoringApp.model;
+package ca.mcgill.ecse321.tutoringapp.model;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
 @Entity
-public class EvaluationRating{
-   private Integer starRating;
+public class EvaluationComment{
+   private String comment;
 
-public void setStarRating(Integer value) {
-    this.starRating = value;
+public void setComment(String value) {
+    this.comment = value;
 }
-public Integer getStarRating() {
-    return this.starRating;
+public String getComment() {
+    return this.comment;
 }
    private Evaluation evaluation;
    
-   @OneToOne(mappedBy="evaluationRating" , optional=false)
+   @OneToOne
    public Evaluation getEvaluation() {
       return this.evaluation;
    }

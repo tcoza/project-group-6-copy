@@ -1,11 +1,11 @@
-package ca.mcgill.ecse321.tutoringApp.model;
+package ca.mcgill.ecse321.tutoringapp.model;
 
 import javax.persistence.Entity;
 import java.util.Set;
 import javax.persistence.OneToMany;
 
 @Entity
-public class University{
+public class Subject{
    private String name;
 
 public void setName(String value) {
@@ -16,7 +16,7 @@ public String getName() {
 }
    private Set<Course> course;
    
-   @OneToMany(mappedBy="university" )
+   @OneToMany(mappedBy="subject" )
    public Set<Course> getCourse() {
       return this.course;
    }
