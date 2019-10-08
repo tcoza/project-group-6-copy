@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.tutoringapp.model;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Id;
 
 @Entity
 public class EvaluationComment{
@@ -13,15 +14,24 @@ public void setComment(String value) {
 public String getComment() {
     return this.comment;
 }
-   private Evaluation evaluation;
-   
-   @OneToOne
-   public Evaluation getEvaluation() {
-      return this.evaluation;
-   }
-   
-   public void setEvaluation(Evaluation evaluation) {
-      this.evaluation = evaluation;
-   }
-   
-   }
+private Evaluation evaluation;
+
+@OneToOne
+public Evaluation getEvaluation() {
+   return this.evaluation;
+}
+
+public void setEvaluation(Evaluation evaluation) {
+   this.evaluation = evaluation;
+}
+
+private int id;
+
+public void setId(int value) {
+    this.id = value;
+}
+@Id
+public int getId() {
+    return this.id;
+}
+}

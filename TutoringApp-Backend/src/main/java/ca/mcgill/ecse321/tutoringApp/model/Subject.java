@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.tutoringapp.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Set;
 import javax.persistence.OneToMany;
 
@@ -11,6 +12,7 @@ public class Subject{
 public void setName(String value) {
     this.name = value;
 }
+@Id
 public String getName() {
     return this.name;
 }

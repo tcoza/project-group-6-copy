@@ -1,15 +1,17 @@
 package ca.mcgill.ecse321.tutoringapp.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public abstract class Room{
-   private Integer id;
+   private int id;
 
-public void setId(Integer value) {
+public void setId(int value) {
     this.id = value;
 }
-public Integer getId() {
+@Id
+public int getId() {
     return this.id;
 }
 }

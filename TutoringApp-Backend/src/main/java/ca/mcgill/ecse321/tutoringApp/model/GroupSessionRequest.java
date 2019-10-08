@@ -5,6 +5,7 @@ import java.sql.Date;
 import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.ManyToMany;
+import javax.persistence.Id;
 
 @Entity
 public class GroupSessionRequest{
@@ -67,5 +68,14 @@ public void setIsScheduled(boolean value) {
 }
 public boolean isIsScheduled() {
     return this.isScheduled;
+}
+private int id;
+
+public void setId(int value) {
+    this.id = value;
+}
+@Id
+public int getId() {
+    return this.id;
 }
 }

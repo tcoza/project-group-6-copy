@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import java.sql.Time;
 import java.util.Set;
 import javax.persistence.ManyToMany;
+import javax.persistence.Id;
 
 @Entity
 public class Offering{
@@ -41,5 +42,14 @@ public void setStartTime(Time value) {
 }
 public Time getStartTime() {
     return this.startTime;
+}
+private int id;
+
+public void setId(int value) {
+    this.id = value;
+}
+@Id
+public int getId() {
+    return this.id;
 }
 }

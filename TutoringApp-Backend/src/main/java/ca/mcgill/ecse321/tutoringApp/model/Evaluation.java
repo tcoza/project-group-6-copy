@@ -5,6 +5,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToOne;
 import java.sql.Date;
+import javax.persistence.Id;
 
 @Entity
 public class Evaluation{
@@ -62,6 +63,7 @@ private int id;
 public void setId(int value) {
     this.id = value;
 }
+@Id
 public int getId() {
     return this.id;
 }

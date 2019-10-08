@@ -1,17 +1,19 @@
 package ca.mcgill.ecse321.tutoringapp.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Date;
 import java.sql.Time;
 
 @Entity
 public class ScheduledSession{
-   private Integer id;
+   private int id;
 
-public void setId(Integer value) {
+public void setId(int value) {
     this.id = value;
 }
-public Integer getId() {
+@Id
+public int getId() {
     return this.id;
 }
 private Boolean isFull;
