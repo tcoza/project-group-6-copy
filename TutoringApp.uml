@@ -5,7 +5,7 @@
       <contents xmi:type="ecore:EAnnotation" xmi:id="_E_s8oOY4EemklMPirbxsew" source="codegen">
         <details xmi:id="_E_vY4OY4EemklMPirbxsew" key="codegenDirectory" value="/TutoringApp/src"/>
         <details xmi:id="_FAYSEOY4EemklMPirbxsew" key="observedFolders" value="/TutoringApp/src"/>
-        <details xmi:id="_DM7FgOY6EemklMPirbxsew" key="AssociatedSourceCode" value="/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/AppUser.java;2595121644/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/ClassRoom.java;157054078/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/Course.java;3355328349/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/Evaluation.java;2776066937/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/EvaluationComment.java;4112797059/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/EvaluationRating.java;659140906/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/GroupRequest.java;266428471/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/GroupSession.java;3550246801/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/Manager.java;3054986466/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/PrivateRequest.java;1835621257/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/PrivateSession.java;3587646781/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/Room.java;1831947891/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/ScheduledSession.java;974905582/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/SessionRequest.java;58696598/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/SmallRoom.java;4287523014/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/Student.java;2685002505/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/Subject.java;1098753229/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/Tutor.java;4139740980/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/TutoringApp.java;3733257813/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/TutorStatus.java;2909332592/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/University.java;3086173909/1;"/>
+        <details xmi:id="_DM7FgOY6EemklMPirbxsew" key="AssociatedSourceCode" value="/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/AppUser.java;2595121644/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/ClassRoom.java;157054078/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/Course.java;3355328349/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/Evaluation.java;2776066937/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/EvaluationComment.java;4112797059/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/EvaluationRating.java;659140906/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/GroupRequest.java;266428471/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/GroupSession.java;3550246801/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/Manager.java;3054986466/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/PrivateRequest.java;1835621257/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/PrivateSession.java;3587646781/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/Room.java;1831947891/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/ScheduledSession.java;974905582/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/SessionRequest.java;58696598/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/SmallRoom.java;4287523014/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/Student.java;2685002505/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/Subject.java;1098753229/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/Tutor.java;4139740980/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/TutoringApp.java;3733257813/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/TutorStatus.java;2909332592/1;/TutoringApp/src/ca/mcgill/ecse321/tutoringApp/model/University.java;3086173909/1;/TutoringApp/src/TutoringApp/Library.java;2690429632/1;/TutoringApp/src/TutoringApp/LibraryTest.java;952544339/1;"/>
       </contents>
     </eAnnotations>
     <elementImport xmi:id="_nCOxYOY5EemklMPirbxsew">
@@ -322,6 +322,32 @@
         <packagedElement xmi:type="uml:Package" xmi:id="_3cx7MObcEemklMPirbxsew" name="ecse"/>
       </packagedElement>
     </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_wV9iIObfEemklMPirbxsew" name="TutoringApp">
+      <packagedElement xmi:type="uml:Class" xmi:id="_wWAlcObfEemklMPirbxsew" name="Library">
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_wWd4cObfEemklMPirbxsew" name="someLibraryMethod" specification="_wWHTIObfEemklMPirbxsew">
+          <ownedParameter xmi:id="_wWefgObfEemklMPirbxsew" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
+          </ownedParameter>
+          <language>java</language>
+          <body>return true;
+ </body>
+        </ownedBehavior>
+        <ownedOperation xmi:id="_wWHTIObfEemklMPirbxsew" name="someLibraryMethod" method="_wWd4cObfEemklMPirbxsew">
+          <ownedParameter xmi:id="_wWH6MObfEemklMPirbxsew" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_wWIhQObfEemklMPirbxsew" name="LibraryTest">
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_wWefgebfEemklMPirbxsew" name="testSomeLibraryMethod" specification="_wWNZwObfEemklMPirbxsew">
+          <language>java</language>
+          <body>Library classUnderTest = new Library();
+     assertTrue(&quot;someLibraryMethod should return 'true'&quot;, classUnderTest.someLibraryMethod());
+ </body>
+        </ownedBehavior>
+        <ownedOperation xmi:id="_wWNZwObfEemklMPirbxsew" name="testSomeLibraryMethod" method="_wWefgebfEemklMPirbxsew"/>
+      </packagedElement>
+    </packagedElement>
     <profileApplication xmi:id="_E_4i0OY4EemklMPirbxsew">
       <eAnnotations xmi:id="_E_9bUOY4EemklMPirbxsew" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://UMLLAB_PROFILES/UMLLab.profile.uml#UMLLabProfile-Annotation_2-UMLLabProfile"/>
@@ -344,4 +370,10 @@
   <Persistency:JPA1StyledElement xmi:id="_fCihQObZEemklMPirbxsew" base_Element="_CVcV0OY4EemklMPirbxsew"/>
   <UMLLabProfile:Reference xmi:id="_L2vI0ObbEemklMPirbxsew" base_Element="_L2JS8ObbEemklMPirbxsew"/>
   <UMLLabProfile:Reference xmi:id="_L3Cq0ObbEemklMPirbxsew" base_Element="_L2vI0ebbEemklMPirbxsew"/>
+  <UMLLabProfile:StyledElement xmi:id="_wWGsEObfEemklMPirbxsew" base_Element="_wWAlcObfEemklMPirbxsew"/>
+  <UMLLabProfile:StyledElement xmi:id="_wWMysObfEemklMPirbxsew" base_Element="_wWIhQObfEemklMPirbxsew"/>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_wWOA0ObfEemklMPirbxsew" base_Element="_wWNZwObfEemklMPirbxsew"/>
+  <UMLLabProfile:Annotations xmi:id="_wWOA0ebfEemklMPirbxsew" base_Element="_wWNZwObfEemklMPirbxsew">
+    <annotations xmi:id="_wWOn4ObfEemklMPirbxsew" name="Test"/>
+  </UMLLabProfile:Annotations>
 </xmi:XMI>

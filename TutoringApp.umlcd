@@ -447,59 +447,6 @@
       </type>
     </attributes>
   </nodes>
-  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_B4F5MeY9EemklMPirbxsew" name="Course" associationsIn="_LEE1sOY_EemklMPirbxsew" associationsOut="_-Oo0UOY-EemklMPirbxsew _A9dyEOY_EemklMPirbxsew _Lhln8ObKEemklMPirbxsew">
-    <modelElement href="TutoringApp.uml#_B4F5MOY9EemklMPirbxsew"/>
-    <visualProperties xmi:id="_B4F5MuY9EemklMPirbxsew" position="-121.0,515.0" size="275.0,-1.0"/>
-    <visibility xmi:id="_B4F5M-Y9EemklMPirbxsew" label="+"/>
-    <attributes xmi:id="_ER7eYOY9EemklMPirbxsew" name="courseCode">
-      <modelElement href="TutoringApp.uml#_ER5CIOY9EemklMPirbxsew"/>
-      <visibility xmi:id="_ER7eYeY9EemklMPirbxsew" label="+"/>
-      <cardinality xmi:id="_ER7eYuY9EemklMPirbxsew" label="1" max="1" min="1"/>
-      <type xmi:id="_ER7eY-Y9EemklMPirbxsew" name="String">
-        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_-OrQkOY-EemklMPirbxsew" name="subject">
-      <modelElement href="TutoringApp.uml#_-Oj71OY-EemklMPirbxsew"/>
-      <visibility xmi:id="_-OrQkeY-EemklMPirbxsew" label="+"/>
-      <cardinality xmi:id="_-OrQkuY-EemklMPirbxsew" label="1" max="1" min="1"/>
-      <type xmi:id="_-OrQk-Y-EemklMPirbxsew" name="Subject">
-        <modelElement href="TutoringApp.uml#_F_3m4OY9EemklMPirbxsew"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_A9gOVOY_EemklMPirbxsew" name="university">
-      <modelElement href="TutoringApp.uml#_A9bV0-Y_EemklMPirbxsew"/>
-      <visibility xmi:id="_A9gOVeY_EemklMPirbxsew" label="+"/>
-      <cardinality xmi:id="_A9gOVuY_EemklMPirbxsew" label="1" max="1" min="1"/>
-      <type xmi:id="_A9gOV-Y_EemklMPirbxsew" name="University">
-        <modelElement href="TutoringApp.uml#_6HZSIOY-EemklMPirbxsew"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_LEHR8OY_EemklMPirbxsew" name="tutor">
-      <modelElement href="TutoringApp.uml#_LD_9MeY_EemklMPirbxsew"/>
-      <visibility xmi:id="_LEHR8eY_EemklMPirbxsew" label="+"/>
-      <cardinality xmi:id="_LEHR8uY_EemklMPirbxsew" label="*" max="-1"/>
-      <type xmi:id="_LEHR8-Y_EemklMPirbxsew" name="Tutor">
-        <modelElement href="TutoringApp.uml#_1wYycOY6EemklMPirbxsew"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_DHT1MObIEemklMPirbxsew" name="name">
-      <modelElement href="TutoringApp.uml#_DHRY8ObIEemklMPirbxsew"/>
-      <visibility xmi:id="_DHT1MebIEemklMPirbxsew" label="+"/>
-      <cardinality xmi:id="_DHT1MubIEemklMPirbxsew" label="1" max="1" min="1"/>
-      <type xmi:id="_EoMZIObIEemklMPirbxsew" name="String">
-        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-      </type>
-    </attributes>
-    <attributes xmi:id="_LhqgcObKEemklMPirbxsew" name="sessionRequest">
-      <modelElement href="TutoringApp.uml#_LhZas-bKEemklMPirbxsew"/>
-      <visibility xmi:id="_LhqgcebKEemklMPirbxsew" label="+"/>
-      <cardinality xmi:id="_LhqgcubKEemklMPirbxsew" label="0..1" max="1"/>
-      <type xmi:id="_Lhqgc-bKEemklMPirbxsew" name="SessionRequest">
-        <modelElement href="TutoringApp.uml#_WtBQgObIEemklMPirbxsew"/>
-      </type>
-    </attributes>
-  </nodes>
   <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_wuQdcebLEemklMPirbxsew" name="Evaluation" associationsIn="_ONwBUObMEemklMPirbxsew __4v1MObMEemklMPirbxsew" associationsOut="_Nyqn0ObMEemklMPirbxsew _bsJgIObMEemklMPirbxsew">
     <modelElement href="TutoringApp.uml#_wuQdcObLEemklMPirbxsew"/>
     <visualProperties xmi:id="_wuQdcubLEemklMPirbxsew" position="330.0,1084.0" size="231.0,-1.0"/>
@@ -953,6 +900,59 @@
       <cardinality xmi:id="_WGxMCubMEemklMPirbxsew" label="*" max="-1"/>
       <type xmi:id="_WGxMC-bMEemklMPirbxsew" name="Evaluation">
         <modelElement href="TutoringApp.uml#_wuQdcObLEemklMPirbxsew"/>
+      </type>
+    </attributes>
+  </nodes>
+  <nodes xsi:type="com.yattasolutions.uml.diagrams.classifier:ClassifierVisual" xmi:id="_B4F5MeY9EemklMPirbxsew" name="Course" associationsIn="_LEE1sOY_EemklMPirbxsew" associationsOut="_-Oo0UOY-EemklMPirbxsew _A9dyEOY_EemklMPirbxsew _Lhln8ObKEemklMPirbxsew">
+    <modelElement href="TutoringApp.uml#_B4F5MOY9EemklMPirbxsew"/>
+    <visualProperties xmi:id="_B4F5MuY9EemklMPirbxsew" position="-121.0,515.0" size="275.0,-1.0"/>
+    <visibility xmi:id="_B4F5M-Y9EemklMPirbxsew" label="+"/>
+    <attributes xmi:id="_ER7eYOY9EemklMPirbxsew" name="courseCode">
+      <modelElement href="TutoringApp.uml#_ER5CIOY9EemklMPirbxsew"/>
+      <visibility xmi:id="_ER7eYeY9EemklMPirbxsew" label="+"/>
+      <cardinality xmi:id="_ER7eYuY9EemklMPirbxsew" label="1" max="1" min="1"/>
+      <type xmi:id="_ER7eY-Y9EemklMPirbxsew" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_-OrQkOY-EemklMPirbxsew" name="subject">
+      <modelElement href="TutoringApp.uml#_-Oj71OY-EemklMPirbxsew"/>
+      <visibility xmi:id="_-OrQkeY-EemklMPirbxsew" label="+"/>
+      <cardinality xmi:id="_-OrQkuY-EemklMPirbxsew" label="1" max="1" min="1"/>
+      <type xmi:id="_-OrQk-Y-EemklMPirbxsew" name="Subject">
+        <modelElement href="TutoringApp.uml#_F_3m4OY9EemklMPirbxsew"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_A9gOVOY_EemklMPirbxsew" name="university">
+      <modelElement href="TutoringApp.uml#_A9bV0-Y_EemklMPirbxsew"/>
+      <visibility xmi:id="_A9gOVeY_EemklMPirbxsew" label="+"/>
+      <cardinality xmi:id="_A9gOVuY_EemklMPirbxsew" label="1" max="1" min="1"/>
+      <type xmi:id="_A9gOV-Y_EemklMPirbxsew" name="University">
+        <modelElement href="TutoringApp.uml#_6HZSIOY-EemklMPirbxsew"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_LEHR8OY_EemklMPirbxsew" name="tutor">
+      <modelElement href="TutoringApp.uml#_LD_9MeY_EemklMPirbxsew"/>
+      <visibility xmi:id="_LEHR8eY_EemklMPirbxsew" label="+"/>
+      <cardinality xmi:id="_LEHR8uY_EemklMPirbxsew" label="*" max="-1"/>
+      <type xmi:id="_LEHR8-Y_EemklMPirbxsew" name="Tutor">
+        <modelElement href="TutoringApp.uml#_1wYycOY6EemklMPirbxsew"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_DHT1MObIEemklMPirbxsew" name="name">
+      <modelElement href="TutoringApp.uml#_DHRY8ObIEemklMPirbxsew"/>
+      <visibility xmi:id="_DHT1MebIEemklMPirbxsew" label="+"/>
+      <cardinality xmi:id="_DHT1MubIEemklMPirbxsew" label="1" max="1" min="1"/>
+      <type xmi:id="_EoMZIObIEemklMPirbxsew" name="String">
+        <modelElement href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </type>
+    </attributes>
+    <attributes xmi:id="_LhqgcObKEemklMPirbxsew" name="sessionRequest">
+      <modelElement href="TutoringApp.uml#_LhZas-bKEemklMPirbxsew"/>
+      <visibility xmi:id="_LhqgcebKEemklMPirbxsew" label="+"/>
+      <cardinality xmi:id="_LhqgcubKEemklMPirbxsew" label="0..1" max="1"/>
+      <type xmi:id="_Lhqgc-bKEemklMPirbxsew" name="SessionRequest">
+        <modelElement href="TutoringApp.uml#_WtBQgObIEemklMPirbxsew"/>
       </type>
     </attributes>
   </nodes>
