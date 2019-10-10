@@ -33,7 +33,7 @@ public class Evaluation{
    
    private EvaluationComment evaluationComment;
    
-   @OneToOne(mappedBy="evaluation" , cascade={CascadeType.ALL}, optional=false)
+   @OneToOne(mappedBy="evaluation" , cascade={CascadeType.ALL})
    public EvaluationComment getEvaluationComment() {
       return this.evaluationComment;
    }

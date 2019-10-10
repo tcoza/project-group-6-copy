@@ -17,4 +17,12 @@ public class ClassRoom extends Room{
       this.groupSession = groupSessions;
    }
    
-   }
+   private int studentCapacity = 15;
+
+public void setStudentCapacity(int value) {
+    this.studentCapacity = value;
+}
+public int getStudentCapacity() {
+    return this.studentCapacity;
+}
+}

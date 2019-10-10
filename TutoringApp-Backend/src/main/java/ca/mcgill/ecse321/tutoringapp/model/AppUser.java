@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class AppUser{
+public abstract class AppUser{
    private String firstName;
 
 public void setFirstName(String value) {
@@ -21,13 +21,13 @@ public void setLastName(String value) {
 public String getLastName() {
     return this.lastName;
 }
-private static String username;
+private String username;
 
-public static void setUsername(String value) {
-    AppUser.username = value;
+public void setUsername(String value) {
+    username = value;
 }
 @Id
-public static String getUsername() {
-    return AppUser.username;
+public String getUsername() {
+    return username;
 }
 }

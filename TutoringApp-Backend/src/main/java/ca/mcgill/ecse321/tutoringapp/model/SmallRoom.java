@@ -17,4 +17,12 @@ public class SmallRoom extends Room{
       this.privateSession = privateSessions;
    }
    
-   }
+   private int studentCapacity = 1;
+
+public void setStudentCapacity(int value) {
+    this.studentCapacity = value;
+}
+public int getStudentCapacity() {
+    return this.studentCapacity;
+}
+}

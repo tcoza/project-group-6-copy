@@ -16,7 +16,7 @@ public String getComment() {
 }
 private Evaluation evaluation;
 
-@OneToOne
+@OneToOne(optional=false)
 public Evaluation getEvaluation() {
    return this.evaluation;
 }
