@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.tutoringapp.model.SmallRoom;
 
-public interface SmallRoomReposetory extends CrudRepository<SmallRoom, Integer> {
+public interface SmallRoomRepository extends CrudRepository<SmallRoom, Integer> {
 
 }
