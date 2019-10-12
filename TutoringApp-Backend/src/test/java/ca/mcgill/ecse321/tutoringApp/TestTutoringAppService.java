@@ -1,6 +1,12 @@
 package ca.mcgill.ecse321.tutoringApp;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import java.util.List;
+
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,11 +27,16 @@ import ca.mcgill.ecse321.tutoringapp.dao.SmallRoomRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.StudentRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SubjectRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.TutorRepository;
+import ca.mcgill.ecse321.tutoringapp.model.Course;
+import ca.mcgill.ecse321.tutoringapp.service.TutoringappService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TestTutoringAppService {
 	
+	
+	@Autowired
+	private TutoringappService service;
 	@Autowired
 	private AppUserRepository appUserRepository;
 	@Autowired
@@ -75,5 +86,24 @@ public class TestTutoringAppService {
 		subjectRepository.deleteAll();
 		tutorRepository.deleteAll();	
 	}
+	
+	@Test
+	public void testCreateCourse() {
+		assertEquals(0, service.getAllCourse());
+		
+		String name = "Intro To Software ENG";
+		String courseCode = "ECSE321";
 
+		try {
+			service.createCourse(courseCode, name);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+
+		List<Course> allCourse = service.getAllCourse();
+
+		assertEquals(1, allCourse.size());
+		assertEquals(name, allCourse.get(0).getName());
+		assertEquals(courseCode, allCourse.get(0).getCourseCode());
+	}
 }
