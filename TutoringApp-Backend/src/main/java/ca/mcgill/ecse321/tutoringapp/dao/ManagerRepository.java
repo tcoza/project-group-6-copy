@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.tutoringapp.model.Manager;
 
-public interface ManagerReposetory extends CrudRepository<Manager, String> {
+public interface ManagerRepository extends CrudRepository<Manager, String> {
 
 }

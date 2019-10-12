@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.tutoringapp.model.ScheduledSession;
 
-public interface ScheduledSessionReposetory extends CrudRepository<ScheduledSession, Integer> {
+public interface ScheduledSessionRepository extends CrudRepository<ScheduledSession, Integer> {
 
 }

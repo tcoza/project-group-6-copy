@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.tutoringapp.model.Subject;
 
-public interface SubjectReposetory extends CrudRepository<Subject, String> {
+public interface SubjectRepository extends CrudRepository<Subject, String> {
 
 }
