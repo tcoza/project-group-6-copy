@@ -1,6 +1,9 @@
 package ca.mcgill.ecse321.tutoringapp.model;
 
 import javax.persistence.Entity;
+
+import java.sql.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.OneToOne;
 import javax.persistence.Id;
@@ -26,12 +29,12 @@ public void setRating(int value) {
 public int getRating() {
     return this.rating;
 }
-private String/*No type specified!*/ date;
+private Date date;
 
-public void setDate(String/*No type specified!*/ value) {
+public void setDate(Date value) {
     this.date = value;
 }
-public String/*No type specified!*/ getDate() {
+public Date getDate() {
     return this.date;
 }
 private int id;

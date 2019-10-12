@@ -27,12 +27,12 @@ public void setCourse(Set<Course> courses) {
    this.course = courses;
 }
 
-private String/*No type specified!*/ type;
+private InstitutionType type;
 
-public void setType(String/*No type specified!*/ value) {
+public void setType(InstitutionType value) {
     this.type = value;
 }
-public String/*No type specified!*/ getType() {
+public InstitutionType getType() {
     return this.type;
 }
    private Set<Subject> subject;

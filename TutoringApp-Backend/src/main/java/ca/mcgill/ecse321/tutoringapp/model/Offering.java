@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.tutoringapp.model;
 
 import javax.persistence.Entity;
+
+import java.sql.Time;
 import java.util.Set;
 import javax.persistence.ManyToMany;
 import javax.persistence.Id;
@@ -8,20 +10,20 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Offering{
-   private String/*No type specified!*/ weekday;
+   private Weekday weekday;
 
-public void setWeekday(String/*No type specified!*/ value) {
+public void setWeekday(Weekday value) {
     this.weekday = value;
 }
-public String/*No type specified!*/ getWeekday() {
+public Weekday getWeekday() {
     return this.weekday;
 }
-private String/*No type specified!*/ endTime;
+private Time endTime;
 
-public void setEndTime(String/*No type specified!*/ value) {
+public void setEndTime(Time value) {
     this.endTime = value;
 }
-public String/*No type specified!*/ getEndTime() {
+public Time getEndTime() {
     return this.endTime;
 }
 private Set<SessionRequest> sessionRequest;
@@ -35,12 +37,12 @@ public void setSessionRequest(Set<SessionRequest> sessionRequests) {
    this.sessionRequest = sessionRequests;
 }
 
-private String/*No type specified!*/ startTime;
+private Time startTime;
 
-public void setStartTime(String/*No type specified!*/ value) {
+public void setStartTime(Time value) {
     this.startTime = value;
 }
-public String/*No type specified!*/ getStartTime() {
+public Time getStartTime() {
     return this.startTime;
 }
 private int id;

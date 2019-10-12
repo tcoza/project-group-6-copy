@@ -3,17 +3,19 @@ package ca.mcgill.ecse321.tutoringapp.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import java.sql.Date;
 import java.util.Set;
 import javax.persistence.ManyToMany;
 
 @Entity
 public class SessionRequest{
-   private String/*No type specified!*/ dateCreated;
+   private Date dateCreated;
 
-public void setDateCreated(String/*No type specified!*/ value) {
+public void setDateCreated(Date value) {
     this.dateCreated = value;
 }
-public String/*No type specified!*/ getDateCreated() {
+public Date getDateCreated() {
     return this.dateCreated;
 }
 private boolean isScheduled = false;

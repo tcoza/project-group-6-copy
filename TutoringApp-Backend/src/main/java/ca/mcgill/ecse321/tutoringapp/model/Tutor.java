@@ -7,14 +7,14 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Tutor extends AppUser{
-   private String/*No type specified!*/ status = TutorStatus.Pending;
+   private TutorStatus status = TutorStatus.PENDING;
 
-public void setStatus(String/*No type specified!*/ value) {
-    this.status = value;
-}
-public String/*No type specified!*/ getStatus() {
-    return this.status;
-}
+	public void setStatus(TutorStatus value) {
+	    this.status = value;
+	}
+	public TutorStatus getStatus() {
+	    return this.status;
+	}
    private Set<Course> course;
    
    @ManyToMany
@@ -70,4 +70,4 @@ public String/*No type specified!*/ getStatus() {
       this.scheduledSession = scheduledSessions;
    }
    
-   }
+  }
