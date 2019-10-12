@@ -1,46 +1,46 @@
 package ca.mcgill.ecse321.tutoringapp.model;
 
 import javax.persistence.Entity;
-import java.sql.Time;
 import java.util.Set;
 import javax.persistence.ManyToMany;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Offering{
-   private Weekday weekday;
+   private String/*No type specified!*/ weekday;
 
-public void setWeekday(Weekday value) {
+public void setWeekday(String/*No type specified!*/ value) {
     this.weekday = value;
 }
-public Weekday getWeekday() {
+public String/*No type specified!*/ getWeekday() {
     return this.weekday;
 }
-private Time endTime;
+private String/*No type specified!*/ endTime;
 
-public void setEndTime(Time value) {
+public void setEndTime(String/*No type specified!*/ value) {
     this.endTime = value;
 }
-public Time getEndTime() {
+public String/*No type specified!*/ getEndTime() {
     return this.endTime;
 }
-private Set<GroupSessionRequest> groupSessionRequest;
+private Set<SessionRequest> sessionRequest;
 
 @ManyToMany
-public Set<GroupSessionRequest> getGroupSessionRequest() {
-   return this.groupSessionRequest;
+public Set<SessionRequest> getSessionRequest() {
+   return this.sessionRequest;
 }
 
-public void setGroupSessionRequest(Set<GroupSessionRequest> groupSessionRequests) {
-   this.groupSessionRequest = groupSessionRequests;
+public void setSessionRequest(Set<SessionRequest> sessionRequests) {
+   this.sessionRequest = sessionRequests;
 }
 
-private Time startTime;
+private String/*No type specified!*/ startTime;
 
-public void setStartTime(Time value) {
+public void setStartTime(String/*No type specified!*/ value) {
     this.startTime = value;
 }
-public Time getStartTime() {
+public String/*No type specified!*/ getStartTime() {
     return this.startTime;
 }
 private int id;
@@ -52,4 +52,15 @@ public void setId(int value) {
 public int getId() {
     return this.id;
 }
-}
+   private TutoringApplicationModel tutoringApplication;
+   
+   @ManyToOne(optional=false)
+   public TutoringApplicationModel getTutoringApplication() {
+      return this.tutoringApplication;
+   }
+   
+   public void setTutoringApplication(TutoringApplicationModel tutoringApplication) {
+      this.tutoringApplication = tutoringApplication;
+   }
+   
+   }

@@ -2,8 +2,7 @@ package ca.mcgill.ecse321.tutoringapp.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.sql.Date;
-import java.sql.Time;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class ScheduledSession{
@@ -24,28 +23,50 @@ public void setIsFull(Boolean value) {
 public Boolean getIsFull() {
     return this.isFull;
 }
-private Date date;
+private String/*No type specified!*/ date;
 
-public void setDate(Date value) {
+public void setDate(String/*No type specified!*/ value) {
     this.date = value;
 }
-public Date getDate() {
+public String/*No type specified!*/ getDate() {
     return this.date;
 }
-private Time startTime;
+private String/*No type specified!*/ startTime;
 
-public void setStartTime(Time value) {
+public void setStartTime(String/*No type specified!*/ value) {
     this.startTime = value;
 }
-public Time getStartTime() {
+public String/*No type specified!*/ getStartTime() {
     return this.startTime;
 }
-private Time endTime;
+private String/*No type specified!*/ endTime;
 
-public void setEndTime(Time value) {
+public void setEndTime(String/*No type specified!*/ value) {
     this.endTime = value;
 }
-public Time getEndTime() {
+public String/*No type specified!*/ getEndTime() {
     return this.endTime;
 }
-}
+   private Tutor assignedTutor;
+   
+   @ManyToOne(optional=false)
+   public Tutor getAssignedTutor() {
+      return this.assignedTutor;
+   }
+   
+   public void setAssignedTutor(Tutor assignedTutor) {
+      this.assignedTutor = assignedTutor;
+   }
+   
+   private TutoringApplicationModel tutoringApplication;
+   
+   @ManyToOne(optional=false)
+   public TutoringApplicationModel getTutoringApplication() {
+      return this.tutoringApplication;
+   }
+   
+   public void setTutoringApplication(TutoringApplicationModel tutoringApplication) {
+      this.tutoringApplication = tutoringApplication;
+   }
+   
+   }

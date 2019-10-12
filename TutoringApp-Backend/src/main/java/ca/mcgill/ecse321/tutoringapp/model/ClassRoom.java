@@ -6,15 +6,15 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class ClassRoom extends Room{
-   private Set<GroupSession> groupSession;
+   private Set<ScheduledGroupSession> scheduledGroupSession;
    
-   @OneToMany(mappedBy="classRoom" )
-   public Set<GroupSession> getGroupSession() {
-      return this.groupSession;
+   @OneToMany(mappedBy="room" )
+   public Set<ScheduledGroupSession> getScheduledGroupSession() {
+      return this.scheduledGroupSession;
    }
    
-   public void setGroupSession(Set<GroupSession> groupSessions) {
-      this.groupSession = groupSessions;
+   public void setScheduledGroupSession(Set<ScheduledGroupSession> scheduledGroupSessions) {
+      this.scheduledGroupSession = scheduledGroupSessions;
    }
    
    private int studentCapacity = 15;

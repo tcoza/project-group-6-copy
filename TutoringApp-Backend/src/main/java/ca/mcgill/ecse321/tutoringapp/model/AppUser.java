@@ -1,10 +1,22 @@
 package ca.mcgill.ecse321.tutoringapp.model;
+import javax.persistence.ManyToOne;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
 public abstract class AppUser{
+private TutoringApplicationModel tutoringApplication;
+   
+   @ManyToOne(optional=false)
+   public TutoringApplicationModel getTutoringApplication() {
+      return this.tutoringApplication;
+   }
+   
+   public void setTutoringApplication(TutoringApplicationModel tutoringApplication) {
+      this.tutoringApplication = tutoringApplication;
+   }
+   
    private String firstName;
 
 public void setFirstName(String value) {

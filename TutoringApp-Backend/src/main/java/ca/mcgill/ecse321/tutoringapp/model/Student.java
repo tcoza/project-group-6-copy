@@ -14,37 +14,37 @@ public void setIsActiveAccount(Boolean value) {
 public Boolean getIsActiveAccount() {
     return this.isActiveAccount;
 }
-   private Set<Evaluation> evaluation;
-   
-   @OneToMany(mappedBy="author" )
-   public Set<Evaluation> getEvaluation() {
-      return this.evaluation;
-   }
-   
-   public void setEvaluation(Set<Evaluation> evaluations) {
-      this.evaluation = evaluations;
-   }
-   
-   private Set<GroupSessionRequest> sessionRequest;
+   private Set<SessionRequest> requests;
    
    @OneToMany(mappedBy="requestor" )
-   public Set<GroupSessionRequest> getSessionRequest() {
-      return this.sessionRequest;
+   public Set<SessionRequest> getRequests() {
+      return this.requests;
    }
    
-   public void setSessionRequest(Set<GroupSessionRequest> sessionRequests) {
-      this.sessionRequest = sessionRequests;
+   public void setRequests(Set<SessionRequest> requestss) {
+      this.requests = requestss;
    }
    
-   private Set<PrivateSession> privateSession;
+   private Set<TutorEvaluation> tutorEvaluation;
    
-   @OneToMany(mappedBy="student" )
-   public Set<PrivateSession> getPrivateSession() {
-      return this.privateSession;
+   @OneToMany(mappedBy="author" )
+   public Set<TutorEvaluation> getTutorEvaluation() {
+      return this.tutorEvaluation;
    }
    
-   public void setPrivateSession(Set<PrivateSession> privateSessions) {
-      this.privateSession = privateSessions;
+   public void setTutorEvaluation(Set<TutorEvaluation> tutorEvaluations) {
+      this.tutorEvaluation = tutorEvaluations;
+   }
+   
+   private Set<StudentEvaluation> studentEvaluation;
+   
+   @OneToMany(mappedBy="recipient" )
+   public Set<StudentEvaluation> getStudentEvaluation() {
+      return this.studentEvaluation;
+   }
+   
+   public void setStudentEvaluation(Set<StudentEvaluation> studentEvaluations) {
+      this.studentEvaluation = studentEvaluations;
    }
    
    }

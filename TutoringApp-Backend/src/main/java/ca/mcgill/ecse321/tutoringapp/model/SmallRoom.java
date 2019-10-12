@@ -6,15 +6,15 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class SmallRoom extends Room{
-   private Set<PrivateSession> privateSession;
+   private Set<ScheduledPrivateSession> scheduledPrivateSession;
    
-   @OneToMany(mappedBy="smallRoom" )
-   public Set<PrivateSession> getPrivateSession() {
-      return this.privateSession;
+   @OneToMany(mappedBy="room" )
+   public Set<ScheduledPrivateSession> getScheduledPrivateSession() {
+      return this.scheduledPrivateSession;
    }
    
-   public void setPrivateSession(Set<PrivateSession> privateSessions) {
-      this.privateSession = privateSessions;
+   public void setScheduledPrivateSession(Set<ScheduledPrivateSession> scheduledPrivateSessions) {
+      this.scheduledPrivateSession = scheduledPrivateSessions;
    }
    
    private int studentCapacity = 1;

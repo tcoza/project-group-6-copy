@@ -2,10 +2,10 @@ package ca.mcgill.ecse321.tutoringapp.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.Set;
-import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
+import java.util.Set;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Course{
@@ -26,26 +26,15 @@ public void setName(String value) {
 public String getName() {
     return this.name;
 }
-   private Set<GroupSessionRequest> sessionRequest;
-   
-   @OneToMany(mappedBy="course" )
-   public Set<GroupSessionRequest> getSessionRequest() {
-      return this.sessionRequest;
-   }
-   
-   public void setSessionRequest(Set<GroupSessionRequest> sessionRequests) {
-      this.sessionRequest = sessionRequests;
-   }
-   
-   private University university;
+   private TeachingInstitution school;
    
    @ManyToOne(optional=false)
-   public University getUniversity() {
-      return this.university;
+   public TeachingInstitution getSchool() {
+      return this.school;
    }
    
-   public void setUniversity(University university) {
-      this.university = university;
+   public void setSchool(TeachingInstitution school) {
+      this.school = school;
    }
    
    private Subject subject;
@@ -59,15 +48,37 @@ public String getName() {
       this.subject = subject;
    }
    
-   private Set<Tutor> tutor;
+   private Set<Tutor> qualifiedTutor;
    
    @ManyToMany(mappedBy="course" )
-   public Set<Tutor> getTutor() {
-      return this.tutor;
+   public Set<Tutor> getQualifiedTutor() {
+      return this.qualifiedTutor;
    }
    
-   public void setTutor(Set<Tutor> tutors) {
-      this.tutor = tutors;
+   public void setQualifiedTutor(Set<Tutor> qualifiedTutors) {
+      this.qualifiedTutor = qualifiedTutors;
+   }
+   
+   private Set<SessionRequest> request;
+   
+   @OneToMany(mappedBy="requestedCourse" )
+   public Set<SessionRequest> getRequest() {
+      return this.request;
+   }
+   
+   public void setRequest(Set<SessionRequest> requests) {
+      this.request = requests;
+   }
+   
+   private TutoringApplicationModel tutoringApplication;
+   
+   @ManyToOne(optional=false)
+   public TutoringApplicationModel getTutoringApplication() {
+      return this.tutoringApplication;
+   }
+   
+   public void setTutoringApplication(TutoringApplicationModel tutoringApplication) {
+      this.tutoringApplication = tutoringApplication;
    }
    
    }
