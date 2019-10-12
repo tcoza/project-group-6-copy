@@ -1,12 +1,26 @@
 package ca.mcgill.ecse321.tutoringapp.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 
 @Entity
 public class TutoringApplicationModel{
+	
+	private int id;
+
+	public void setId(int value) {
+	    this.id = value;
+	}
+	
+	@Id
+	public int getId() {
+	    return this.id;
+	}
+
    private Set<AppUser> appUser;
    
    @OneToMany(mappedBy="tutoringApplication" , cascade={CascadeType.ALL})
