@@ -13,3 +13,4 @@ public interface CourseRepository extends CrudRepository<Course,String> {
 
 	Course findCourseByName(String name);	
 }
+
