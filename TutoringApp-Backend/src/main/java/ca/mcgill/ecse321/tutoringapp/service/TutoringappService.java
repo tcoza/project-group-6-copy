@@ -8,10 +8,10 @@ import ca.mcgill.ecse321.tutoringapp.dao.ClassRoomRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.CourseRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.EvaluationCommentRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.EvaluationRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.GroupSessionRepository;
+import ca.mcgill.ecse321.tutoringapp.dao.GroupRequestRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ManagerRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.OfferingRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.PrivateSessionRepository;
+import ca.mcgill.ecse321.tutoringapp.dao.ScheduledPrivateSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.RoomRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ScheduledSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SmallRoomRepository;
@@ -33,13 +33,13 @@ public class TutoringappService {
 	@Autowired
 	EvaluationRepository evaluationRepository;
 	@Autowired
-	GroupSessionRepository groupSessionRepository;
+	GroupRequestRepository groupSessionRepository;
 	@Autowired
 	ManagerRepository managerRepository;
 	@Autowired
 	OfferingRepository offeringRepository;
 	@Autowired 
-	PrivateSessionRepository privateSessionRepository;
+	ScheduledPrivateSessionRepository privateSessionRepository;
 	@Autowired
 	RoomRepository roomRepository;
 	@Autowired
