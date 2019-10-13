@@ -6,9 +6,11 @@ import ca.mcgill.ecse321.tutoringapp.model.Subject;
 
 /**
  * 
- * @author Subject
+ * @author Alba
  *
  */
 public interface SubjectRepository extends CrudRepository<Subject, String> {
+	
+	Subject findSubjectByName(String name);
 
 }
