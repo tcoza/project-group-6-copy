@@ -1,8 +1,12 @@
 package ca.mcgill.ecse321.tutoringapp.dao;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
+import ca.mcgill.ecse321.tutoringapp.model.ClassRoom;
 import ca.mcgill.ecse321.tutoringapp.model.ScheduledGroupSession;
+import ca.mcgill.ecse321.tutoringapp.model.Tutor;
 
 /**
  * 
@@ -10,5 +14,17 @@ import ca.mcgill.ecse321.tutoringapp.model.ScheduledGroupSession;
  *
  */
 public interface ScheduledGroupSessionRepository extends CrudRepository<ScheduledGroupSession, Integer> {
+	long count();
+	
+	ScheduledGroupSession findById (List<Integer> ids);
+	
+	
+	List<ScheduledGroupSession> findByClassRoom (ClassRoom classRoom);
+	
+	List<ScheduledGroupSession> findByTutor (Tutor tutor);
+	
+	List<ScheduledGroupSession> findIsFree(boolean isFree);
+	
+	List<ScheduledGroupSession> findAll();
 
 }
