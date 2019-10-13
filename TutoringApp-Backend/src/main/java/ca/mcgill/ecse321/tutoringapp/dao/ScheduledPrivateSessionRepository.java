@@ -20,13 +20,8 @@ public interface ScheduledPrivateSessionRepository extends CrudRepository<Schedu
 	
 	long count();
 	
-	ScheduledPrivateSession findById(int Id);
-	
-	List<ScheduledPrivateSession> findAllById (List<Integer> ids);
-	
-	
 	List<ScheduledPrivateSession> findByAssignedTutor (Tutor tutor);
-	
+	List<ScheduledPrivateSession> findByStartTime (String startTime);
 	List<ScheduledPrivateSession> findByRoom (Room room);
 	
 	List<ScheduledPrivateSession> findByIsFull (boolean isFull);

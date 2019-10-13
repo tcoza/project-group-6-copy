@@ -19,11 +19,10 @@ import ca.mcgill.ecse321.tutoringapp.model.Tutor;
 public interface ScheduledGroupSessionRepository extends CrudRepository<ScheduledGroupSession, Integer> {
 	long count();
 	
-	ScheduledGroupSession findById (List<Integer> ids);
 	
-	
+
 	List<ScheduledGroupSession> findByRoom (Room room);
-	
+	List<ScheduledGroupSession> findByStartTime (String startTime);
 	List<ScheduledGroupSession> findByAssignedTutor (Tutor tutor);
 	List<ScheduledGroupSession> findByGroupRequest (GroupRequest groupRequest);
 	List<ScheduledGroupSession> findByIsFull (boolean isFull);
