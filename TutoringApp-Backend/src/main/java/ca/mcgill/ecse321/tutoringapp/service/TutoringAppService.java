@@ -235,7 +235,7 @@ public class TutoringAppService {
 			error = error + "Student does not exist!";
 		}
 
-		if (tutorEvaluationRepository.existsByStudentAndTutor(student, tutor)) {
+		if (tutorEvaluationRepository.existsByAuthorAndRecipient(student, tutor)) {
 			error = error + "Student already gave an evaluation for this Tutor!";
 		}
 		error = error.trim();
@@ -278,7 +278,7 @@ public class TutoringAppService {
 			error = error + "Student does not exist!";
 		}
 
-		if (tutorEvaluationRepository.existsByStudentAndTutor(student, tutor)) {
+		if (tutorEvaluationRepository.existsByAuthorAndRecipient(student, tutor)) {
 			error = error + "Student already gave an evaluation for this Tutor!";
 		}
 		error = error.trim();
@@ -287,7 +287,7 @@ public class TutoringAppService {
 			throw new IllegalArgumentException(error);
 		}
 
-		TutorEvaluation tutorEval = tutorEvaluationRepository.findByStudentAndTutor(student, tutor);
+		TutorEvaluation tutorEval = tutorEvaluationRepository.findByAuthorAndRecipient(student, tutor);
 		return tutorEval;
 	}
 

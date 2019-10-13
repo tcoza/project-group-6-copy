@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
+import ca.mcgill.ecse321.tutoringapp.model.Evaluation;
 import ca.mcgill.ecse321.tutoringapp.model.Student;
 import ca.mcgill.ecse321.tutoringapp.model.StudentEvaluation;
 import ca.mcgill.ecse321.tutoringapp.model.Tutor;
@@ -14,9 +15,11 @@ import ca.mcgill.ecse321.tutoringapp.model.Tutor;
  *
  */
 public interface StudentEvaluationRepository extends CrudRepository<StudentEvaluation, Integer> {
-	List<StudentEvaluation> findByStudent(Student studentName);
+	List<StudentEvaluation> findByRecipient(Student studentName);
 
-	boolean existsByStudentAndTutor(Student student, Tutor tutor);
+	boolean existsByRecipientAndAuthor(Student student, Tutor tutor);
 
-	StudentEvaluation findByStudentAndTutor(Student student, Tutor tutor);
+	StudentEvaluation findByRecipientAndAuthor(Student student, Tutor tutor);
+	
+	
 }

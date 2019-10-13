@@ -26,13 +26,13 @@ public interface PrivateRequestRepository extends CrudRepository<PrivateRequest,
 	List<PrivateRequest> findAllById(List<Integer> ids);	
 
 	//find by requested course
-	List<PrivateRequest> findByCourse(Course requestedCourse);
+	List<PrivateRequest> findByRequestedCourse(Course requestedCourse);
 		
 	//find by requested subject
-	List<PrivateRequest> findBySubject(Subject requestedSubject);
+	List<PrivateRequest> findByRequestedSubject(Subject requestedSubject);
 	
 	//find by requestor
-	List<PrivateRequest> findByStudent(Student requestor);
+	List<PrivateRequest> findByRequestor(Student requestor);
 	
 	//find all scheduled or unscheduled sessions
 	List<PrivateRequest> findByIsScheduled(boolean isScheduled);

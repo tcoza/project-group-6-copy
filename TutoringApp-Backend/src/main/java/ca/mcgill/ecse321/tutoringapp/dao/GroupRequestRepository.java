@@ -26,13 +26,13 @@ public interface GroupRequestRepository extends CrudRepository<GroupRequest, Int
 	List<GroupRequest> findAllById(List<Integer> ids);	
 
 	//find by requested course
-	List<GroupRequest> findByCourse(Course requestedCourse);
+	List<GroupRequest> findByRequestedCourse(Course requestedCourse);
 		
 	//find by requested subject
-	List<GroupRequest> findBySubject(Subject requestedSubject);
+	List<GroupRequest> findByRequestedSubject(Subject requestedSubject);
 	
 	//find by requestor
-	List<GroupRequest> findByStudent(Student requestor);
+	List<GroupRequest> findByRequestor(Student requestor);
 	
 	//find all scheduled or unscheduled sessions
 	List<GroupRequest> findByIsScheduled(boolean isScheduled);
