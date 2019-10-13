@@ -26,13 +26,13 @@ public interface SessionRequestRepository extends CrudRepository<SessionRequest,
 	List<SessionRequest> findAllById(List<Integer> ids);	
 
 	//find by requested course
-	List<SessionRequest> findByCourse(Course requestedCourse);
+	List<SessionRequest> findByRequestedCourse(Course requestedCourse);
 		
 	//find by requested subject
-	List<SessionRequest> findBySubject(Subject requestedSubject);
+	List<SessionRequest> findByRequestedSubject(Subject requestedSubject);
 	
 	//find by requestor
-	List<SessionRequest> findByStudent(Student requestor);
+	List<SessionRequest> findByRequestor(Student requestor);
 	
 	//find all scheduled or unscheduled sessions
 	List<GroupRequest> findByIsScheduled(boolean isScheduled);

@@ -23,8 +23,8 @@ public interface OfferingRepository extends CrudRepository<Offering, Integer> {
 	List<Offering> findAllById(List<Integer> ids);
 
 	// find by session request
-	List<Offering> findByOneSessionRequest(SessionRequest request);
-	List<Offering> findByManySessionRequests(List<SessionRequest> requests);
+	List<Offering> findBySessionRequest(SessionRequest request);
+	List<Offering> findBySessionRequest(List<SessionRequest> requests);
 
 	// find all
 	List<Offering> findAll();
