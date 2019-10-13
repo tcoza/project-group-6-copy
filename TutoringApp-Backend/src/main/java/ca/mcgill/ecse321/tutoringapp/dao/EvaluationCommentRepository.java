@@ -14,6 +14,7 @@ import ca.mcgill.ecse321.tutoringapp.model.Tutor;
  *
  */
 public interface EvaluationCommentRepository extends CrudRepository<EvaluationComment, Integer> {
-	List<EvaluationComment> findbyEvaluation (Student student, Tutor tutor);	
-	EvaluationComment findByEvaluation(Student student,Tutor tutor);
-	}
+	List<EvaluationComment> findbyEvaluation(Student student, Tutor tutor);
+
+	EvaluationComment findByEvaluation(Student student, Tutor tutor);
+}

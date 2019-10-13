@@ -30,18 +30,18 @@ import ca.mcgill.ecse321.tutoringapp.dao.TutorRepository;
 import ca.mcgill.ecse321.tutoringapp.model.Course;
 import ca.mcgill.ecse321.tutoringapp.model.Subject;
 import ca.mcgill.ecse321.tutoringapp.model.TeachingInstitution;
-import ca.mcgill.ecse321.tutoringapp.service.TutoringappService;
+import ca.mcgill.ecse321.tutoringapp.service.TutoringAppService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TestTutoringAppService {
-	
+
 	@Autowired
-	private TutoringappService service;
+	private TutoringAppService service;
 	@Autowired
 	private AppUserRepository appUserRepository;
 	@Autowired
-	private ClassRoomRepository calssRoomRepository;
+	private ClassRoomRepository classRoomRepository;
 	@Autowired
 	private CourseRepository courseRepository;
 	@Autowired
@@ -54,7 +54,7 @@ public class TestTutoringAppService {
 	private ManagerRepository managerRepository;
 	@Autowired
 	private OfferingRepository offeringRepository;
-	@Autowired 
+	@Autowired
 	private ScheduledPrivateSessionRepository privateSessionRepository;
 	@Autowired
 	private RoomRepository roomRepository;
@@ -69,10 +69,11 @@ public class TestTutoringAppService {
 	@Autowired
 	private TutorRepository tutorRepository;
 
+	/** @author Alba */
 	@Before
 	public void clearDatabase() {
 		appUserRepository.deleteAll();
-		calssRoomRepository.deleteAll();
+		classRoomRepository.deleteAll();
 		courseRepository.deleteAll();
 		evaluationCommentRepository.deleteAll();
 		evaluationRepository.deleteAll();
@@ -85,13 +86,14 @@ public class TestTutoringAppService {
 		smallRoomRepository.deleteAll();
 		studentRepository.deleteAll();
 		subjectRepository.deleteAll();
-		tutorRepository.deleteAll();	
+		tutorRepository.deleteAll();
 	}
-	
+
+	/** @author Alba */
 	@Test
 	public void testCreateCourse() {
 		assertEquals(0, service.getAllCourse());
-		
+
 		String name = "Intro To Software ENG";
 		String courseCode = "ECSE321";
 
@@ -107,57 +109,59 @@ public class TestTutoringAppService {
 		assertEquals(name, allCourse.get(0).getName());
 		assertEquals(courseCode, allCourse.get(0).getCourseCode());
 	}
-	
+
+	/** @author Alba */
 	@Test
 	public void testGetCourseAttribute() {
 		assertEquals(1, service.getAllCourse());
-		
+
 		String testName = "";
 		String testCourseCode = "";
 		String name = "Intro To Software ENG";
 		String courseCode = "ECSE321";
 		try {
-			testName = service.getCourse(courseCode,name).getName();
-		}catch (IllegalArgumentException e){
+			testName = service.getCourse(courseCode, name).getName();
+		} catch (IllegalArgumentException e) {
 			fail();
 		}
 		try {
-			testCourseCode = service.getCourse(courseCode,name).getCourseCode();
-		}catch (IllegalArgumentException e){
+			testCourseCode = service.getCourse(courseCode, name).getCourseCode();
+		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		
-		
-		assertEquals(name,testName);
-		assertEquals(courseCode,testCourseCode);
+
+		assertEquals(name, testName);
+		assertEquals(courseCode, testCourseCode);
 	}
-	
+
+	/** @author Alba */
 	@Test
 	public void testCourseAssosiation() {
-		assertEquals(1,service.getAllCourse().size());
-		
+		assertEquals(1, service.getAllCourse().size());
+
 		String name = "Intro To Software ENG";
 		String courseCode = "ECSE321";
-		
+
 		Course course = service.getCourse(courseCode, name);
-				
+
 		String error = "";
-		
+
 		try {
-			TeachingInstitution uny = course.getSchool();
-		}catch (IllegalArgumentException e) {
+			TeachingInstitution uni = course.getSchool();
+		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertEquals("TeachingInstitution does not exist!", error);
-		assertEquals(0,service.getAllTeachingInstitutiont().size());
-		
+		assertEquals(0, service.getAllTeachingInstitutiont().size());
+
 	}
-	
+
+	/** @author Alba */
 	@Test
 	public void testCreateSubject() {
 		assertEquals(0, service.getAllSubject().size());
-		
+
 		String name = "Math";
 
 		try {
@@ -171,46 +175,49 @@ public class TestTutoringAppService {
 		assertEquals(1, allSubjects.size());
 		assertEquals(name, allSubjects.get(0).getName());
 	}
-	
+
+	/** @author Alba */
 	@Test
 	public void testGetSubjectAttribute() {
 		assertEquals(1, service.getAllSubject().size());
-		
+
 		String testName = "";
 		String name = "Math";
 		try {
 			testName = service.getSubject(name).getName();
-		}catch (IllegalArgumentException e){
+		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		
-		assertEquals(name,testName);
+
+		assertEquals(name, testName);
 	}
-	
+
+	/** @author Alba */
 	@Test
 	public void testSubjectAssosiation() {
-		assertEquals(1,service.getAllSubject().size());
-		
+		assertEquals(1, service.getAllSubject().size());
+
 		String name = "Math";
-		
+
 		Subject sbj = service.getSubject(name);
-				
+
 		String error = "";
-		
+
 		try {
-			TeachingInstitution uny = sbj.getSchool();
-		}catch (IllegalArgumentException e) {
+			TeachingInstitution uni = sbj.getSchool();
+		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
-		
+
 		assertEquals("TeachingInstitution does not exist!", error);
-		assertEquals(0,service.getAllTeachingInstitutiont().size());
+		assertEquals(0, service.getAllTeachingInstitutiont().size());
 	}
-	
+
+	/** @author Alba */
 	@Test
 	public void testTeachingInstitutionCourse() {
 		assertEquals(0, service.getAllTeachingInstitutiont().size());
-		
+
 		String name = "Mcgill";
 
 		try {
@@ -224,36 +231,40 @@ public class TestTutoringAppService {
 		assertEquals(1, allSchools.size());
 		assertEquals(name, allSchools.get(0).getName());
 	}
+
+	/** @author Alba */
 	@Test
 	public void testGetTeachingInstitutionAttribute() {
 		assertEquals(1, service.getAllTeachingInstitutiont().size());
-		
+
 		String testName = "";
 		String name = "Mcgill";
-		
+
 		try {
-			testName = service.getTeachingInstitutiont(name).getName();
-		}catch (IllegalArgumentException e){
+			testName = service.getTeachingInstitution(name).getName();
+		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		
-		assertEquals(name,testName);
+
+		assertEquals(name, testName);
 	}
+
+	/** @author Alba */
 	@Test
 	public void testTeachingInstitutionAssosiation() {
-		assertEquals(1,service.getAllTeachingInstitutiont().size());
-		assertEquals(1,service.getAllSubject().size());
-		assertEquals(1,service.getAllCourse().size());
-		
+		assertEquals(1, service.getAllTeachingInstitutiont().size());
+		assertEquals(1, service.getAllSubject().size());
+		assertEquals(1, service.getAllCourse().size());
+
 		String nameSc = "Mcgill";
 		String nameC = "Intro To Software ENG";
 		String courseCode = "ECSE321";
-		String nameSb =  "Math";
-		
-		TeachingInstitution uny = service.getTeachingInstitutiont(nameSc);
+		String nameSb = "Math";
+
+		TeachingInstitution uny = service.getTeachingInstitution(nameSc);
 		Subject sbj = service.getSubject(nameSb);
 		Course course = service.getCourse(courseCode, nameC);
-		
+
 		course.setSchool(uny);
 		sbj.setSchool(uny);
 		TeachingInstitution school1 = null;
@@ -261,18 +272,18 @@ public class TestTutoringAppService {
 
 		try {
 			school1 = sbj.getSchool();
-		}catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		
+
 		try {
 			school2 = course.getSchool();
-		}catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		
-		assertEquals(uny,school1);
-		assertEquals(uny,school2);
-	
+
+		assertEquals(uny, school1);
+		assertEquals(uny, school2);
+
 	}
 }

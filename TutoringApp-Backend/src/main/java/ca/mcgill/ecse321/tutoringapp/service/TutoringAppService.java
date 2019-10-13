@@ -1,6 +1,5 @@
 package ca.mcgill.ecse321.tutoringapp.service;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +33,8 @@ import ca.mcgill.ecse321.tutoringapp.model.Tutor;
 import ca.mcgill.ecse321.tutoringapp.model.TutorEvaluation;
 
 @Service
-public class TutoringappService {
-	
+public class TutoringAppService {
+
 	@Autowired
 	TutorEvaluationRepository tutorEvaluationRepository;
 	@Autowired
@@ -43,7 +42,7 @@ public class TutoringappService {
 	@Autowired
 	AppUserRepository appUserRepository;
 	@Autowired
-	ClassRoomRepository calssRoomRepository;
+	ClassRoomRepository classRoomRepository;
 	@Autowired
 	CourseRepository courseRepository;
 	@Autowired
@@ -56,7 +55,7 @@ public class TutoringappService {
 	ManagerRepository managerRepository;
 	@Autowired
 	OfferingRepository offeringRepository;
-	@Autowired 
+	@Autowired
 	ScheduledPrivateSessionRepository privateSessionRepository;
 	@Autowired
 	RoomRepository roomRepository;
@@ -70,175 +69,236 @@ public class TutoringappService {
 	SubjectRepository subjectRepository;
 	@Autowired
 	TutorRepository tutorRepository;
-	
-	private <T> List<T> toList(Iterable<T> iterable){
+
+	/** @author Alba */
+	private <T> List<T> toList(Iterable<T> iterable) {
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
 			resultList.add(t);
 		}
 		return resultList;
 	}
-	
+
+	// TODO: Traian's services
+	// AppUser
+	// Tutor
+	// Student
+	// Manager
+
+	// TODO: Odero's services
+	// Room
+	// SmallRoom
+	// ClassRoom
+
+	// TODO: Helen's services
+	// SessionRequest
+	// GroupRequest
+	// PrivateRequest
+	// Offering
+
+	// TODO: Arianit's services
+	// ScheduledGroupSession
+	// ScheduledPrivateSession
+	// ScheduledSession
+
+	/********* START of COURSE ***************/
+	/** @author Alba */
 	@Transactional
-	public Course createCourse (String courseCode,String name) {
+	public Course createCourse(String courseCode, String name) {
 		if (name == null || name.trim().length() == 0) {
 			throw new IllegalArgumentException("Course name cannot be empty!");
 		}
 		if (courseCode == null || courseCode.trim().length() == 0) {
-			
+
 			throw new IllegalArgumentException("Course code cannot be empty!");
 		}
-		
+
 		Course course = new Course();
 		course.setName(name);
 		course.setCourseCode(courseCode);
 		courseRepository.save(course);
 		return course;
 	}
-	
+
+	/** @author Alba */
 	@Transactional
-	public Course getCourse (String courseCode,String name) {
+	public Course getCourse(String courseCode, String name) {
 		if (name == null || name.trim().length() == 0) {
 			throw new IllegalArgumentException("Course name cannot be empty!");
 		}
 		if (courseCode == null || courseCode.trim().length() == 0) {
-			
+
 			throw new IllegalArgumentException("Course code cannot be empty!");
 		}
-		
+
 		Course course = courseRepository.findCourseByName(courseCode);
 		return course;
 	}
-	
+
+	/** @author Alba */
 	@Transactional
-	public List<Course> getAllCourse(){
+	public List<Course> getAllCourse() {
 		return toList(courseRepository.findAll());
 	}
-	
+
+	/********* END of COURSE *** ***********/
+
+	/********* START of SUBJECT *** ***********/
+
+	/** @author Alba */
 	@Transactional
-	public Subject createSubject (String name) {
+	public Subject createSubject(String name) {
 		if (name == null || name.trim().length() == 0) {
 			throw new IllegalArgumentException("Subject name cannot be empty!");
 		}
-		
+
 		Subject subject = new Subject();
 		subject.setName(name);
 		subjectRepository.save(subject);
 		return subject;
 	}
-	
+
+	/** @author Alba */
 	@Transactional
-	public Subject getSubject (String name) {
+	public Subject getSubject(String name) {
 		if (name == null || name.trim().length() == 0) {
 			throw new IllegalArgumentException("Subject name cannot be empty!");
 		}
-		
+
 		Subject subject = subjectRepository.findSubjectByName(name);
 		return subject;
 	}
-	
+
+	/** @author Alba */
 	@Transactional
-	public List<Subject> getAllSubject(){
+	public List<Subject> getAllSubject() {
 		return toList(subjectRepository.findAll());
 	}
-	
+
+	/********* END of SUBJECT *** ***********/
+
+	/********* START of TEACHING INSTITUTION ***********/
+	/** @author Alba */
 	@Transactional
-	public TeachingInstitution createTeachingInstitution (String name) {
+	public TeachingInstitution createTeachingInstitution(String name) {
 		if (name == null || name.trim().length() == 0) {
 			throw new IllegalArgumentException("Teaching Institution name cannot be empty!");
 		}
-		
+
 		TeachingInstitution teachingInstitution = new TeachingInstitution();
 		teachingInstitution.setName(name);
 		teachingInstitutionRepository.save(teachingInstitution);
 		return teachingInstitution;
 	}
-	
+
+	/** @author Alba */
 	@Transactional
-	public TeachingInstitution getTeachingInstitutiont (String name) {
+	public TeachingInstitution getTeachingInstitution(String name) {
 		if (name == null || name.trim().length() == 0) {
-			throw new IllegalArgumentException("Teaching Institutiont name cannot be empty!");
+			throw new IllegalArgumentException("Teaching Institution name cannot be empty!");
 		}
-		
+
 		TeachingInstitution teachingInstitution = teachingInstitutionRepository.findTeachingInstitutionByName(name);
 		return teachingInstitution;
 	}
-	
+
+	/** @author Alba */
 	@Transactional
-	public List<TeachingInstitution> getAllTeachingInstitutiont(){
+	public List<TeachingInstitution> getAllTeachingInstitutiont() {
 		return toList(teachingInstitutionRepository.findAll());
 	}
+
+	/********* END of TEACHING INSTITUTION ***********/
+
+	/********** END of EVALUATION *********/
+
+	/********** START of EVALUATION AND EVALUATION COMMENT *********/
+
+	/** @author Alba */
 	@SuppressWarnings("deprecation")
 	@Transactional
-	public TutorEvaluation createTutorEvaluation (int rating,Student student, Tutor tutor) {
+	public TutorEvaluation createTutorEvaluation(int rating, Student student, Tutor tutor) {
 		if (rating == 0) {
 			throw new IllegalArgumentException("Rating cannot be empty!");
 		}
 		String error = "";
-	    if (tutor == null) {
-	        error = error + "Tutor needs to be selected for Tutor Evaluation! ";
-	    } else if (!tutorRepository.existsByUsername(tutor.getUsername()); {
-	        error = error + "Tutor does not exist! ";
-	    }
-	    if (student == null) {
-	        error = error + "Student needs to be selected for Tutor Evaluation!";
-	    } else if (!studentRepository.existsByUsername(student.getUsername())) {
-	        error = error + "Student does not exist!";
-	    }
-	    
-		if (tutorEvaluationRepository.existsByStudentAndTutor(student, tutor)) {
-	        error = error + "Student already gave an evaluation for this Tutor!";
-	    }
-	    error = error.trim();
+		if (tutor == null) {
+			error = error + "Tutor needs to be selected for Tutor Evaluation! ";
+		} else if (!tutorRepository.existsByUsername(tutor.getUsername()))
+			;
+		{
+			error = error + "Tutor does not exist! ";
+		}
+		if (student == null) {
+			error = error + "Student needs to be selected for Tutor Evaluation!";
+		} else if (!studentRepository.existsByUsername(student.getUsername())) {
+			error = error + "Student does not exist!";
+		}
 
-	    if (error.length() > 0) {
-	        throw new IllegalArgumentException(error);
-	    }
-		Date date;
-		date.getDate();
-		
+		if (tutorEvaluationRepository.existsByStudentAndTutor(student, tutor)) {
+			error = error + "Student already gave an evaluation for this Tutor!";
+		}
+		error = error.trim();
+
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+
+		// add today's date
+		java.util.Date utilToday = new java.util.Date();
+		java.sql.Date date = new java.sql.Date(utilToday.getTime()); // convert util todays date in ms and add to
+																		// sqldate
+
 		TutorEvaluation tutorEval = new TutorEvaluation();
 		tutorEval.setRating(rating);
-		
+
 		tutorEval.setDate(date);
-		tutorEval.setId((student.getUsername().hashCode())*(tutor.getUsername().hashCode()));
+		tutorEval.setId((student.getUsername().hashCode()) * (tutor.getUsername().hashCode()));
 		tutorEval.setAuthor(student);
 		tutorEval.setRecipient(tutor);
-		
+
 		tutorEvaluationRepository.save(tutorEval);
 		return tutorEval;
 	}
-	
-	@Transactional
-	public TutorEvaluation getTutorEvaluation (Student student,Tutor tutor) {
-		String error = "";
-	    if (tutor == null) {
-	        error = error + "Tutor needs to be selected for Tutor Evaluation! ";
-	    } else if (!tutorRepository.existsByUsername(tutor.getUsername()); {
-	        error = error + "Tutor does not exist! ";
-	    }
-	    if (student == null) {
-	        error = error + "Student needs to be selected for Tutor Evaluation!";
-	    } else if (!studentRepository.existsByUsername(student.getUsername())) {
-	        error = error + "Student does not exist!";
-	    }
-	    
-		if (tutorEvaluationRepository.existsByStudentAndTutor(student, tutor)) {
-	        error = error + "Student already gave an evaluation for this Tutor!";
-	    }
-	    error = error.trim();
 
-	    if (error.length() > 0) {
-	        throw new IllegalArgumentException(error);
-	    }
-		
+	/** @author Alba */
+	@Transactional
+	public TutorEvaluation getTutorEvaluation(Student student, Tutor tutor) {
+		String error = "";
+		if (tutor == null) {
+			error = error + "Tutor needs to be selected for Tutor Evaluation! ";
+		} else if (!tutorRepository.existsByUsername(tutor.getUsername()))
+			;
+		{
+			error = error + "Tutor does not exist! ";
+		}
+		if (student == null) {
+			error = error + "Student needs to be selected for Tutor Evaluation!";
+		} else if (!studentRepository.existsByUsername(student.getUsername())) {
+			error = error + "Student does not exist!";
+		}
+
+		if (tutorEvaluationRepository.existsByStudentAndTutor(student, tutor)) {
+			error = error + "Student already gave an evaluation for this Tutor!";
+		}
+		error = error.trim();
+
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+
 		TutorEvaluation tutorEval = tutorEvaluationRepository.findByStudentAndTutor(student, tutor);
 		return tutorEval;
 	}
-	
+
+	/** @author Alba */
 	@Transactional
-	public List<TutorEvaluation> getAllTutorEvaluation(){
+	public List<TutorEvaluation> getAllTutorEvaluation() {
 		return toList(tutorEvaluationRepository.findAll());
 	}
+
+	// TODO StudentEvaluation and Evaluation Comment
+
+	/********** END of EVALUATION *********/
 
 }

@@ -5,33 +5,36 @@ import javax.persistence.OneToOne;
 import javax.persistence.Id;
 
 @Entity
-public class EvaluationComment{
-   private String comment;
+public class EvaluationComment {
+	private String comment;
 
-public void setComment(String value) {
-    this.comment = value;
-}
-public String getComment() {
-    return this.comment;
-}
-private Evaluation evaluation;
+	public void setComment(String value) {
+		this.comment = value;
+	}
 
-@OneToOne(optional=false)
-public Evaluation getEvaluation() {
-   return this.evaluation;
-}
+	public String getComment() {
+		return this.comment;
+	}
 
-public void setEvaluation(Evaluation evaluation) {
-   this.evaluation = evaluation;
-}
+	private Evaluation evaluation;
 
-private int id;
+	@OneToOne(optional = false)
+	public Evaluation getEvaluation() {
+		return this.evaluation;
+	}
 
-public void setId(int value) {
-    this.id = value;
-}
-@Id
-public int getId() {
-    return this.id;
-}
+	public void setEvaluation(Evaluation evaluation) {
+		this.evaluation = evaluation;
+	}
+
+	private int id;
+
+	public void setId(int value) {
+		this.id = value;
+	}
+
+	@Id
+	public int getId() {
+		return this.id;
+	}
 }

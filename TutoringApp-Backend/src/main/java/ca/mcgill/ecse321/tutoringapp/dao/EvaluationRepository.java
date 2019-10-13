@@ -15,6 +15,8 @@ import ca.mcgill.ecse321.tutoringapp.model.Tutor;
  */
 public interface EvaluationRepository extends CrudRepository<Evaluation,Integer>{
 	List<Evaluation> findByTutorEvaluation(Student student, Tutor tutor);
-	boolean existsByStudentAndTutor(Student student,Tutor tutor);
-	Evaluation findByStudentAndTutor(Student student,Tutor tutor);
-	}
+
+	boolean existsByStudentAndTutor(Student student, Tutor tutor);
+
+	Evaluation findByStudentAndTutor(Student student, Tutor tutor);
+}
