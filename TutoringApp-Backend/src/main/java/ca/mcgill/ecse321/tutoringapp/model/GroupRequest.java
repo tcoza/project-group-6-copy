@@ -16,4 +16,4 @@ public class GroupRequest extends SessionRequest{
       this.scheduledGroupSession = scheduledGroupSession;
    }
    
-   }
+ }
