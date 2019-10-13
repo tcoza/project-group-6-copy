@@ -22,6 +22,7 @@ import ca.mcgill.ecse321.tutoringapp.dao.ManagerRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.OfferingRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ScheduledPrivateSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.RoomRepository;
+import ca.mcgill.ecse321.tutoringapp.dao.ScheduledGroupSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ScheduledSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SmallRoomRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.StudentRepository;
@@ -57,9 +58,11 @@ public class TestTutoringAppService {
 	@Autowired
 	private ScheduledPrivateSessionRepository privateSessionRepository;
 	@Autowired
+	private ScheduledGroupSessionRepository scheduledGroupSessionRepository;
+	@Autowired
 	private RoomRepository roomRepository;
 	@Autowired
-	private ScheduledSessionRepository shceduledSessionRepository;
+	private ScheduledSessionRepository scheduledSessionRepository;
 	@Autowired
 	private SmallRoomRepository smallRoomRepository;
 	@Autowired
@@ -82,11 +85,12 @@ public class TestTutoringAppService {
 		offeringRepository.deleteAll();
 		privateSessionRepository.deleteAll();
 		roomRepository.deleteAll();
-		shceduledSessionRepository.deleteAll();
+		scheduledSessionRepository.deleteAll();
 		smallRoomRepository.deleteAll();
 		studentRepository.deleteAll();
 		subjectRepository.deleteAll();
 		tutorRepository.deleteAll();
+		scheduledGroupSessionRepository.deleteAll();
 	}
 
 	/** @author Alba */

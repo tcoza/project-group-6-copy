@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.tutoringapp.model.ClassRoom;
+import ca.mcgill.ecse321.tutoringapp.model.GroupRequest;
+import ca.mcgill.ecse321.tutoringapp.model.PrivateRequest;
+import ca.mcgill.ecse321.tutoringapp.model.Room;
 import ca.mcgill.ecse321.tutoringapp.model.ScheduledGroupSession;
 import ca.mcgill.ecse321.tutoringapp.model.Tutor;
 
@@ -19,12 +22,11 @@ public interface ScheduledGroupSessionRepository extends CrudRepository<Schedule
 	ScheduledGroupSession findById (List<Integer> ids);
 	
 	
-	List<ScheduledGroupSession> findByClassRoom (ClassRoom classRoom);
+	List<ScheduledGroupSession> findByRoom (Room room);
 	
-	List<ScheduledGroupSession> findByTutor (Tutor tutor);
-	
-	List<ScheduledGroupSession> findIsFree(boolean isFree);
-	
+	List<ScheduledGroupSession> findByAssignedTutor (Tutor tutor);
+	List<ScheduledGroupSession> findByGroupRequest (GroupRequest groupRequest);
+	List<ScheduledGroupSession> findByIsFull (boolean isFull);
 	List<ScheduledGroupSession> findAll();
 
 }

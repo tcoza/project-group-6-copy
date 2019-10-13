@@ -21,12 +21,10 @@ public interface ScheduledSessionRepository extends CrudRepository<ScheduledSess
 	
 	List<ScheduledSession> findAllById(List<Integer> ids);
 	
-	List<ScheduledSession> findByTutor (Tutor tutor);
+	List<ScheduledSession> findByAssignedTutor (Tutor tutor);
 	
 	List<ScheduledSession> findAll();
 	
-	List<ScheduledGroupSession> findByIsFull(boolean isFull);
-	
-	List <ScheduledPrivateSession> findByIsFree (boolean isFree);
+
 
 }

@@ -26,6 +26,7 @@ import ca.mcgill.ecse321.tutoringapp.dao.TeachingInstitutionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.TutorEvaluationRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.TutorRepository;
 import ca.mcgill.ecse321.tutoringapp.model.Course;
+import ca.mcgill.ecse321.tutoringapp.model.ScheduledSession;
 import ca.mcgill.ecse321.tutoringapp.model.Student;
 import ca.mcgill.ecse321.tutoringapp.model.Subject;
 import ca.mcgill.ecse321.tutoringapp.model.TeachingInstitution;
@@ -300,5 +301,7 @@ public class TutoringAppService {
 	// TODO StudentEvaluation and Evaluation Comment
 
 	/********** END of EVALUATION *********/
+	
+
 
 }
