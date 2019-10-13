@@ -22,17 +22,20 @@ import ca.mcgill.ecse321.tutoringapp.dao.RoomRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ScheduledSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SessionRequestRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SmallRoomRepository;
+import ca.mcgill.ecse321.tutoringapp.dao.StudentEvaluationRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.StudentRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SubjectRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.TeachingInstitutionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.TutorEvaluationRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.TutorRepository;
 import ca.mcgill.ecse321.tutoringapp.model.Course;
+import ca.mcgill.ecse321.tutoringapp.model.Evaluation;
 import ca.mcgill.ecse321.tutoringapp.model.GroupRequest;
 import ca.mcgill.ecse321.tutoringapp.model.PrivateRequest;
 import ca.mcgill.ecse321.tutoringapp.model.ScheduledSession;
 import ca.mcgill.ecse321.tutoringapp.model.SessionRequest;
 import ca.mcgill.ecse321.tutoringapp.model.Student;
+import ca.mcgill.ecse321.tutoringapp.model.StudentEvaluation;
 import ca.mcgill.ecse321.tutoringapp.model.Subject;
 import ca.mcgill.ecse321.tutoringapp.model.TeachingInstitution;
 import ca.mcgill.ecse321.tutoringapp.model.Tutor;
@@ -41,8 +44,7 @@ import ca.mcgill.ecse321.tutoringapp.model.TutorEvaluation;
 @Service
 public class TutoringAppService {
 
-	@Autowired
-	TutorEvaluationRepository tutorEvaluationRepository;
+	
 	@Autowired
 	TeachingInstitutionRepository teachingInstitutionRepository;
 	@Autowired
@@ -56,6 +58,10 @@ public class TutoringAppService {
 	@Autowired
 	EvaluationRepository evaluationRepository;
 	@Autowired
+	StudentEvaluationRepository studentEvaluationRepository;
+	@Autowired
+	TutorEvaluationRepository tutorEvaluationRepository;
+	@Autowired
 	GroupRequestRepository groupSessionRepository;
 	@Autowired
 	ManagerRepository managerRepository;
@@ -66,7 +72,7 @@ public class TutoringAppService {
 	@Autowired
 	RoomRepository roomRepository;
 	@Autowired
-	ScheduledSessionRepository shceduledSessionRepository;
+	ScheduledSessionRepository scheduledSessionRepository;
 	@Autowired
 	SmallRoomRepository smallRoomRepository;
 	@Autowired
@@ -420,16 +426,101 @@ public class TutoringAppService {
 		return tutorEval;
 	}
 
+
 	/** @author Alba */
 	@Transactional
 	public List<TutorEvaluation> getAllTutorEvaluation() {
 		return toList(tutorEvaluationRepository.findAll());
 	}
+	
+	/** @author Alba */
+	public StudentEvaluation createStudentEvaluation(int rating, Student student, Tutor tutor) {
+		if (rating == 0) {
+			throw new IllegalArgumentException("Rating cannot be empty!");
+		}
+		String error = "";
+		if (tutor == null) {
+			error = error + "Tutor needs to be selected for Student Evaluation! ";
+		} else if (!tutorRepository.existsByUsername(tutor.getUsername()))
+			;
+		{
+			error = error + "Tutor does not exist! ";
+		}
+		if (student == null) {
+			error = error + "Student needs to be selected for Student Evaluation!";
+		} else if (!studentRepository.existsByUsername(student.getUsername())) {
+			error = error + "Student does not exist!";
+		}
+
+		if (studentEvaluationRepository.existsByRecipientAndAuthor(student, tutor)) {
+			error = error + "Tutor already gave an evaluation for this Student!";
+		}
+		error = error.trim();
+
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+
+		// add today's date
+		java.util.Date utilToday = new java.util.Date();
+		java.sql.Date date = new java.sql.Date(utilToday.getTime()); // convert util todays date in ms and add to
+																		// sqldate
+
+		StudentEvaluation studentEval = new StudentEvaluation();
+		studentEval.setRating(rating);
+
+		studentEval.setDate(date);
+		studentEval.setId((student.getUsername().hashCode()) * (tutor.getUsername().hashCode()));
+		studentEval.setAuthor(tutor);;
+		studentEval.setRecipient(student);
+
+		studentEvaluationRepository.save(studentEval);
+		return studentEval;
+	}
+
+	/** @author Alba */
+	@Transactional
+	public StudentEvaluation getStudentEvaluation(Student student, Tutor tutor) {
+		String error = "";
+		if (tutor == null) {
+			error = error + "Tutor needs to be selected for Student Evaluation! ";
+		} else if (!tutorRepository.existsByUsername(tutor.getUsername()))
+			;
+		{
+			error = error + "Tutor does not exist! ";
+		}
+		if (student == null) {
+			error = error + "Student needs to be selected for Student Evaluation!";
+		} else if (!studentRepository.existsByUsername(student.getUsername())) {
+			error = error + "Student does not exist!";
+		}
+
+		if (studentEvaluationRepository.existsByRecipientAndAuthor(student, tutor)) {
+			error = error + "Tutor already gave an evaluation for this Student!";
+		}
+		error = error.trim();
+
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+
+		StudentEvaluation studentEval = studentEvaluationRepository.findByRecipientAndAuthor(student, tutor);
+		return studentEval;
+	}
+
+	/** @author Alba */
+	@Transactional
+	public List<StudentEvaluation> getAllStudentEvaluation() {
+		return toList(studentEvaluationRepository.findAll());
+	}
+	
+	/** @author Alba */
+	@Transactional
+	public List<Evaluation> getAllEvaluation() {
+		return toList(evaluationRepository.findAll());
+	}
 
 	
-
-	// TODO StudentEvaluation and Evaluation Comment
-
 	/********** END of EVALUATION *********/
 	
 
