@@ -16,9 +16,11 @@ import ca.mcgill.ecse321.tutoringapp.dao.EvaluationRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.GroupRequestRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ManagerRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.OfferingRepository;
+import ca.mcgill.ecse321.tutoringapp.dao.PrivateRequestRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ScheduledPrivateSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.RoomRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ScheduledSessionRepository;
+import ca.mcgill.ecse321.tutoringapp.dao.SessionRequestRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SmallRoomRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.StudentRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SubjectRepository;
@@ -26,7 +28,10 @@ import ca.mcgill.ecse321.tutoringapp.dao.TeachingInstitutionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.TutorEvaluationRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.TutorRepository;
 import ca.mcgill.ecse321.tutoringapp.model.Course;
+import ca.mcgill.ecse321.tutoringapp.model.GroupRequest;
+import ca.mcgill.ecse321.tutoringapp.model.PrivateRequest;
 import ca.mcgill.ecse321.tutoringapp.model.ScheduledSession;
+import ca.mcgill.ecse321.tutoringapp.model.SessionRequest;
 import ca.mcgill.ecse321.tutoringapp.model.Student;
 import ca.mcgill.ecse321.tutoringapp.model.Subject;
 import ca.mcgill.ecse321.tutoringapp.model.TeachingInstitution;
@@ -70,6 +75,12 @@ public class TutoringAppService {
 	SubjectRepository subjectRepository;
 	@Autowired
 	TutorRepository tutorRepository;
+	@Autowired
+	GroupRequestRepository groupRequestRepository;
+	@Autowired
+	PrivateRequestRepository privateRequestRepository;
+	@Autowired
+	SessionRequestRepository sessionRequestRepository;
 
 	/** @author Alba */
 	private <T> List<T> toList(Iterable<T> iterable) {
@@ -84,6 +95,10 @@ public class TutoringAppService {
 	// AppUser
 	// Tutor
 	// Student
+	public void createStudent(String name) {
+		// TODO Auto-generated method stub
+		
+	}
 	// Manager
 
 	// TODO: Odero's services
@@ -91,16 +106,129 @@ public class TutoringAppService {
 	// SmallRoom
 	// ClassRoom
 
-	// TODO: Helen's services
-	// SessionRequest
-	// GroupRequest
-	// PrivateRequest
-	// Offering
-
 	// TODO: Arianit's services
 	// ScheduledGroupSession
 	// ScheduledPrivateSession
 	// ScheduledSession
+
+	/********* START of SessionRequest, GroupSessionRequest, PrivateSessionRequest ***************/
+	/**
+	 * This method creates a private session request from a student.
+	 * @author Helen
+	 * @param username
+	 * @param courseOrSubject the name of the course or subject
+	 * @param isForCourse true if making a course request, false for making a subject request
+	 * @return 
+	 */
+	public PrivateRequest createPrivateRequest(String username, String courseOrSubject, boolean isForCourse) {
+
+		if (username == null || username.trim().length() == 0 || !studentRepository.existsByUsername(username)) {
+			throw new IllegalArgumentException("Username for student requestor does not exist or is incorrect!");
+		}
+
+		PrivateRequest request = new PrivateRequest();
+
+		java.util.Date today = new java.util.Date();
+		java.sql.Date date = new java.sql.Date(today.getTime());
+		request.setDateCreated(date);
+
+		Student requestor = studentRepository.findByUsername(username);
+		request.setRequestor(requestor);
+
+		//subject or course
+		if (isForCourse) {
+			if (!courseRepository.existsById(courseOrSubject)) {
+				throw new IllegalArgumentException("Invalid course requested!");
+			}
+			request.setRequestedCourse(courseRepository.findCourseByName(courseOrSubject));
+		} else {
+			if (!subjectRepository.existsById(courseOrSubject)) {
+				throw new IllegalArgumentException("Invalid subject requested!");
+			}
+			request.setRequestedSubject(subjectRepository.findSubjectByName(courseOrSubject));
+		}
+
+		privateRequestRepository.save(request);
+		return request;
+	}
+
+	/** @author Helen */
+	public PrivateRequest getPrivateRequest(int id) {
+		if (!privateRequestRepository.existsById(id)) {
+			throw new IllegalArgumentException("Invalid PrivateSessionRequest id or request does not exist!");
+		}
+		return privateRequestRepository.findById(id);
+	}
+
+	/** @author Helen */
+	public List<PrivateRequest> getAllPrivateRequests() {
+		return toList(privateRequestRepository.findAll());
+	}
+
+
+	/**
+	 * This method creates a group session request from a student.
+	 * @author Helen
+	 * @param username
+	 * @param courseOrSubject the name of the course or subject
+	 * @param isForCourse true if making a course request, false for making a subject request
+	 * @return 
+	 */
+	public GroupRequest createGroupRequest(String username, String courseOrSubject, boolean isForCourse) {
+
+		if (username == null || username.trim().length() == 0 || !studentRepository.existsByUsername(username)) {
+			throw new IllegalArgumentException("Username for student requestor does not exist or is incorrect!");
+		}
+
+		GroupRequest request = new GroupRequest();
+
+		java.util.Date today = new java.util.Date();
+		java.sql.Date date = new java.sql.Date(today.getTime());
+		request.setDateCreated(date);
+
+		Student requestor = studentRepository.findByUsername(username);
+		request.setRequestor(requestor);
+
+		//subject or course
+		if (isForCourse) {
+			if (!courseRepository.existsById(courseOrSubject)) {
+				throw new IllegalArgumentException("Invalid course requested!");
+			}
+			request.setRequestedCourse(courseRepository.findCourseByName(courseOrSubject));
+		} else {
+			if (!subjectRepository.existsById(courseOrSubject)) {
+				throw new IllegalArgumentException("Invalid subject requested!");
+			}
+			request.setRequestedSubject(subjectRepository.findSubjectByName(courseOrSubject));
+		}
+
+		groupRequestRepository.save(request);
+		return request;
+	}
+
+
+	/** @author Helen */
+	public GroupRequest getGroupRequest(int id) {
+		if (!privateRequestRepository.existsById(id)) {
+			throw new IllegalArgumentException("Invalid GroupSessionRequest id or request does not exist!");
+		}
+		
+		GroupRequest request = groupRequestRepository.findById(id);
+		return request;
+	}
+
+
+	/** @author Helen */
+	public List<GroupRequest> getAllGroupRequests() {
+		return toList(groupRequestRepository.findAll());
+	}
+
+	/** @author Helen */
+	public List<SessionRequest> getAllSessionRequests() {
+
+		return toList(sessionRequestRepository.findAll());
+	}
+
 
 	/********* START of COURSE ***************/
 	/** @author Alba */
@@ -297,6 +425,8 @@ public class TutoringAppService {
 	public List<TutorEvaluation> getAllTutorEvaluation() {
 		return toList(tutorEvaluationRepository.findAll());
 	}
+
+	
 
 	// TODO StudentEvaluation and Evaluation Comment
 

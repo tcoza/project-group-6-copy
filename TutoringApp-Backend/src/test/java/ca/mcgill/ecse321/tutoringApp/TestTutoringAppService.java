@@ -20,15 +20,20 @@ import ca.mcgill.ecse321.tutoringapp.dao.EvaluationRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.GroupRequestRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ManagerRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.OfferingRepository;
+import ca.mcgill.ecse321.tutoringapp.dao.PrivateRequestRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ScheduledPrivateSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.RoomRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ScheduledGroupSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ScheduledSessionRepository;
+import ca.mcgill.ecse321.tutoringapp.dao.SessionRequestRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SmallRoomRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.StudentRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SubjectRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.TutorRepository;
 import ca.mcgill.ecse321.tutoringapp.model.Course;
+import ca.mcgill.ecse321.tutoringapp.model.GroupRequest;
+import ca.mcgill.ecse321.tutoringapp.model.PrivateRequest;
+import ca.mcgill.ecse321.tutoringapp.model.Student;
 import ca.mcgill.ecse321.tutoringapp.model.Subject;
 import ca.mcgill.ecse321.tutoringapp.model.TeachingInstitution;
 import ca.mcgill.ecse321.tutoringapp.service.TutoringAppService;
@@ -71,6 +76,12 @@ public class TestTutoringAppService {
 	private SubjectRepository subjectRepository;
 	@Autowired
 	private TutorRepository tutorRepository;
+	@Autowired
+	GroupRequestRepository groupRequestRepository;
+	@Autowired
+	PrivateRequestRepository privateRequestRepository;
+	@Autowired
+	SessionRequestRepository sessionRequestRepository;
 
 	/** @author Alba */
 	@Before
@@ -91,6 +102,9 @@ public class TestTutoringAppService {
 		subjectRepository.deleteAll();
 		tutorRepository.deleteAll();
 		scheduledGroupSessionRepository.deleteAll();
+		sessionRequestRepository.deleteAll();
+		groupRequestRepository.deleteAll();
+		privateRequestRepository.deleteAll();
 	}
 
 	/** @author Alba */
@@ -290,4 +304,108 @@ public class TestTutoringAppService {
 		assertEquals(uny, school2);
 
 	}
+	
+	
+	
+	/** Test to create a private session request for a course
+	 * @author Helen
+	 * */
+	@Test
+	public void testCreatePrivateRequest() {
+		assertEquals(0, service.getAllPrivateRequests().size());
+
+		String username = "helen-m-lin";
+		String course = "ECSE321";
+		boolean isCourse = true;
+
+		try {
+			service.createStudent(username);
+			service.createPrivateRequest(username, course, isCourse);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+
+		List<PrivateRequest> allRequests = service.getAllPrivateRequests();
+
+		assertEquals(1, allRequests.size());
+		assertEquals(username, allRequests.get(0).getRequestor().getUsername());
+		assertEquals(course, allRequests.get(0).getRequestedCourse().getCourseCode());
+	}
+
+	/** Test to create a group session request for a subject
+	 * @author Helen
+	 * */
+	public void testCreateGroupRequest() {
+		assertEquals(0, service.getAllPrivateRequests());
+
+		String username = "Bob1";
+		String subject = "Math";
+		boolean isCourse = false;
+
+		try {
+			service.createStudent(username);
+			service.createGroupRequest(username, subject, isCourse);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+
+		List<GroupRequest> allRequests = service.getAllGroupRequests();
+
+		assertEquals(1, allRequests.size());
+		assertEquals(username, allRequests.get(0).getRequestor().getUsername());
+		assertEquals(subject, allRequests.get(0).getRequestedCourse().getName());
+	}
+
+	/**
+	 * Test that group request repository can persist information to students @author Helen */
+	@Test
+	public void testGetGroupRequestAttributeAndAssociation() {
+		assertEquals(0, service.getAllGroupRequests());
+
+		String name = "testUser1";
+		String course = "MATH240"; 
+		boolean isCourse = true;
+		service.createStudent(name);
+		GroupRequest request = service.createGroupRequest(name, course, isCourse);
+
+		String testCourseCode="";
+		int testId =0;
+		Student testStudent = new Student();;
+
+		try {
+			testId = request.getId();
+			testCourseCode = service.getAllGroupRequests().get(0).getRequestedCourse().getCourseCode();
+			testStudent = service.getAllGroupRequests().get(0).getRequestor();
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+
+		assertEquals(name, request.getRequestor().getUsername());
+		assertEquals(course, testCourseCode);
+		assertEquals(testStudent, studentRepository.findByUsername(name));
+	}
+
+	/** @author Helen */
+	@Test
+	public void testSessionRequestAssociation() {
+		assertEquals(0, service.getAllSessionRequests().size());
+
+		String name = "user1";
+		String c1 = "ECSE321";
+		String c2 = "Math240";
+
+		Student testStudent = new Student();
+		try {
+			GroupRequest r1 = service.createGroupRequest(name, c1, true);
+			PrivateRequest r2 = service.createPrivateRequest(name, c2, true);
+			testStudent = studentRepository.findByUsername(name);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+
+		assertEquals(1, studentRepository.count());
+		assertEquals(2, sessionRequestRepository.findByRequestor(testStudent).size());
+		assertEquals(testStudent, sessionRequestRepository.findByRequestor(testStudent).get(0));
+	}
+
 }

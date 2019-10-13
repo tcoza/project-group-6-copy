@@ -12,5 +12,7 @@ import ca.mcgill.ecse321.tutoringapp.model.Student;
 public interface StudentRepository extends CrudRepository<Student, String> {
 
 	boolean existsByUsername(String username);
+	Student findByUsername(String username);
+
 
 }

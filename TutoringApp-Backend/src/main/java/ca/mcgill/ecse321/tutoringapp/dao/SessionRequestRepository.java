@@ -16,15 +16,8 @@ import ca.mcgill.ecse321.tutoringapp.model.Subject;
  */
 public interface SessionRequestRepository extends CrudRepository<SessionRequest, Integer> {
 
-	//total session requests
-	long count(); 
-	
-	//find one
 	SessionRequest findById(int id);
-
-	//find many
-	List<SessionRequest> findAllById(List<Integer> ids);	
-
+	
 	//find by requested course
 	List<SessionRequest> findByRequestedCourse(Course requestedCourse);
 		

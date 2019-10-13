@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.tutoringapp.model.Course;
 import ca.mcgill.ecse321.tutoringapp.model.PrivateRequest;
+import ca.mcgill.ecse321.tutoringapp.model.SessionRequest;
 import ca.mcgill.ecse321.tutoringapp.model.Student;
 import ca.mcgill.ecse321.tutoringapp.model.Subject;
 
@@ -16,15 +17,7 @@ import ca.mcgill.ecse321.tutoringapp.model.Subject;
  */
 public interface PrivateRequestRepository extends CrudRepository<PrivateRequest, Integer> {
 
-	//total group requests
-	long count(); 
-	
-	//find one
 	PrivateRequest findById(int id);
-
-	//find many
-	List<PrivateRequest> findAllById(List<Integer> ids);	
-
 	//find by requested course
 	List<PrivateRequest> findByRequestedCourse(Course requestedCourse);
 		
