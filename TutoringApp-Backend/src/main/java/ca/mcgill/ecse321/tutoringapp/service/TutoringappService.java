@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.tutoringapp.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +24,20 @@ import ca.mcgill.ecse321.tutoringapp.dao.SmallRoomRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.StudentRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SubjectRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.TeachingInstitutionRepository;
+import ca.mcgill.ecse321.tutoringapp.dao.TutorEvaluationRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.TutorRepository;
 import ca.mcgill.ecse321.tutoringapp.model.Course;
+import ca.mcgill.ecse321.tutoringapp.model.Student;
 import ca.mcgill.ecse321.tutoringapp.model.Subject;
 import ca.mcgill.ecse321.tutoringapp.model.TeachingInstitution;
+import ca.mcgill.ecse321.tutoringapp.model.Tutor;
+import ca.mcgill.ecse321.tutoringapp.model.TutorEvaluation;
 
 @Service
 public class TutoringappService {
 	
+	@Autowired
+	TutorEvaluationRepository tutorEvaluationRepository;
 	@Autowired
 	TeachingInstitutionRepository teachingInstitutionRepository;
 	@Autowired
@@ -160,6 +167,78 @@ public class TutoringappService {
 	@Transactional
 	public List<TeachingInstitution> getAllTeachingInstitutiont(){
 		return toList(teachingInstitutionRepository.findAll());
+	}
+	@SuppressWarnings("deprecation")
+	@Transactional
+	public TutorEvaluation createTutorEvaluation (int rating,Student student, Tutor tutor) {
+		if (rating == 0) {
+			throw new IllegalArgumentException("Rating cannot be empty!");
+		}
+		String error = "";
+	    if (tutor == null) {
+	        error = error + "Tutor needs to be selected for Tutor Evaluation! ";
+	    } else if (!tutorRepository.existsByUsername(tutor.getUsername()); {
+	        error = error + "Tutor does not exist! ";
+	    }
+	    if (student == null) {
+	        error = error + "Student needs to be selected for Tutor Evaluation!";
+	    } else if (!studentRepository.existsByUsername(student.getUsername())) {
+	        error = error + "Student does not exist!";
+	    }
+	    
+		if (tutorEvaluationRepository.existsByStudentAndTutor(student, tutor)) {
+	        error = error + "Student already gave an evaluation for this Tutor!";
+	    }
+	    error = error.trim();
+
+	    if (error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
+		Date date;
+		date.getDate();
+		
+		TutorEvaluation tutorEval = new TutorEvaluation();
+		tutorEval.setRating(rating);
+		
+		tutorEval.setDate(date);
+		tutorEval.setId((student.getUsername().hashCode())*(tutor.getUsername().hashCode()));
+		tutorEval.setAuthor(student);
+		tutorEval.setRecipient(tutor);
+		
+		tutorEvaluationRepository.save(tutorEval);
+		return tutorEval;
+	}
+	
+	@Transactional
+	public TutorEvaluation getTutorEvaluation (Student student,Tutor tutor) {
+		String error = "";
+	    if (tutor == null) {
+	        error = error + "Tutor needs to be selected for Tutor Evaluation! ";
+	    } else if (!tutorRepository.existsByUsername(tutor.getUsername()); {
+	        error = error + "Tutor does not exist! ";
+	    }
+	    if (student == null) {
+	        error = error + "Student needs to be selected for Tutor Evaluation!";
+	    } else if (!studentRepository.existsByUsername(student.getUsername())) {
+	        error = error + "Student does not exist!";
+	    }
+	    
+		if (tutorEvaluationRepository.existsByStudentAndTutor(student, tutor)) {
+	        error = error + "Student already gave an evaluation for this Tutor!";
+	    }
+	    error = error.trim();
+
+	    if (error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
+		
+		TutorEvaluation tutorEval = tutorEvaluationRepository.findByStudentAndTutor(student, tutor);
+		return tutorEval;
+	}
+	
+	@Transactional
+	public List<TutorEvaluation> getAllTutorEvaluation(){
+		return toList(tutorEvaluationRepository.findAll());
 	}
 
 }
