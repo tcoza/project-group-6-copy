@@ -15,14 +15,11 @@ import ca.mcgill.ecse321.tutoringapp.model.Tutor;
  *
  */
 public interface ScheduledSessionRepository extends CrudRepository<ScheduledSession, Integer> {
+	
 	long count();
-	
 	ScheduledSession findById(int id);
-	
-	List<ScheduledSession> findAllById(List<Integer> ids);
-	
+	List<ScheduledSession> findAllById(List<Integer> ids);	
 	List<ScheduledSession> findByAssignedTutor (Tutor tutor);
-	
 	List<ScheduledSession> findAll();
 	
 
