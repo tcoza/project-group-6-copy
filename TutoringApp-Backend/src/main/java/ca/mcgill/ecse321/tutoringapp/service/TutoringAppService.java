@@ -239,7 +239,7 @@ public class TutoringAppService {
 	/********* START of COURSE ***************/
 	/** @author Alba */
 	@Transactional
-	public Course createCourse(String courseCode, String name) {
+	public Course createCourse(String courseCode, String name, String teachingInstitution) {
 		if (name == null || name.trim().length() == 0) {
 			throw new IllegalArgumentException("Course name cannot be empty!");
 		}
@@ -247,10 +247,24 @@ public class TutoringAppService {
 
 			throw new IllegalArgumentException("Course code cannot be empty!");
 		}
+		if (teachingInstitution == null || teachingInstitution.trim().length() == 0) {
 
+			throw new IllegalArgumentException("Associated school cannot be empty!");
+		}
+
+		
+		
 		Course course = new Course();
 		course.setName(name);
 		course.setCourseCode(courseCode);
+		if (!teachingInstitutionRepository.existsByName(teachingInstitution)) {
+			TeachingInstitution school = this.createTeachingInstitution(teachingInstitution);
+			course.setSchool(school);
+		} else {
+			TeachingInstitution school = teachingInstitutionRepository.findTeachingInstitutionByName(teachingInstitution);
+			course.setSchool(school);
+		}
+		
 		courseRepository.save(course);
 		return course;
 	}

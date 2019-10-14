@@ -114,9 +114,10 @@ public class TestTutoringAppService {
 
 		String name = "Intro To Software ENG";
 		String courseCode = "ECSE321";
+		String school = "McGill";
 
 		try {
-			service.createCourse(courseCode, name);
+			service.createCourse(courseCode, name, school);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
@@ -319,6 +320,7 @@ public class TestTutoringAppService {
 		boolean isCourse = true;
 
 		try {
+			service.createCourse("ECSE321", "Software Engineering", "McGill");
 			service.createStudent(username);
 			service.createPrivateRequest(username, course, isCourse);
 		} catch (IllegalArgumentException e) {
