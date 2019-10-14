@@ -28,8 +28,11 @@ import ca.mcgill.ecse321.tutoringapp.dao.ScheduledGroupSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ScheduledSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SessionRequestRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SmallRoomRepository;
+import ca.mcgill.ecse321.tutoringapp.dao.StudentEvaluationRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.StudentRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SubjectRepository;
+import ca.mcgill.ecse321.tutoringapp.dao.TeachingInstitutionRepository;
+import ca.mcgill.ecse321.tutoringapp.dao.TutorEvaluationRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.TutorRepository;
 import ca.mcgill.ecse321.tutoringapp.model.Course;
 import ca.mcgill.ecse321.tutoringapp.model.GroupRequest;
@@ -44,39 +47,45 @@ import ca.mcgill.ecse321.tutoringapp.service.TutoringAppService;
 public class TestTutoringAppService {
 
 	@Autowired
-	private TutoringAppService service;
+	TutoringAppService service;
 	@Autowired
-	private AppUserRepository appUserRepository;
+	TeachingInstitutionRepository teachingInstitutionRepository;
 	@Autowired
-	private ClassRoomRepository classRoomRepository;
+	AppUserRepository appUserRepository;
 	@Autowired
-	private CourseRepository courseRepository;
+	ClassRoomRepository classRoomRepository;
 	@Autowired
-	private EvaluationCommentRepository evaluationCommentRepository;
+	CourseRepository courseRepository;
 	@Autowired
-	private EvaluationRepository evaluationRepository;
+	EvaluationCommentRepository evaluationCommentRepository;
 	@Autowired
-	private GroupRequestRepository groupSessionRepository;
+	EvaluationRepository evaluationRepository;
 	@Autowired
-	private ManagerRepository managerRepository;
+	StudentEvaluationRepository studentEvaluationRepository;
 	@Autowired
-	private OfferingRepository offeringRepository;
+	TutorEvaluationRepository tutorEvaluationRepository;
 	@Autowired
-	private ScheduledPrivateSessionRepository privateSessionRepository;
+	GroupRequestRepository groupSessionRepository;
 	@Autowired
-	private ScheduledGroupSessionRepository scheduledGroupSessionRepository;
+	ManagerRepository managerRepository;
 	@Autowired
-	private RoomRepository roomRepository;
+	OfferingRepository offeringRepository;
 	@Autowired
-	private ScheduledSessionRepository scheduledSessionRepository;
+	ScheduledPrivateSessionRepository privateSessionRepository;
 	@Autowired
-	private SmallRoomRepository smallRoomRepository;
+	RoomRepository roomRepository;
 	@Autowired
-	private StudentRepository studentRepository;
+	ScheduledSessionRepository scheduledSessionRepository;
 	@Autowired
-	private SubjectRepository subjectRepository;
+	ScheduledGroupSessionRepository scheduledGroupSessionRepository;
 	@Autowired
-	private TutorRepository tutorRepository;
+	SmallRoomRepository smallRoomRepository;
+	@Autowired
+	StudentRepository studentRepository;
+	@Autowired
+	SubjectRepository subjectRepository;
+	@Autowired
+	TutorRepository tutorRepository;
 	@Autowired
 	GroupRequestRepository groupRequestRepository;
 	@Autowired
@@ -106,6 +115,7 @@ public class TestTutoringAppService {
 		sessionRequestRepository.deleteAll();
 		groupRequestRepository.deleteAll();
 		privateRequestRepository.deleteAll();
+		teachingInstitutionRepository.deleteAll();
 	}
 
 	/** @author Alba */
@@ -117,19 +127,19 @@ public class TestTutoringAppService {
 		String name = "Intro To Software ENG";
 		String courseCode = "ECSE321";
 		
-		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		assertEquals(0, service.getAllTeachingInstitution().size());
 		
 		String nameS = "Mcgill";
 		
 		service.createTeachingInstitution(nameS);
 		
-		List<TeachingInstitution> allSchools = service.getAllTeachingInstitutiont();
+		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 		
 		TeachingInstitution school = allSchools.get(1);
 		
 
 		try {
-			service.createCourse(courseCode, name, school);
+			service.createCourse(courseCode, name, school.getName());
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
@@ -149,18 +159,18 @@ public class TestTutoringAppService {
 		String name = "Intro To Software ENG";
 		String courseCode = "ECSE321";
 		
-		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		assertEquals(0, service.getAllTeachingInstitution().size());
 		
 		String nameS = "Mcgill";
 		
 		service.createTeachingInstitution(nameS);
 		
-		assertEquals(1, service.getAllTeachingInstitutiont().size());
+		assertEquals(1, service.getAllTeachingInstitution().size());
 
 		
-		List<TeachingInstitution> allSchools = service.getAllTeachingInstitutiont();
+		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 		
-		TeachingInstitution school = allSchools.get(1);
+		String school = allSchools.get(1).getClass().getName();
 		
 		service.createCourse(courseCode, name, school);
 
@@ -190,7 +200,7 @@ public class TestTutoringAppService {
 	@Test
 	public void testCourseAssosiation() {
 		assertEquals(0, service.getAllCourse().size());
-		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		assertEquals(0, service.getAllTeachingInstitution().size());
 
 
 		String name = "Intro To Software ENG";
@@ -199,12 +209,12 @@ public class TestTutoringAppService {
 		
 		service.createTeachingInstitution(nameS);
 		
-		assertEquals(1, service.getAllTeachingInstitutiont().size());
+		assertEquals(1, service.getAllTeachingInstitution().size());
 
 		
-		List<TeachingInstitution> allSchools = service.getAllTeachingInstitutiont();
+		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 		
-		TeachingInstitution school = allSchools.get(1);
+		String school = allSchools.get(1).getName();
 		
 		service.createCourse(courseCode, name, school);
 		
@@ -233,15 +243,15 @@ public class TestTutoringAppService {
 
 		String name = "Math";
 		
-		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		assertEquals(0, service.getAllTeachingInstitution().size());
 		
 		String nameS = "MSL";
 		
 		service.createTeachingInstitution(nameS);
 		
-		List<TeachingInstitution> allSchools = service.getAllTeachingInstitutiont();
+		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 		
-		TeachingInstitution school = allSchools.get(1);
+		String school = allSchools.get(1).getName();
 		
 
 		try {
@@ -264,17 +274,17 @@ public class TestTutoringAppService {
 		String testName = "";
 		String name = "Math";
 
-		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		assertEquals(0, service.getAllTeachingInstitution().size());
 		
 		String nameS = "MSL";
 		
 		service.createTeachingInstitution(nameS);
 		
-		assertEquals(1, service.getAllTeachingInstitutiont().size());
+		assertEquals(1, service.getAllTeachingInstitution().size());
 
-		List<TeachingInstitution> allSchools = service.getAllTeachingInstitutiont();
+		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 		
-		TeachingInstitution school = allSchools.get(1);
+		String school = allSchools.get(1).getName();
 		
 		service.createSubject(name, school);
 
@@ -293,7 +303,7 @@ public class TestTutoringAppService {
 	@Test
 	public void testSubjectAssosiation() {
 		assertEquals(0, service.getAllSubject().size());
-		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		assertEquals(0, service.getAllTeachingInstitution().size());
 
 
 		String name = "Math";
@@ -301,11 +311,11 @@ public class TestTutoringAppService {
 		
 		service.createTeachingInstitution(nameS);
 		
-		assertEquals(1, service.getAllTeachingInstitutiont().size());
+		assertEquals(1, service.getAllTeachingInstitution().size());
 
-		List<TeachingInstitution> allSchools = service.getAllTeachingInstitutiont();
+		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 		
-		TeachingInstitution school = allSchools.get(1);
+		String school = allSchools.get(1).getName();
 		
 		service.createSubject(name, school);
 		
@@ -329,7 +339,7 @@ public class TestTutoringAppService {
 	/** @author Alba */
 	@Test
 	public void testTeachingInstitutionCreate() {
-		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		assertEquals(0, service.getAllTeachingInstitution().size());
 
 		String name = "Mcgill";
 
@@ -339,7 +349,7 @@ public class TestTutoringAppService {
 			fail();
 		}
 
-		List<TeachingInstitution> allSchools = service.getAllTeachingInstitutiont();
+		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 
 		assertEquals(1, allSchools.size());
 		assertEquals(name, allSchools.get(0).getName());
@@ -348,14 +358,14 @@ public class TestTutoringAppService {
 	/** @author Alba */
 	@Test
 	public void testGetTeachingInstitutionAttribute() {
-		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		assertEquals(0, service.getAllTeachingInstitution().size());
 
 		String testName = "";
 		String name = "Mcgill";
 		
 		service.createTeachingInstitution(name);
 		
-		assertEquals(1, service.getAllTeachingInstitutiont().size());
+		assertEquals(1, service.getAllTeachingInstitution().size());
 
 		try {
 			testName = service.getTeachingInstitution(name).getName();
@@ -369,7 +379,7 @@ public class TestTutoringAppService {
 	/** @author Alba */
 	@Test
 	public void testTeachingInstitutionAssosiation() {
-		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		assertEquals(0, service.getAllTeachingInstitution().size());
 		assertEquals(0, service.getAllSubject().size());
 		assertEquals(0, service.getAllCourse().size());
 		
@@ -382,17 +392,17 @@ public class TestTutoringAppService {
 		service.createTeachingInstitution(unyName);
 		service.createTeachingInstitution(schoolName);
 		
-		assertEquals(2, service.getAllTeachingInstitutiont().size());
+		assertEquals(2, service.getAllTeachingInstitution().size());
 		
 		TeachingInstitution uny = service.getTeachingInstitution(unyName);
 
-		service.createCourse(courseCode, nameC, uny);
+		service.createCourse(courseCode, nameC, uny.getName());
 		
 		assertEquals(1, service.getAllCourse().size());
 
 		TeachingInstitution school = service.getTeachingInstitution(schoolName);
 		
-		service.createSubject(nameSb, school);
+		service.createSubject(nameSb, school.getName());
 		
 		assertEquals(1, service.getAllSubject().size());
 		

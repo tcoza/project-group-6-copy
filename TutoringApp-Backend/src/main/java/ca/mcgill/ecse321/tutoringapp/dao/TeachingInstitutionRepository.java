@@ -13,4 +13,6 @@ public interface TeachingInstitutionRepository extends CrudRepository<TeachingIn
 	
 	TeachingInstitution findTeachingInstitutionByName(String name);
 
+	boolean existsByName(String name);
+
 }

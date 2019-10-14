@@ -19,6 +19,7 @@ import ca.mcgill.ecse321.tutoringapp.dao.OfferingRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.PrivateRequestRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ScheduledPrivateSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.RoomRepository;
+import ca.mcgill.ecse321.tutoringapp.dao.ScheduledGroupSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ScheduledSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SessionRequestRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SmallRoomRepository;
@@ -73,6 +74,8 @@ public class TutoringAppService {
 	RoomRepository roomRepository;
 	@Autowired
 	ScheduledSessionRepository scheduledSessionRepository;
+	@Autowired
+	ScheduledGroupSessionRepository scheduledGroupSessionRepository;
 	@Autowired
 	SmallRoomRepository smallRoomRepository;
 	@Autowired
@@ -296,15 +299,28 @@ public class TutoringAppService {
 
 	/** @author Alba */
 	@Transactional
-	public Subject createSubject(String name) {
+	public Subject createSubject(String name, String schoolname) {
 		if (name == null || name.trim().length() == 0) {
 			throw new IllegalArgumentException("Subject name cannot be empty!");
 		}
+		if (schoolname == null || schoolname.trim().length() == 0) {
 
+			throw new IllegalArgumentException("Associated school cannot be empty!");
+		}
+
+		
 		Subject subject = new Subject();
 		subject.setName(name);
+		if (!teachingInstitutionRepository.existsByName(schoolname)) {
+			TeachingInstitution school = this.createTeachingInstitution(schoolname);
+			subject.setSchool(school);
+		} else {
+			TeachingInstitution school = teachingInstitutionRepository.findTeachingInstitutionByName(schoolname);
+			subject.setSchool(school);
+		}
 		subjectRepository.save(subject);
 		return subject;
+		
 	}
 
 	/** @author Alba */
@@ -353,7 +369,7 @@ public class TutoringAppService {
 
 	/** @author Alba */
 	@Transactional
-	public List<TeachingInstitution> getAllTeachingInstitutiont() {
+	public List<TeachingInstitution> getAllTeachingInstitution() {
 		return toList(teachingInstitutionRepository.findAll());
 	}
 

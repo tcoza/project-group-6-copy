@@ -10,5 +10,5 @@ import ca.mcgill.ecse321.tutoringapp.model.Room;
  *
  */
 public interface RoomRepository extends CrudRepository<Room, Integer> {
-
+	Room findRoomById(int id);
 }

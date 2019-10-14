@@ -10,5 +10,5 @@ import ca.mcgill.ecse321.tutoringapp.model.ClassRoom;
  *
  */
 public interface ClassRoomRepository extends CrudRepository<ClassRoom,Integer> {
-
+	ClassRoom findClassRoomBystudentCapacity(int studentCapacity);
 }
