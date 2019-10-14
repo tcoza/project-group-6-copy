@@ -47,51 +47,51 @@ import ca.mcgill.ecse321.tutoringapp.service.TutoringAppService;
 public class TestTutoringAppService {
 
 	@Autowired
-	TutoringAppService service;
+	private TutoringAppService service;
 	@Autowired
-	TeachingInstitutionRepository teachingInstitutionRepository;
+	private TeachingInstitutionRepository teachingInstitutionRepository;
 	@Autowired
-	AppUserRepository appUserRepository;
+	private AppUserRepository appUserRepository;
 	@Autowired
-	ClassRoomRepository classRoomRepository;
+	private ClassRoomRepository classRoomRepository;
 	@Autowired
-	CourseRepository courseRepository;
+	private CourseRepository courseRepository;
 	@Autowired
-	EvaluationCommentRepository evaluationCommentRepository;
+	private EvaluationCommentRepository evaluationCommentRepository;
 	@Autowired
-	EvaluationRepository evaluationRepository;
+	private EvaluationRepository evaluationRepository;
 	@Autowired
-	StudentEvaluationRepository studentEvaluationRepository;
+	private StudentEvaluationRepository studentEvaluationRepository;
 	@Autowired
-	TutorEvaluationRepository tutorEvaluationRepository;
+	private TutorEvaluationRepository tutorEvaluationRepository;
 	@Autowired
-	GroupRequestRepository groupSessionRepository;
+	private GroupRequestRepository groupSessionRepository;
 	@Autowired
-	ManagerRepository managerRepository;
+	private ManagerRepository managerRepository;
 	@Autowired
-	OfferingRepository offeringRepository;
+	private OfferingRepository offeringRepository;
 	@Autowired
-	ScheduledPrivateSessionRepository privateSessionRepository;
+	private ScheduledPrivateSessionRepository privateSessionRepository;
 	@Autowired
-	RoomRepository roomRepository;
+	private RoomRepository roomRepository;
 	@Autowired
-	ScheduledSessionRepository scheduledSessionRepository;
+	private ScheduledSessionRepository scheduledSessionRepository;
 	@Autowired
-	ScheduledGroupSessionRepository scheduledGroupSessionRepository;
+	private ScheduledGroupSessionRepository scheduledGroupSessionRepository;
 	@Autowired
-	SmallRoomRepository smallRoomRepository;
+	private SmallRoomRepository smallRoomRepository;
 	@Autowired
-	StudentRepository studentRepository;
+	private StudentRepository studentRepository;
 	@Autowired
-	SubjectRepository subjectRepository;
+	private SubjectRepository subjectRepository;
 	@Autowired
-	TutorRepository tutorRepository;
+	private TutorRepository tutorRepository;
 	@Autowired
-	GroupRequestRepository groupRequestRepository;
+	private GroupRequestRepository groupRequestRepository;
 	@Autowired
-	PrivateRequestRepository privateRequestRepository;
+	private PrivateRequestRepository privateRequestRepository;
 	@Autowired
-	SessionRequestRepository sessionRequestRepository;
+	private SessionRequestRepository sessionRequestRepository;
 
 	/** @author Alba */
 	@Before
@@ -135,7 +135,7 @@ public class TestTutoringAppService {
 		
 		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 		
-		TeachingInstitution school = allSchools.get(1);
+		TeachingInstitution school = allSchools.get(0);
 		
 
 		try {
@@ -170,7 +170,7 @@ public class TestTutoringAppService {
 		
 		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 		
-		String school = allSchools.get(1).getClass().getName();
+		String school = allSchools.get(0).getClass().getName();
 		
 		service.createCourse(courseCode, name, school);
 
@@ -214,7 +214,7 @@ public class TestTutoringAppService {
 		
 		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 		
-		String school = allSchools.get(1).getName();
+		String school = allSchools.get(0).getName();
 		
 		service.createCourse(courseCode, name, school);
 		
@@ -222,7 +222,7 @@ public class TestTutoringAppService {
 		
 		List<Course> courses = service.getAllCourse();
 		
-		Course course = courses.get(1);
+		Course course = courses.get(0);
 		
 		TeachingInstitution uny = null;
 
@@ -251,7 +251,7 @@ public class TestTutoringAppService {
 		
 		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 		
-		String school = allSchools.get(1).getName();
+		String school = allSchools.get(0).getName();
 		
 
 		try {
@@ -284,7 +284,7 @@ public class TestTutoringAppService {
 
 		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 		
-		String school = allSchools.get(1).getName();
+		String school = allSchools.get(0).getName();
 		
 		service.createSubject(name, school);
 
@@ -315,7 +315,7 @@ public class TestTutoringAppService {
 
 		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 		
-		String school = allSchools.get(1).getName();
+		String school = allSchools.get(0).getName();
 		
 		service.createSubject(name, school);
 		
@@ -323,7 +323,7 @@ public class TestTutoringAppService {
 		
 		List<Subject> subjects = service.getAllSubject();
 		
-		Subject sbj = subjects.get(1);
+		Subject sbj = subjects.get(0);
 		
 		TeachingInstitution uny = null;
 
