@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -108,13 +109,24 @@ public class TestTutoringAppService {
 	}
 
 	/** @author Alba */
+	@SuppressWarnings("null")
 	@Test
 	public void testCreateCourse() {
-		assertEquals(0, service.getAllCourse());
+		assertEquals(0, service.getAllCourse().size());
 
 		String name = "Intro To Software ENG";
 		String courseCode = "ECSE321";
-		String school = "McGill";
+		
+		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		
+		String nameS = "Mcgill";
+		
+		service.createTeachingInstitution(nameS);
+		
+		List<TeachingInstitution> allSchools = service.getAllTeachingInstitutiont();
+		
+		TeachingInstitution school = allSchools.get(1);
+		
 
 		try {
 			service.createCourse(courseCode, name, school);
@@ -132,12 +144,33 @@ public class TestTutoringAppService {
 	/** @author Alba */
 	@Test
 	public void testGetCourseAttribute() {
-		assertEquals(1, service.getAllCourse());
+		assertEquals(0, service.getAllCourse().size());
+
+		String name = "Intro To Software ENG";
+		String courseCode = "ECSE321";
+		
+		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		
+		String nameS = "Mcgill";
+		
+		service.createTeachingInstitution(nameS);
+		
+		assertEquals(1, service.getAllTeachingInstitutiont().size());
+
+		
+		List<TeachingInstitution> allSchools = service.getAllTeachingInstitutiont();
+		
+		TeachingInstitution school = allSchools.get(1);
+		
+		service.createCourse(courseCode, name, school);
 
 		String testName = "";
 		String testCourseCode = "";
-		String name = "Intro To Software ENG";
-		String courseCode = "ECSE321";
+		
+		assertEquals(1, service.getAllCourse().size());
+
+		
+		
 		try {
 			testName = service.getCourse(courseCode, name).getName();
 		} catch (IllegalArgumentException e) {
@@ -156,23 +189,40 @@ public class TestTutoringAppService {
 	/** @author Alba */
 	@Test
 	public void testCourseAssosiation() {
-		assertEquals(1, service.getAllCourse().size());
+		assertEquals(0, service.getAllCourse().size());
+		assertEquals(0, service.getAllTeachingInstitutiont().size());
+
 
 		String name = "Intro To Software ENG";
 		String courseCode = "ECSE321";
+		String nameS = "Mcgill";
+		
+		service.createTeachingInstitution(nameS);
+		
+		assertEquals(1, service.getAllTeachingInstitutiont().size());
 
-		Course course = service.getCourse(courseCode, name);
-
-		String error = "";
+		
+		List<TeachingInstitution> allSchools = service.getAllTeachingInstitutiont();
+		
+		TeachingInstitution school = allSchools.get(1);
+		
+		service.createCourse(courseCode, name, school);
+		
+		assertEquals(1, service.getAllCourse().size());
+		
+		List<Course> courses = service.getAllCourse();
+		
+		Course course = courses.get(1);
+		
+		TeachingInstitution uny = null;
 
 		try {
-			TeachingInstitution uni = course.getSchool();
+			uny = course.getSchool();
 		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
+			fail();
 		}
-
-		assertEquals("TeachingInstitution does not exist!", error);
-		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		
+		assertEquals(uny, school);
 
 	}
 
@@ -182,9 +232,20 @@ public class TestTutoringAppService {
 		assertEquals(0, service.getAllSubject().size());
 
 		String name = "Math";
+		
+		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		
+		String nameS = "MSL";
+		
+		service.createTeachingInstitution(nameS);
+		
+		List<TeachingInstitution> allSchools = service.getAllTeachingInstitutiont();
+		
+		TeachingInstitution school = allSchools.get(1);
+		
 
 		try {
-			service.createSubject(name);
+			service.createSubject(name,school);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
@@ -198,10 +259,27 @@ public class TestTutoringAppService {
 	/** @author Alba */
 	@Test
 	public void testGetSubjectAttribute() {
-		assertEquals(1, service.getAllSubject().size());
+		assertEquals(0, service.getAllSubject().size());
 
 		String testName = "";
 		String name = "Math";
+
+		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		
+		String nameS = "MSL";
+		
+		service.createTeachingInstitution(nameS);
+		
+		assertEquals(1, service.getAllTeachingInstitutiont().size());
+
+		List<TeachingInstitution> allSchools = service.getAllTeachingInstitutiont();
+		
+		TeachingInstitution school = allSchools.get(1);
+		
+		service.createSubject(name, school);
+
+		assertEquals(1, service.getAllSubject().size());
+		
 		try {
 			testName = service.getSubject(name).getName();
 		} catch (IllegalArgumentException e) {
@@ -214,27 +292,43 @@ public class TestTutoringAppService {
 	/** @author Alba */
 	@Test
 	public void testSubjectAssosiation() {
-		assertEquals(1, service.getAllSubject().size());
+		assertEquals(0, service.getAllSubject().size());
+		assertEquals(0, service.getAllTeachingInstitutiont().size());
+
 
 		String name = "Math";
+		String nameS = "MSL";
+		
+		service.createTeachingInstitution(nameS);
+		
+		assertEquals(1, service.getAllTeachingInstitutiont().size());
 
-		Subject sbj = service.getSubject(name);
-
-		String error = "";
+		List<TeachingInstitution> allSchools = service.getAllTeachingInstitutiont();
+		
+		TeachingInstitution school = allSchools.get(1);
+		
+		service.createSubject(name, school);
+		
+		assertEquals(1, service.getAllSubject().size());
+		
+		List<Subject> subjects = service.getAllSubject();
+		
+		Subject sbj = subjects.get(1);
+		
+		TeachingInstitution uny = null;
 
 		try {
 			TeachingInstitution uni = sbj.getSchool();
 		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
+			fail();
 		}
 
-		assertEquals("TeachingInstitution does not exist!", error);
-		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		assertEquals(uny, school);
 	}
-
+	
 	/** @author Alba */
 	@Test
-	public void testTeachingInstitutionCourse() {
+	public void testTeachingInstitutionCreate() {
 		assertEquals(0, service.getAllTeachingInstitutiont().size());
 
 		String name = "Mcgill";
@@ -254,10 +348,14 @@ public class TestTutoringAppService {
 	/** @author Alba */
 	@Test
 	public void testGetTeachingInstitutionAttribute() {
-		assertEquals(1, service.getAllTeachingInstitutiont().size());
+		assertEquals(0, service.getAllTeachingInstitutiont().size());
 
 		String testName = "";
 		String name = "Mcgill";
+		
+		service.createTeachingInstitution(name);
+		
+		assertEquals(1, service.getAllTeachingInstitutiont().size());
 
 		try {
 			testName = service.getTeachingInstitution(name).getName();
@@ -271,42 +369,58 @@ public class TestTutoringAppService {
 	/** @author Alba */
 	@Test
 	public void testTeachingInstitutionAssosiation() {
-		assertEquals(1, service.getAllTeachingInstitutiont().size());
-		assertEquals(1, service.getAllSubject().size());
-		assertEquals(1, service.getAllCourse().size());
-
-		String nameSc = "Mcgill";
+		assertEquals(0, service.getAllTeachingInstitutiont().size());
+		assertEquals(0, service.getAllSubject().size());
+		assertEquals(0, service.getAllCourse().size());
+		
+		String unyName = "Mcgill";
+		String schoolName = "Mcgill";
 		String nameC = "Intro To Software ENG";
 		String courseCode = "ECSE321";
 		String nameSb = "Math";
+		
+		service.createTeachingInstitution(unyName);
+		service.createTeachingInstitution(schoolName);
+		
+		assertEquals(2, service.getAllTeachingInstitutiont().size());
+		
+		TeachingInstitution uny = service.getTeachingInstitution(unyName);
 
-		TeachingInstitution uny = service.getTeachingInstitution(nameSc);
-		Subject sbj = service.getSubject(nameSb);
+		service.createCourse(courseCode, nameC, uny);
+		
+		assertEquals(1, service.getAllCourse().size());
+
+		TeachingInstitution school = service.getTeachingInstitution(schoolName);
+		
+		service.createSubject(nameSb, school);
+		
+		assertEquals(1, service.getAllSubject().size());
+		
 		Course course = service.getCourse(courseCode, nameC);
+		Subject sbj = service.getSubject(nameSb);
 
-		course.setSchool(uny);
-		sbj.setSchool(uny);
-		TeachingInstitution school1 = null;
-		TeachingInstitution school2 = null;
+
+		Set<Course> courseTest = null;
+		Set<Subject> subjectTest = null;
 
 		try {
-			school1 = sbj.getSchool();
+			courseTest = uny.getCourse();
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		
+		try {
+			subjectTest = school.getSubject();
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
 
-		try {
-			school2 = course.getSchool();
-		} catch (IllegalArgumentException e) {
-			fail();
-		}
+		
 
-		assertEquals(uny, school1);
-		assertEquals(uny, school2);
+		assertEquals(course, courseTest);
+		assertEquals(sbj, subjectTest);
 
-	}
-	
-	
+	}	
 	
 	/** Test to create a private session request for a course
 	 * @author Helen
@@ -320,7 +434,6 @@ public class TestTutoringAppService {
 		boolean isCourse = true;
 
 		try {
-			service.createCourse("ECSE321", "Software Engineering", "McGill");
 			service.createStudent(username);
 			service.createPrivateRequest(username, course, isCourse);
 		} catch (IllegalArgumentException e) {

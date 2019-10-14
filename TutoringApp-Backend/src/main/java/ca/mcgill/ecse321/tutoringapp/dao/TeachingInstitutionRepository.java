@@ -10,7 +10,7 @@ import ca.mcgill.ecse321.tutoringapp.model.TeachingInstitution;
  *
  */
 public interface TeachingInstitutionRepository extends CrudRepository<TeachingInstitution, String> {
-	boolean existsByName(String name);
+	
 	TeachingInstitution findTeachingInstitutionByName(String name);
 
 }
