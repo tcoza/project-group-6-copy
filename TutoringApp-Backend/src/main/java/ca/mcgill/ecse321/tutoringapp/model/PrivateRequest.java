@@ -5,6 +5,9 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class PrivateRequest extends SessionRequest {
+	public PrivateRequest() {
+		super();
+	}
 	private ScheduledPrivateSession scheduledPrivateSession;
 
 	@OneToOne(mappedBy = "privateRequest")

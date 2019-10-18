@@ -7,6 +7,9 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class TeachingInstitution {
+	public TeachingInstitution() {
+		
+	}
 	private String name;
 
 	public void setName(String value) {

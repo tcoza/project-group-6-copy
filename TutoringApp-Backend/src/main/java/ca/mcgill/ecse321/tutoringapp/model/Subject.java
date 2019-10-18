@@ -9,6 +9,9 @@ import javax.persistence.ManyToMany;
 
 @Entity
 public class Subject {
+	public Subject() {
+		
+	}
 	private String name;
 
 	public void setName(String value) {
@@ -20,16 +23,16 @@ public class Subject {
 		return this.name;
 	}
 
-	private Set<Course> course;
+	//private Set<Course> course;
 
-	@OneToMany(mappedBy = "subject")
-	public Set<Course> getCourse() {
-		return this.course;
-	}
+//	@OneToMany(mappedBy = "subject")
+	//public Set<Course> getCourse() {
+	//	return this.course;
+//	}
 
-	public void setCourse(Set<Course> courses) {
-		this.course = courses;
-	}
+//	public void setCourse(Set<Course> courses) {
+//		this.course = courses;
+//	}
 
 	private TeachingInstitution school;
 
@@ -64,15 +67,5 @@ public class Subject {
 		this.request = requests;
 	}
 
-	private TutoringApplicationModel tutoringApplication;
-
-	@ManyToOne(optional = false)
-	public TutoringApplicationModel getTutoringApplication() {
-		return this.tutoringApplication;
-	}
-
-	public void setTutoringApplication(TutoringApplicationModel tutoringApplication) {
-		this.tutoringApplication = tutoringApplication;
-	}
 
 }

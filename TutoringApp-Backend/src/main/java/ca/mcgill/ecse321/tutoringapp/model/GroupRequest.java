@@ -5,6 +5,9 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class GroupRequest extends SessionRequest {
+	public GroupRequest() {
+		super();
+	}
 	private ScheduledGroupSession scheduledGroupSession;
 
 	@ManyToOne

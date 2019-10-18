@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.tutoringapp.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import java.sql.Time;
@@ -7,9 +8,14 @@ import java.util.Set;
 import javax.persistence.ManyToMany;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Offering {
+	public Offering() {
+		
+	}
 	private Weekday weekday;
 
 	public void setWeekday(Weekday value) {
@@ -26,6 +32,7 @@ public class Offering {
 		this.endTime = value;
 	}
 
+	@Column
 	public Time getEndTime() {
 		return this.endTime;
 	}
@@ -47,6 +54,7 @@ public class Offering {
 		this.startTime = value;
 	}
 
+	@Column
 	public Time getStartTime() {
 		return this.startTime;
 	}
@@ -62,15 +70,5 @@ public class Offering {
 		return this.id;
 	}
 
-	private TutoringApplicationModel tutoringApplication;
-
-	@ManyToOne(optional = false)
-	public TutoringApplicationModel getTutoringApplication() {
-		return this.tutoringApplication;
-	}
-
-	public void setTutoringApplication(TutoringApplicationModel tutoringApplication) {
-		this.tutoringApplication = tutoringApplication;
-	}
 
 }

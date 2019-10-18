@@ -5,11 +5,19 @@ import javax.persistence.Entity;
 import java.sql.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.OneToOne;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Evaluation {
+	
+	public Evaluation() {
+		
+	}
 	private EvaluationComment evaluationComment;
 
 	@OneToOne(mappedBy = "evaluation", cascade = { CascadeType.ALL })
@@ -37,6 +45,7 @@ public class Evaluation {
 		this.date = value;
 	}
 
+	@Column
 	public Date getDate() {
 		return this.date;
 	}

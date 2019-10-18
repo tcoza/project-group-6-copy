@@ -6,6 +6,9 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class ScheduledPrivateSession extends ScheduledSession {
+	public ScheduledPrivateSession() {
+		super();
+	}
 	private SmallRoom room;
 
 	@ManyToOne(optional = false)

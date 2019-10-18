@@ -5,6 +5,9 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class TutorEvaluation extends Evaluation {
+	public TutorEvaluation() {
+		super();
+	}
 	private Student author;
 
 	@ManyToOne(optional = false)

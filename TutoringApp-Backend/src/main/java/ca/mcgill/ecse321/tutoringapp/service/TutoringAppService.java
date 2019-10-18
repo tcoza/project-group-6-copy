@@ -104,9 +104,21 @@ public class TutoringAppService {
 	// AppUser
 	// Tutor
 	// Student
-	public void createStudent(String name) {
-		// TODO Auto-generated method stub
-		
+	@Transactional
+	public Student createStudent(String username, String firstname, String lastname) {
+		if (username == null || username.trim().length() == 0)
+			throw new IllegalArgumentException("Username cannot be empty!");
+		if (firstname == null || firstname.trim().length() == 0)
+			throw new IllegalArgumentException("First name cannot be empty!");
+		if (lastname == null || lastname.trim().length() == 0)
+			throw new IllegalArgumentException("Last name cannot be empty!");
+
+		Student student = new Student();
+		student.setUsername(username);
+		student.setFirstName(firstname);
+		student.setLastName(lastname);
+		studentRepository.save(student);
+		return student;
 	}
 	// Manager
 
@@ -129,6 +141,7 @@ public class TutoringAppService {
 	 * @param isForCourse true if making a course request, false for making a subject request
 	 * @return 
 	 */
+	@Transactional
 	public PrivateRequest createPrivateRequest(String username, String courseOrSubject, boolean isForCourse) {
 
 		if (username == null || username.trim().length() == 0 || !studentRepository.existsByUsername(username)) {
@@ -162,6 +175,7 @@ public class TutoringAppService {
 	}
 
 	/** @author Helen */
+	@Transactional
 	public PrivateRequest getPrivateRequest(int id) {
 		if (!privateRequestRepository.existsById(id)) {
 			throw new IllegalArgumentException("Invalid PrivateSessionRequest id or request does not exist!");
@@ -183,6 +197,7 @@ public class TutoringAppService {
 	 * @param isForCourse true if making a course request, false for making a subject request
 	 * @return 
 	 */
+	@Transactional
 	public GroupRequest createGroupRequest(String username, String courseOrSubject, boolean isForCourse) {
 
 		if (username == null || username.trim().length() == 0 || !studentRepository.existsByUsername(username)) {
@@ -217,6 +232,7 @@ public class TutoringAppService {
 
 
 	/** @author Helen */
+	@Transactional
 	public GroupRequest getGroupRequest(int id) {
 		if (!privateRequestRepository.existsById(id)) {
 			throw new IllegalArgumentException("Invalid GroupSessionRequest id or request does not exist!");
@@ -464,6 +480,7 @@ public class TutoringAppService {
 	}
 	
 	/** @author Alba */
+	@Transactional
 	public StudentEvaluation createStudentEvaluation(int rating, Student student, Tutor tutor) {
 		if (rating == 0) {
 			throw new IllegalArgumentException("Rating cannot be empty!");

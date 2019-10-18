@@ -6,6 +6,10 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Student extends AppUser {
+	
+	public Student() {
+		super();
+	}
 	private Boolean isActiveAccount = true;
 
 	public void setIsActiveAccount(Boolean value) {

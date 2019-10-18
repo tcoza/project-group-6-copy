@@ -6,6 +6,9 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class SmallRoom extends Room {
+	public SmallRoom() {
+		super();
+	}
 	private Set<ScheduledPrivateSession> scheduledPrivateSession;
 
 	@OneToMany(mappedBy = "room")

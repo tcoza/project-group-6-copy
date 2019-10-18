@@ -1,22 +1,30 @@
 package ca.mcgill.ecse321.tutoringapp.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
 import javax.persistence.ManyToOne;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
 
 import java.sql.Date;
 import java.util.Set;
 import javax.persistence.ManyToMany;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class SessionRequest {
+	public SessionRequest() {
+		
+	}
 	private Date dateCreated;
 
 	public void setDateCreated(Date value) {
 		this.dateCreated = value;
 	}
 
+	@Column
 	public Date getDateCreated() {
 		return this.dateCreated;
 	}
@@ -86,15 +94,6 @@ public class SessionRequest {
 		this.requestedCourse = requestedCourse;
 	}
 
-	private TutoringApplicationModel tutoringApplication;
-
-	@ManyToOne(optional = false)
-	public TutoringApplicationModel getTutoringApplication() {
-		return this.tutoringApplication;
-	}
-
-	public void setTutoringApplication(TutoringApplicationModel tutoringApplication) {
-		this.tutoringApplication = tutoringApplication;
-	}
+	
 
 }

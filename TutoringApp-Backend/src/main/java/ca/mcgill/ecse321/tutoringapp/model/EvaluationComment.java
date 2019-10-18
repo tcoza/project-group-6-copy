@@ -6,6 +6,9 @@ import javax.persistence.Id;
 
 @Entity
 public class EvaluationComment {
+	public EvaluationComment() {
+		
+	}
 	private String comment;
 
 	public void setComment(String value) {

@@ -1,11 +1,21 @@
 package ca.mcgill.ecse321.tutoringapp.model;
 
+import java.sql.Date;
+import java.sql.Time;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class ScheduledSession {
+	public ScheduledSession() {
+		
+	}
 	private int id;
 
 	public void setId(int value) {
@@ -27,33 +37,36 @@ public class ScheduledSession {
 		return this.isFull;
 	}
 
-	private String/* No type specified! */ date;
+	private Date date;
 
-	public void setDate(String/* No type specified! */ value) {
+	public void setDate(Date value) {
 		this.date = value;
 	}
 
-	public String/* No type specified! */ getDate() {
+	@Column
+	public Date getDate() {
 		return this.date;
 	}
 
-	private String/* No type specified! */ startTime;
+	private Time startTime;
 
-	public void setStartTime(String/* No type specified! */ value) {
+	public void setStartTime(Time value) {
 		this.startTime = value;
 	}
 
-	public String/* No type specified! */ getStartTime() {
+	@Column
+	public Time getStartTime() {
 		return this.startTime;
 	}
 
-	private String/* No type specified! */ endTime;
+	private Time endTime;
 
-	public void setEndTime(String/* No type specified! */ value) {
+	public void setEndTime(Time value) {
 		this.endTime = value;
 	}
 
-	public String/* No type specified! */ getEndTime() {
+	@Column
+	public Time getEndTime() {
 		return this.endTime;
 	}
 
@@ -68,15 +81,5 @@ public class ScheduledSession {
 		this.assignedTutor = assignedTutor;
 	}
 
-	private TutoringApplicationModel tutoringApplication;
-
-	@ManyToOne(optional = false)
-	public TutoringApplicationModel getTutoringApplication() {
-		return this.tutoringApplication;
-	}
-
-	public void setTutoringApplication(TutoringApplicationModel tutoringApplication) {
-		this.tutoringApplication = tutoringApplication;
-	}
 
 }

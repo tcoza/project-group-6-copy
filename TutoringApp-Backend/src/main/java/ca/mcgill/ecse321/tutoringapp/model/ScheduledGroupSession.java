@@ -7,6 +7,9 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class ScheduledGroupSession extends ScheduledSession {
+	public ScheduledGroupSession() {
+		super();
+	}
 	private ClassRoom room;
 
 	@ManyToOne(optional = false)

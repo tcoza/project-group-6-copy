@@ -1,12 +1,11 @@
 package ca.mcgill.ecse321.tutoringapp.dao;
 
+import java.sql.Time;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import ca.mcgill.ecse321.tutoringapp.model.ClassRoom;
 import ca.mcgill.ecse321.tutoringapp.model.GroupRequest;
-import ca.mcgill.ecse321.tutoringapp.model.PrivateRequest;
 import ca.mcgill.ecse321.tutoringapp.model.Room;
 import ca.mcgill.ecse321.tutoringapp.model.ScheduledGroupSession;
 import ca.mcgill.ecse321.tutoringapp.model.Tutor;
@@ -22,7 +21,7 @@ public interface ScheduledGroupSessionRepository extends CrudRepository<Schedule
 	
 
 	List<ScheduledGroupSession> findByRoom (Room room);
-	List<ScheduledGroupSession> findByStartTime (String startTime);
+	List<ScheduledGroupSession> findByStartTime (Time startTime);
 	List<ScheduledGroupSession> findByAssignedTutor (Tutor tutor);
 	List<ScheduledGroupSession> findByGroupRequest (GroupRequest groupRequest);
 	List<ScheduledGroupSession> findByIsFull (boolean isFull);

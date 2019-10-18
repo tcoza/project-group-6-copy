@@ -117,26 +117,36 @@ public class TestTutoringAppService {
 		privateRequestRepository.deleteAll();
 		teachingInstitutionRepository.deleteAll();
 	}
-
+	
+	/** @author Helen */
+	@Test
+	public void testCreateStudent() {
+		assertEquals(0, studentRepository.count());
+		
+		String username = "testusername";
+		String first = "First";
+		String last = "Last";
+		
+		service.createStudent(username, first, last);
+		assertEquals(studentRepository.findByUsername(username).getUsername(), username);
+		assertEquals(studentRepository.findByUsername(username).getFirstName(), first);
+		assertEquals(studentRepository.findByUsername(username).getLastName(), last);
+		
+	}
+	
 	/** @author Alba */
 	@SuppressWarnings("null")
 	@Test
 	public void testCreateCourse() {
 		assertEquals(0, service.getAllCourse().size());
-
-		String name = "Intro To Software ENG";
-		String courseCode = "ECSE321";
-		
 		assertEquals(0, service.getAllTeachingInstitution().size());
 		
+		String name = "Intro To Software ENG";
+		String courseCode = "ECSE321";
 		String nameS = "Mcgill";
 		
 		service.createTeachingInstitution(nameS);
-		
-		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
-		
-		TeachingInstitution school = allSchools.get(0);
-		
+		TeachingInstitution school = service.getAllTeachingInstitution().get(0);
 
 		try {
 			service.createCourse(courseCode, name, school.getName());
@@ -208,15 +218,12 @@ public class TestTutoringAppService {
 		String nameS = "Mcgill";
 		
 		service.createTeachingInstitution(nameS);
-		
 		assertEquals(1, service.getAllTeachingInstitution().size());
-
-		
 		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 		
-		String school = allSchools.get(0).getName();
+		TeachingInstitution school = allSchools.get(0);
 		
-		service.createCourse(courseCode, name, school);
+		service.createCourse(courseCode, name, school.getName());
 		
 		assertEquals(1, service.getAllCourse().size());
 		
@@ -384,7 +391,7 @@ public class TestTutoringAppService {
 		assertEquals(0, service.getAllCourse().size());
 		
 		String unyName = "Mcgill";
-		String schoolName = "Mcgill";
+		String schoolName = "Happy HighSchool";
 		String nameC = "Intro To Software ENG";
 		String courseCode = "ECSE321";
 		String nameSb = "Math";
@@ -444,7 +451,7 @@ public class TestTutoringAppService {
 		boolean isCourse = true;
 
 		try {
-			service.createStudent(username);
+			service.createStudent(username, "Helen", "Lin");
 			service.createPrivateRequest(username, course, isCourse);
 		} catch (IllegalArgumentException e) {
 			fail();
@@ -468,7 +475,7 @@ public class TestTutoringAppService {
 		boolean isCourse = false;
 
 		try {
-			service.createStudent(username);
+			service.createStudent(username, "Bob", "Test");
 			service.createGroupRequest(username, subject, isCourse);
 		} catch (IllegalArgumentException e) {
 			fail();
@@ -482,7 +489,8 @@ public class TestTutoringAppService {
 	}
 
 	/**
-	 * Test that group request repository can persist information to students @author Helen */
+	 * Test that group request repository can persist information to students
+	 * @author Helen */
 	@Test
 	public void testGetGroupRequestAttributeAndAssociation() {
 		assertEquals(0, service.getAllGroupRequests());
@@ -490,7 +498,7 @@ public class TestTutoringAppService {
 		String name = "testUser1";
 		String course = "MATH240"; 
 		boolean isCourse = true;
-		service.createStudent(name);
+		service.createStudent(name, "TestUser", "TestLastName");
 		GroupRequest request = service.createGroupRequest(name, course, isCourse);
 
 		String testCourseCode="";

@@ -7,6 +7,9 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Tutor extends AppUser {
+	public Tutor() {
+		super();
+	}
 	private TutorStatus status = TutorStatus.PENDING;
 
 	public void setStatus(TutorStatus value) {
