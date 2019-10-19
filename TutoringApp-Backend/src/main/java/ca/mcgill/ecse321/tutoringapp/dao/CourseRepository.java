@@ -11,6 +11,6 @@ import ca.mcgill.ecse321.tutoringapp.model.Course;
  */
 public interface CourseRepository extends CrudRepository<Course,String> {
 
-	Course findCourseByName(String name);	
+	Course findCourseByCourseCode(String coursecode);	
 }
 

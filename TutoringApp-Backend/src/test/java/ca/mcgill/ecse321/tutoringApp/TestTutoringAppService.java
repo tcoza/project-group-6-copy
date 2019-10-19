@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,19 +66,17 @@ public class TestTutoringAppService {
 	@Autowired
 	private TutorEvaluationRepository tutorEvaluationRepository;
 	@Autowired
-	private GroupRequestRepository groupSessionRepository;
-	@Autowired
 	private ManagerRepository managerRepository;
 	@Autowired
 	private OfferingRepository offeringRepository;
-	@Autowired
-	private ScheduledPrivateSessionRepository privateSessionRepository;
 	@Autowired
 	private RoomRepository roomRepository;
 	@Autowired
 	private ScheduledSessionRepository scheduledSessionRepository;
 	@Autowired
 	private ScheduledGroupSessionRepository scheduledGroupSessionRepository;
+	@Autowired
+	private ScheduledPrivateSessionRepository scheduledPrivateSessionRepository;
 	@Autowired
 	private SmallRoomRepository smallRoomRepository;
 	@Autowired
@@ -92,31 +91,44 @@ public class TestTutoringAppService {
 	private PrivateRequestRepository privateRequestRepository;
 	@Autowired
 	private SessionRequestRepository sessionRequestRepository;
+	
 
 	/** @author Alba */
 	@Before
+	@After
 	public void clearDatabase() {
+		
+
 		appUserRepository.deleteAll();
-		classRoomRepository.deleteAll();
-		courseRepository.deleteAll();
-		evaluationCommentRepository.deleteAll();
-		evaluationRepository.deleteAll();
-		groupSessionRepository.deleteAll();
-		managerRepository.deleteAll();
-		offeringRepository.deleteAll();
-		privateSessionRepository.deleteAll();
-		roomRepository.deleteAll();
-		scheduledSessionRepository.deleteAll();
-		smallRoomRepository.deleteAll();
 		studentRepository.deleteAll();
-		subjectRepository.deleteAll();
 		tutorRepository.deleteAll();
+		managerRepository.deleteAll();
+		
+		courseRepository.deleteAll();
+		subjectRepository.deleteAll();
+		teachingInstitutionRepository.deleteAll();
+		
+		classRoomRepository.deleteAll();
+		smallRoomRepository.deleteAll();
+		roomRepository.deleteAll();
+		//order matters to avoid inconsistencies
+		evaluationRepository.deleteAll();
+		evaluationCommentRepository.deleteAll();
+		tutorEvaluationRepository.deleteAll();
+		studentEvaluationRepository.deleteAll();
+		
+		scheduledSessionRepository.deleteAll();
 		scheduledGroupSessionRepository.deleteAll();
+		scheduledPrivateSessionRepository.deleteAll();
+		
 		sessionRequestRepository.deleteAll();
 		groupRequestRepository.deleteAll();
 		privateRequestRepository.deleteAll();
-		teachingInstitutionRepository.deleteAll();
+		offeringRepository.deleteAll();
+		
+
 	}
+	
 	
 	/** @author Helen */
 	@Test
@@ -323,19 +335,15 @@ public class TestTutoringAppService {
 		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
 		
 		String school = allSchools.get(0).getName();
-		
 		service.createSubject(name, school);
-		
 		assertEquals(1, service.getAllSubject().size());
-		
 		List<Subject> subjects = service.getAllSubject();
 		
 		Subject sbj = subjects.get(0);
-		
-		TeachingInstitution uny = null;
+		String uny = null;
 
 		try {
-			TeachingInstitution uni = sbj.getSchool();
+			uny = sbj.getSchool().getName();
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
@@ -448,10 +456,13 @@ public class TestTutoringAppService {
 
 		String username = "helen-m-lin";
 		String course = "ECSE321";
+		String courseName = "Software Eng";
+		String school = "McGill";
 		boolean isCourse = true;
 
 		try {
 			service.createStudent(username, "Helen", "Lin");
+			service.createCourse(course, courseName , school);
 			service.createPrivateRequest(username, course, isCourse);
 		} catch (IllegalArgumentException e) {
 			fail();
@@ -523,22 +534,32 @@ public class TestTutoringAppService {
 	public void testSessionRequestAssociation() {
 		assertEquals(0, service.getAllSessionRequests().size());
 
-		String name = "user1";
+		String username = "user1";
+		String first = "testFirst";
+		String last = "testLast";
 		String c1 = "ECSE321";
+		String c1Name = "SoftwareEng";
 		String c2 = "Math240";
+		String c2Name = "Discrete Structures";
+		String school = "McGill University";
 
-		Student testStudent = new Student();
+		Student testStudent = service.createStudent(username,first, last);
+		service.createTeachingInstitution(school);
+		service.createCourse(c1, c1Name, school);
+		service.createCourse(c2, c2Name, school);
 		try {
-			GroupRequest r1 = service.createGroupRequest(name, c1, true);
-			PrivateRequest r2 = service.createPrivateRequest(name, c2, true);
-			testStudent = studentRepository.findByUsername(name);
+			service.createGroupRequest(username, c1, true);
+			service.createPrivateRequest(username, c2, true);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
 
+		assertEquals(2, courseRepository.count());
 		assertEquals(1, studentRepository.count());
+		assertEquals(2, service.getAllSessionRequests().size());
 		assertEquals(2, sessionRequestRepository.findByRequestor(testStudent).size());
-		assertEquals(testStudent, sessionRequestRepository.findByRequestor(testStudent).get(0));
+		sessionRequestRepository.deleteAll();
+		
 	}
 
 }

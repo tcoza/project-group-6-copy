@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.tutoringapp.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Set;
@@ -23,7 +24,7 @@ public class TeachingInstitution {
 
 	private Set<Course> course;
 
-	@OneToMany(mappedBy = "school")
+	@OneToMany(mappedBy = "school", cascade = { CascadeType.ALL })
 	public Set<Course> getCourse() {
 		return this.course;
 	}
@@ -44,7 +45,7 @@ public class TeachingInstitution {
 
 	private Set<Subject> subject;
 
-	@OneToMany(mappedBy = "school")
+	@OneToMany(mappedBy = "school", cascade = { CascadeType.ALL })
 	public Set<Subject> getSubject() {
 		return this.subject;
 	}

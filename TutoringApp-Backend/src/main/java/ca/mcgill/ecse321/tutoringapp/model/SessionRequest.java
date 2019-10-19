@@ -52,7 +52,7 @@ public class SessionRequest {
 
 	private Student requestor;
 
-	@ManyToOne(optional = false)
+	@ManyToOne
 	public Student getRequestor() {
 		return this.requestor;
 	}

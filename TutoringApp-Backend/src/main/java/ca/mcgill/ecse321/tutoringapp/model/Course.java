@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.tutoringapp.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -44,17 +45,6 @@ public class Course {
 		this.school = school;
 	}
 
-	//private Subject subject;
-
-	//@ManyToOne(optional = false)
-	//public Subject getSubject() {
-	//	return this.subject;
-	//}
-
-	//public void setSubject(Subject subject) {
-		//this.subject = subject;
-	//}
-
 	private Set<Tutor> qualifiedTutor;
 
 	@ManyToMany(mappedBy = "course")
@@ -68,7 +58,7 @@ public class Course {
 
 	private Set<SessionRequest> request;
 
-	@OneToMany(mappedBy = "requestedCourse")
+	@OneToMany(mappedBy = "requestedCourse", cascade = CascadeType.ALL, orphanRemoval=true)
 	public Set<SessionRequest> getRequest() {
 		return this.request;
 	}

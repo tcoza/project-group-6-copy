@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.tutoringapp.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.util.Set;
 import javax.persistence.ManyToMany;
@@ -33,7 +34,7 @@ public class Tutor extends AppUser {
 
 	private Set<TutorEvaluation> tutorEvaluation;
 
-	@OneToMany(mappedBy = "recipient")
+	@OneToMany(mappedBy = "recipient", cascade = { CascadeType.ALL }, orphanRemoval=true)
 	public Set<TutorEvaluation> getTutorEvaluation() {
 		return this.tutorEvaluation;
 	}
@@ -44,7 +45,7 @@ public class Tutor extends AppUser {
 
 	private Set<StudentEvaluation> studentEvaluation;
 
-	@OneToMany(mappedBy = "author")
+	@OneToMany(mappedBy = "author", cascade = { CascadeType.ALL })
 	public Set<StudentEvaluation> getStudentEvaluation() {
 		return this.studentEvaluation;
 	}

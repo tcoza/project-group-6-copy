@@ -17,9 +17,9 @@ import ca.mcgill.ecse321.tutoringapp.dao.GroupRequestRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ManagerRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.OfferingRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.PrivateRequestRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.ScheduledPrivateSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.RoomRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ScheduledGroupSessionRepository;
+import ca.mcgill.ecse321.tutoringapp.dao.ScheduledPrivateSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.ScheduledSessionRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SessionRequestRepository;
 import ca.mcgill.ecse321.tutoringapp.dao.SmallRoomRepository;
@@ -33,7 +33,6 @@ import ca.mcgill.ecse321.tutoringapp.model.Course;
 import ca.mcgill.ecse321.tutoringapp.model.Evaluation;
 import ca.mcgill.ecse321.tutoringapp.model.GroupRequest;
 import ca.mcgill.ecse321.tutoringapp.model.PrivateRequest;
-import ca.mcgill.ecse321.tutoringapp.model.ScheduledSession;
 import ca.mcgill.ecse321.tutoringapp.model.SessionRequest;
 import ca.mcgill.ecse321.tutoringapp.model.Student;
 import ca.mcgill.ecse321.tutoringapp.model.StudentEvaluation;
@@ -63,19 +62,17 @@ public class TutoringAppService {
 	@Autowired
 	TutorEvaluationRepository tutorEvaluationRepository;
 	@Autowired
-	GroupRequestRepository groupSessionRepository;
-	@Autowired
 	ManagerRepository managerRepository;
 	@Autowired
 	OfferingRepository offeringRepository;
-	@Autowired
-	ScheduledPrivateSessionRepository privateSessionRepository;
 	@Autowired
 	RoomRepository roomRepository;
 	@Autowired
 	ScheduledSessionRepository scheduledSessionRepository;
 	@Autowired
 	ScheduledGroupSessionRepository scheduledGroupSessionRepository;
+	@Autowired
+	ScheduledPrivateSessionRepository scheduledPrivateSessionRepository;
 	@Autowired
 	SmallRoomRepository smallRoomRepository;
 	@Autowired
@@ -162,7 +159,7 @@ public class TutoringAppService {
 			if (!courseRepository.existsById(courseOrSubject)) {
 				throw new IllegalArgumentException("Invalid course requested!");
 			}
-			request.setRequestedCourse(courseRepository.findCourseByName(courseOrSubject));
+			request.setRequestedCourse(courseRepository.findCourseByCourseCode(courseOrSubject));
 		} else {
 			if (!subjectRepository.existsById(courseOrSubject)) {
 				throw new IllegalArgumentException("Invalid subject requested!");
@@ -218,7 +215,7 @@ public class TutoringAppService {
 			if (!courseRepository.existsById(courseOrSubject)) {
 				throw new IllegalArgumentException("Invalid course requested!");
 			}
-			request.setRequestedCourse(courseRepository.findCourseByName(courseOrSubject));
+			request.setRequestedCourse(courseRepository.findCourseByCourseCode(courseOrSubject));
 		} else {
 			if (!subjectRepository.existsById(courseOrSubject)) {
 				throw new IllegalArgumentException("Invalid subject requested!");
@@ -299,7 +296,7 @@ public class TutoringAppService {
 			throw new IllegalArgumentException("Course code cannot be empty!");
 		}
 
-		Course course = courseRepository.findCourseByName(courseCode);
+		Course course = courseRepository.findCourseByCourseCode(courseCode);
 		return course;
 	}
 

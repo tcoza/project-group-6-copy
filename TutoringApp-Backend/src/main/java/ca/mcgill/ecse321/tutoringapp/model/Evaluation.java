@@ -20,7 +20,7 @@ public class Evaluation {
 	}
 	private EvaluationComment evaluationComment;
 
-	@OneToOne(mappedBy = "evaluation", cascade = { CascadeType.ALL })
+	@OneToOne(mappedBy = "evaluation", cascade = { CascadeType.ALL }, orphanRemoval = true)
 	public EvaluationComment getEvaluationComment() {
 		return this.evaluationComment;
 	}
