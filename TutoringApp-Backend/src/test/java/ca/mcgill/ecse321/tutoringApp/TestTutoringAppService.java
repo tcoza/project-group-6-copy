@@ -98,19 +98,6 @@ public class TestTutoringAppService {
 	@After
 	public void clearDatabase() {
 		
-
-		appUserRepository.deleteAll();
-		studentRepository.deleteAll();
-		tutorRepository.deleteAll();
-		managerRepository.deleteAll();
-		
-		courseRepository.deleteAll();
-		subjectRepository.deleteAll();
-		teachingInstitutionRepository.deleteAll();
-		
-		classRoomRepository.deleteAll();
-		smallRoomRepository.deleteAll();
-		roomRepository.deleteAll();
 		//order matters to avoid inconsistencies
 		evaluationRepository.deleteAll();
 		evaluationCommentRepository.deleteAll();
@@ -127,6 +114,19 @@ public class TestTutoringAppService {
 		offeringRepository.deleteAll();
 		
 
+
+		appUserRepository.deleteAll();
+		studentRepository.deleteAll();
+		tutorRepository.deleteAll();
+		managerRepository.deleteAll();
+		
+		courseRepository.deleteAll();
+		subjectRepository.deleteAll();
+		teachingInstitutionRepository.deleteAll();
+		
+		classRoomRepository.deleteAll();
+		smallRoomRepository.deleteAll();
+		roomRepository.deleteAll();
 	}
 	
 	
