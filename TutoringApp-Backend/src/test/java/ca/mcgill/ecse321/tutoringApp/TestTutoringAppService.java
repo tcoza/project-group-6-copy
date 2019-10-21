@@ -54,6 +54,12 @@ public class TestTutoringAppService {
 	@Autowired
 	private AppUserRepository appUserRepository;
 	@Autowired
+	private StudentRepository studentRepository;
+	@Autowired
+	private ManagerRepository managerRepository;
+	@Autowired
+	private TutorRepository tutorRepository;
+	@Autowired
 	private ClassRoomRepository classRoomRepository;
 	@Autowired
 	private CourseRepository courseRepository;
@@ -65,8 +71,6 @@ public class TestTutoringAppService {
 	private StudentEvaluationRepository studentEvaluationRepository;
 	@Autowired
 	private TutorEvaluationRepository tutorEvaluationRepository;
-	@Autowired
-	private ManagerRepository managerRepository;
 	@Autowired
 	private OfferingRepository offeringRepository;
 	@Autowired
@@ -80,11 +84,7 @@ public class TestTutoringAppService {
 	@Autowired
 	private SmallRoomRepository smallRoomRepository;
 	@Autowired
-	private StudentRepository studentRepository;
-	@Autowired
 	private SubjectRepository subjectRepository;
-	@Autowired
-	private TutorRepository tutorRepository;
 	@Autowired
 	private GroupRequestRepository groupRequestRepository;
 	@Autowired

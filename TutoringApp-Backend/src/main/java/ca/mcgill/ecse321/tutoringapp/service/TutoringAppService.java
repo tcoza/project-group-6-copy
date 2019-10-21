@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.tutoringapp.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -32,6 +33,7 @@ import ca.mcgill.ecse321.tutoringapp.dao.TutorRepository;
 import ca.mcgill.ecse321.tutoringapp.model.Course;
 import ca.mcgill.ecse321.tutoringapp.model.Evaluation;
 import ca.mcgill.ecse321.tutoringapp.model.GroupRequest;
+import ca.mcgill.ecse321.tutoringapp.model.Manager;
 import ca.mcgill.ecse321.tutoringapp.model.PrivateRequest;
 import ca.mcgill.ecse321.tutoringapp.model.SessionRequest;
 import ca.mcgill.ecse321.tutoringapp.model.Student;
@@ -40,6 +42,7 @@ import ca.mcgill.ecse321.tutoringapp.model.Subject;
 import ca.mcgill.ecse321.tutoringapp.model.TeachingInstitution;
 import ca.mcgill.ecse321.tutoringapp.model.Tutor;
 import ca.mcgill.ecse321.tutoringapp.model.TutorEvaluation;
+import ca.mcgill.ecse321.tutoringapp.model.TutorStatus;
 
 @Service
 public class TutoringAppService {
@@ -49,6 +52,12 @@ public class TutoringAppService {
 	TeachingInstitutionRepository teachingInstitutionRepository;
 	@Autowired
 	AppUserRepository appUserRepository;
+	@Autowired
+	StudentRepository studentRepository;
+	@Autowired
+	ManagerRepository managerRepository;
+	@Autowired
+	TutorRepository tutorRepository;
 	@Autowired
 	ClassRoomRepository classRoomRepository;
 	@Autowired
@@ -62,8 +71,6 @@ public class TutoringAppService {
 	@Autowired
 	TutorEvaluationRepository tutorEvaluationRepository;
 	@Autowired
-	ManagerRepository managerRepository;
-	@Autowired
 	OfferingRepository offeringRepository;
 	@Autowired
 	RoomRepository roomRepository;
@@ -76,11 +83,7 @@ public class TutoringAppService {
 	@Autowired
 	SmallRoomRepository smallRoomRepository;
 	@Autowired
-	StudentRepository studentRepository;
-	@Autowired
 	SubjectRepository subjectRepository;
-	@Autowired
-	TutorRepository tutorRepository;
 	@Autowired
 	GroupRequestRepository groupRequestRepository;
 	@Autowired
@@ -98,9 +101,72 @@ public class TutoringAppService {
 	}
 
 	// TODO: Traian's services
-	// AppUser
+	
+	// to do: business methods for:
+		//TODO: delete student
+		//TODO: check user stories/functional requirements
+	
 	// Tutor
+	/**@author = Helen **/
+	@Transactional
+	public Tutor createTutor(String username, String firstname, String lastname) {
+		if (username == null || username.trim().length() == 0)
+			throw new IllegalArgumentException("Username cannot be empty!");
+		if (firstname == null || firstname.trim().length() == 0)
+			throw new IllegalArgumentException("First name cannot be empty!");
+		if (lastname == null || lastname.trim().length() == 0)
+			throw new IllegalArgumentException("Last name cannot be empty!");
+
+		Tutor tutor = new Tutor();
+		tutor.setUsername(username);
+		tutor.setFirstName(firstname);
+		tutor.setLastName(lastname);
+		tutorRepository.save(tutor);
+		return tutor;
+	}
+	
+	/**@author = Helen **/
+	@Transactional
+	public void changeTutorStatus(String username, String status) {
+		if (!tutorRepository.existsByUsername(username)) 
+			throw new IllegalArgumentException("This tutor does not exist!");
+	
+		Tutor tutor = tutorRepository.findTutorByUsername(username);
+		if (status == "PENDING") {
+			tutor.setStatus(TutorStatus.PENDING);
+		} else if (status == "VERIFIED") {
+			tutor.setStatus(TutorStatus.VERIFIED);
+		} else if (status == "TERMINATED") {
+			tutor.setStatus(TutorStatus.TERMINATED);
+			
+			//TODO: also remove all qualified courses from this tutor because they won't teach anymore
+		}
+		tutorRepository.save(tutor);
+		return;
+	}
+	
+	/**@author = Helen **/
+	@Transactional
+	public void addQualifiedCourseForTutor(String username, String courseCode) {
+		if (username == null || username.trim().length() == 0)
+			throw new IllegalArgumentException("Username cannot be empty!");
+		if (!tutorRepository.existsByUsername(username)) 
+			throw new IllegalArgumentException("This tutor does not exist!");
+		if (!courseRepository.existsByCourseCode(courseCode)) {
+			throw new IllegalArgumentException("Course to add to tutor does not exist!");
+		}
+		Tutor tutor = tutorRepository.findTutorByUsername(username);
+		Set<Course> qualifiedcourses = tutor.getCourse();
+		Course course = courseRepository.findCourseByCourseCode(courseCode);
+		qualifiedcourses.add(course);
+		
+		tutorRepository.save(tutor);//update tutor
+		courseRepository.save(course); //update course
+		return;
+	}
+	
 	// Student
+	/**@author Helen **/
 	@Transactional
 	public Student createStudent(String username, String firstname, String lastname) {
 		if (username == null || username.trim().length() == 0)
@@ -117,17 +183,36 @@ public class TutoringAppService {
 		studentRepository.save(student);
 		return student;
 	}
-	// Manager
+	
+	//manager
+	/**@author Helen **/
+	@Transactional
+	public Manager createManager(String username, String firstname, String lastname) {
+		if (username == null || username.trim().length() == 0)
+			throw new IllegalArgumentException("Username cannot be empty!");
+		if (firstname == null || firstname.trim().length() == 0)
+			throw new IllegalArgumentException("First name cannot be empty!");
+		if (lastname == null || lastname.trim().length() == 0)
+			throw new IllegalArgumentException("Last name cannot be empty!");
+
+		Manager manager = new Manager();
+		manager.setUsername(username);
+		manager.setFirstName(firstname);
+		manager.setLastName(lastname);
+		managerRepository.save(manager);
+		return manager;
+	}
+	
 
 	// TODO: Odero's services
-	// Room
-	// SmallRoom
-	// ClassRoom
+	// TODO: create Room given a type
+	// TODO: create SmallRoom, max 10
+	// TODO: create ClassRoom, max 3
 
 	// TODO: Arianit's services
-	// ScheduledGroupSession
-	// ScheduledPrivateSession
-	// ScheduledSession
+	// TODO: ScheduledGroupSession
+	// TODO: ScheduledPrivateSession
+	// TODO: ScheduledSession given a type
 
 	/********* START of SessionRequest, GroupSessionRequest, PrivateSessionRequest ***************/
 	/**
@@ -336,6 +421,8 @@ public class TutoringAppService {
 		
 	}
 
+	//TODO: add type parameter to create Teaching Institution (must be UNIVERSITY, CEGEP, OTHER)
+	
 	/** @author Alba */
 	@Transactional
 	public Subject getSubject(String name) {
@@ -564,6 +651,9 @@ public class TutoringAppService {
 		return toList(evaluationRepository.findAll());
 	}
 
+	
+	//TODO: get a comment of an given eval id
+	//TODO: delete a comment of a given eval id
 	
 	/********** END of EVALUATION *********/
 	

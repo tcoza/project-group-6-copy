@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import ca.mcgill.ecse321.tutoringapp.model.Room;
 import ca.mcgill.ecse321.tutoringapp.model.ScheduledPrivateSession;
@@ -14,6 +15,7 @@ import ca.mcgill.ecse321.tutoringapp.model.Tutor;
  * @author Arianit
  *
  */
+@RepositoryRestResource(collectionResourceRel = "scheduledprivatesessions", path = "scheduledprivatesessions")
 public interface ScheduledPrivateSessionRepository extends CrudRepository<ScheduledPrivateSession, Integer> {
 	
 	long count();

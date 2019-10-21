@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.tutoringapp.dao;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import ca.mcgill.ecse321.tutoringapp.model.Course;
 import ca.mcgill.ecse321.tutoringapp.model.GroupRequest;
@@ -15,6 +16,7 @@ import ca.mcgill.ecse321.tutoringapp.model.Subject;
  * @author Helen
  *
  */
+@RepositoryRestResource(collectionResourceRel = "grouprequests", path = "grouprequests")
 public interface GroupRequestRepository extends CrudRepository<GroupRequest, Integer> {
 
 	GroupRequest findById(int id);

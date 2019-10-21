@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.tutoringapp.dao;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import ca.mcgill.ecse321.tutoringapp.model.Offering;
 import ca.mcgill.ecse321.tutoringapp.model.SessionRequest;
@@ -12,6 +13,7 @@ import ca.mcgill.ecse321.tutoringapp.model.SessionRequest;
  * @author Helen
  *
  */
+@RepositoryRestResource(collectionResourceRel = "offerings", path = "offerings")
 public interface OfferingRepository extends CrudRepository<Offering, Integer> {
 	// total offerings by the company
 	long count();
