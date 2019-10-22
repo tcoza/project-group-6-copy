@@ -6,41 +6,14 @@ import static org.junit.Assert.fail;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import ca.mcgill.ecse321.tutoringapp.dao.AppUserRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.ClassRoomRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.CourseRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.EvaluationCommentRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.EvaluationRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.GroupRequestRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.ManagerRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.OfferingRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.PrivateRequestRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.ScheduledPrivateSessionRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.RoomRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.ScheduledGroupSessionRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.ScheduledSessionRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.SessionRequestRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.SmallRoomRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.StudentEvaluationRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.StudentRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.SubjectRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.TeachingInstitutionRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.TutorEvaluationRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.TutorRepository;
-import ca.mcgill.ecse321.tutoringapp.model.Course;
-import ca.mcgill.ecse321.tutoringapp.model.GroupRequest;
-import ca.mcgill.ecse321.tutoringapp.model.PrivateRequest;
-import ca.mcgill.ecse321.tutoringapp.model.Student;
-import ca.mcgill.ecse321.tutoringapp.model.Subject;
-import ca.mcgill.ecse321.tutoringapp.model.TeachingInstitution;
+import ca.mcgill.ecse321.tutoringapp.dao.*;
+import ca.mcgill.ecse321.tutoringapp.model.*;
 import ca.mcgill.ecse321.tutoringapp.service.TutoringAppService;
 
 @RunWith(SpringRunner.class)
@@ -560,6 +533,36 @@ public class TestTutoringAppService {
 		assertEquals(2, sessionRequestRepository.findByRequestor(testStudent).size());
 		sessionRequestRepository.deleteAll();
 		
+	}
+
+	@Test
+	public void testOneUser()
+	{
+		service.createAppUser(TutoringappService.AppUserType.STUDENT, "tcoza", "Traian", "Coza");
+		assertTrue(appUserRepository.findAll().iterator().next() == service.getAppUser("tcoza"));
+		assertTrue(service.getAllAppUsers().size() == 1);
+		assertTrue(service.getAllStudents().size() == 1);
+		assertTrue(service.getAllTutors().size() == 0);
+	}
+	
+	@Test
+	public void testTutor()
+	{
+		service.createAppUser(TutoringappService.AppUserType.TUTOR, "alba", "Alba", "Talelli");
+		service.createAppUser(TutoringappService.AppUserType.TUTOR, "helen", "Helen", "Lin");
+		assertTrue(service.getAllAppUsers().size() == 3);
+		assertTrue(service.getAllTutors().size() == 2);
+		assertTrue(service.getAppUser("alba").getLastName().equals("Talelli"));
+	}
+	
+	@Test
+	public void testManager()
+	{
+		service.createAppUser(TutoringappService.AppUserType.MANAGER, "odero", "Odero", "Otieno");
+		service.createAppUser(TutoringappService.AppUserType.MANAGER, "aranit", "Arianit", "Vavla");
+		assertTrue(service.getAllAppUsers().size() == 5);
+		assertTrue(service.getAllManagers().size() == 2);
+		assertFalse(service.getAppUser("arianit").getLastName().equals("Otieno"));
 	}
 
 }
