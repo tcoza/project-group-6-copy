@@ -9,40 +9,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ca.mcgill.ecse321.tutoringapp.dao.AppUserRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.ClassRoomRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.CourseRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.EvaluationCommentRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.EvaluationRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.GroupRequestRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.ManagerRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.OfferingRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.PrivateRequestRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.RoomRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.ScheduledGroupSessionRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.ScheduledPrivateSessionRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.ScheduledSessionRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.SessionRequestRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.SmallRoomRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.StudentEvaluationRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.StudentRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.SubjectRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.TeachingInstitutionRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.TutorEvaluationRepository;
-import ca.mcgill.ecse321.tutoringapp.dao.TutorRepository;
-import ca.mcgill.ecse321.tutoringapp.model.Course;
-import ca.mcgill.ecse321.tutoringapp.model.Evaluation;
-import ca.mcgill.ecse321.tutoringapp.model.GroupRequest;
-import ca.mcgill.ecse321.tutoringapp.model.Manager;
-import ca.mcgill.ecse321.tutoringapp.model.PrivateRequest;
-import ca.mcgill.ecse321.tutoringapp.model.SessionRequest;
-import ca.mcgill.ecse321.tutoringapp.model.Student;
-import ca.mcgill.ecse321.tutoringapp.model.StudentEvaluation;
-import ca.mcgill.ecse321.tutoringapp.model.Subject;
-import ca.mcgill.ecse321.tutoringapp.model.TeachingInstitution;
-import ca.mcgill.ecse321.tutoringapp.model.Tutor;
-import ca.mcgill.ecse321.tutoringapp.model.TutorEvaluation;
-import ca.mcgill.ecse321.tutoringapp.model.TutorStatus;
+import ca.mcgill.ecse321.tutoringapp.dao.*;
+import ca.mcgill.ecse321.tutoringapp.model.*;
 
 @Service
 public class TutoringAppService {
@@ -70,8 +38,6 @@ public class TutoringAppService {
 	StudentEvaluationRepository studentEvaluationRepository;
 	@Autowired
 	TutorEvaluationRepository tutorEvaluationRepository;
-	@Autowired
-	OfferingRepository offeringRepository;
 	@Autowired
 	RoomRepository roomRepository;
 	@Autowired
@@ -107,36 +73,59 @@ public class TutoringAppService {
 		//TODO: check user stories/functional requirements
 	
 	// Tutor
-	/**@author = Helen **/
+	/** @author Traian **/
 	@Transactional
-	public Tutor createTutor(String username, String firstname, String lastname) {
+	public AppUser createUser(String userType, String username, String firstname, String lastname) {
+		if (!userType.matches("(STUDENT|TUTOR|MANAGER)"))
+			throw new IllegalArgumentException("Unknown user type '" + userType + "'!");
 		if (username == null || username.trim().length() == 0)
 			throw new IllegalArgumentException("Username cannot be empty!");
 		if (firstname == null || firstname.trim().length() == 0)
 			throw new IllegalArgumentException("First name cannot be empty!");
 		if (lastname == null || lastname.trim().length() == 0)
 			throw new IllegalArgumentException("Last name cannot be empty!");
-
-		Tutor tutor = new Tutor();
-		tutor.setUsername(username);
-		tutor.setFirstName(firstname);
-		tutor.setLastName(lastname);
-		tutorRepository.save(tutor);
-		return tutor;
+		
+		AppUser user =
+				userType.equals("STUDENT") ? new Student() :
+				userType.equals("TUTOR") ? new Tutor() :
+				userType.equals("MANAGER") ? new Manager() :
+				null;
+		
+		user.setUsername(username);
+		user.setFirstName(firstname);
+		user.setLastName(lastname);
+		
+		switch(userType)
+		{
+		case "STUDENT": studentRepository.save((Student)user); break;
+		case "TUTOR": tutorRepository.save((Tutor)user); break;
+		case "MANAGER": managerRepository.save((Manager)user); break;
+		default: break;
+		}
+		
+		return user;
 	}
 	
-	/**@author = Helen **/
+	@Transactional
+	public AppUser getUser(String username)
+	{
+		if (!appUserRepository.existsByUsername(username))
+			throw new IllegalArgumentException("User '" + username + "' does not exist");
+		return appUserRepository.findAppUserByUsername(username);
+	}
+	
+	/**@author Helen **/
 	@Transactional
 	public void changeTutorStatus(String username, String status) {
 		if (!tutorRepository.existsByUsername(username)) 
 			throw new IllegalArgumentException("This tutor does not exist!");
 	
 		Tutor tutor = tutorRepository.findTutorByUsername(username);
-		if (status == "PENDING") {
+		if (status.equals("PENDING")) {
 			tutor.setStatus(TutorStatus.PENDING);
-		} else if (status == "VERIFIED") {
+		} else if (status.equals("VERIFIED")) {
 			tutor.setStatus(TutorStatus.VERIFIED);
-		} else if (status == "TERMINATED") {
+		} else if (status.equals("TERMINATED")) {
 			tutor.setStatus(TutorStatus.TERMINATED);
 			
 			//TODO: also remove all qualified courses from this tutor because they won't teach anymore
@@ -145,7 +134,7 @@ public class TutoringAppService {
 		return;
 	}
 	
-	/**@author = Helen **/
+	/**@author Helen **/
 	@Transactional
 	public void addQualifiedCourseForTutor(String username, String courseCode) {
 		if (username == null || username.trim().length() == 0)

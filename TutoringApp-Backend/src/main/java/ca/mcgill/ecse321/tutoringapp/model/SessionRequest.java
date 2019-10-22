@@ -60,18 +60,7 @@ public class SessionRequest {
 	public void setRequestor(Student requestor) {
 		this.requestor = requestor;
 	}
-
-	private Set<Offering> offering;
-
-	@ManyToMany(mappedBy = "sessionRequest")
-	public Set<Offering> getOffering() {
-		return this.offering;
-	}
-
-	public void setOffering(Set<Offering> offerings) {
-		this.offering = offerings;
-	}
-
+	
 	private Subject requestedSubject;
 
 	@ManyToOne

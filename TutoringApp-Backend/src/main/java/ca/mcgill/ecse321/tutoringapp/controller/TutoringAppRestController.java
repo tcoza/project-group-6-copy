@@ -27,25 +27,25 @@ public class TutoringAppRestController {
 	/** @author Helen Lin */
 	@PostMapping(value = { "/students/{username}", "/students/{username}/" })
 	public Student createStudent(@PathVariable("username") String username, @RequestParam(name="first", required=true) String first, @RequestParam(name="last", required=true) String last) {
-		Student student =service.createStudent(username, first, last);
+		Student student = (Student)service.createUser("STUDENT", username, first, last);
 		return student;
 	}
 	
 	/** @author Helen Lin */
-	@PostMapping(value = { "/tutors/{username}", "/students/{username}/" })
+	@PostMapping(value = { "/tutors/{username}", "/tutors/{username}/" })
 	public Tutor createTutor(@PathVariable("username") String username, @RequestParam(name="first", required=true) String first, @RequestParam(name="last", required=true) String last, @RequestParam(name="status", required=false) String status) {
-		Tutor tutor = service.createTutor(username, first, last);
-		if (status !=null) {
+		service.createUser("TUTOR", username, first, last);
+		if (status != null) {
 			//also update status if given
 			service.changeTutorStatus(username, status);
 		}
-		return tutor;
+		return (Tutor)service.getUser(username);
 	}
 	
 	/** @author Helen Lin */
 	@PostMapping(value = { "/managers/{username}", "/managers/{username}/" })
 	public Manager createManager(@PathVariable("username") String username, @RequestParam(name="first", required=true) String first, @RequestParam(name="last", required=true) String last) {
-		Manager manager = service.createManager(username, first, last);
+		Manager manager = (Manager)service.createUser("MANAGER", username, first, last);
 		return manager;
 	}
 	
