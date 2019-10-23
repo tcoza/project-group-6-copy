@@ -647,6 +647,8 @@ public class TutoringAppService {
 	//TODO: delete a comment of a given eval id
 	
 	/********** END of EVALUATION *********/
+	
+	/** @author Arianit */
 	@Transactional
 	public ScheduledPrivateSession createScheduledPrivateSession(Tutor tutor, SmallRoom smallRoom, Date date, Time startTime) {
 		String error = "";
@@ -674,6 +676,8 @@ public class TutoringAppService {
 		scheduledPrivateSessionRepository.save(scheduledPrivateSession);
 		return scheduledPrivateSession;
 	}
+	
+	/** @author Arianit */
 	@Transactional
 	public ScheduledPrivateSession getScheduledPrivateSession(Tutor tutor) {
 		String error = "";
@@ -690,10 +694,14 @@ public class TutoringAppService {
 		ScheduledPrivateSession scheduledPrivateSession = scheduledPrivateSessionRepository.findByAssignedTutor(tutor);
 		return scheduledPrivateSession;
 	}
+	
+	/** @author Arianit */
 	@Transactional
 	public List<ScheduledPrivateSession> getAllScheduledPrivateSession(){
 		return toList(scheduledPrivateSessionRepository.findAll());
 	}
+	
+	/** @author Arianit */
 	@Transactional
 	public ScheduledGroupSession createScheduledGroupSession(Tutor tutor, ClassRoom classRoom, Date date, Time startTime) {
 		String error = "";
@@ -722,6 +730,8 @@ public class TutoringAppService {
 		scheduledGroupSessionRepository.save(scheduledGroupSession);
 		return scheduledGroupSession;
 	}
+	
+	/** @author Arianit */
 	@Transactional
 	public ScheduledGroupSession getScheduledGroupSession(Tutor tutor) {
 		String error = "";
@@ -738,6 +748,7 @@ public class TutoringAppService {
 		ScheduledGroupSession scheduledGroupSession = scheduledGroupSessionRepository.findByAssignedTutor(tutor);
 		return scheduledGroupSession;
 	}
+	/** @author Arianit */
 	@Transactional
 	public List<ScheduledGroupSession> getAllScheduledGroupSession(){
 		return toList(scheduledGroupSessionRepository.findAll());
