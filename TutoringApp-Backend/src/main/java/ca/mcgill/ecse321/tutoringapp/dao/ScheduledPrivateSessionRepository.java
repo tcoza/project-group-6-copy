@@ -8,6 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import ca.mcgill.ecse321.tutoringapp.model.Room;
 import ca.mcgill.ecse321.tutoringapp.model.ScheduledPrivateSession;
+import ca.mcgill.ecse321.tutoringapp.model.SmallRoom;
 import ca.mcgill.ecse321.tutoringapp.model.Tutor;
 
 /**
@@ -17,16 +18,12 @@ import ca.mcgill.ecse321.tutoringapp.model.Tutor;
  */
 @RepositoryRestResource(collectionResourceRel = "scheduledprivatesessions", path = "scheduledprivatesessions")
 public interface ScheduledPrivateSessionRepository extends CrudRepository<ScheduledPrivateSession, Integer> {
-	
-	long count();
-	
-	List<ScheduledPrivateSession> findByAssignedTutor (Tutor tutor);
+	ScheduledPrivateSession findByAssignedTutor (Tutor tutor);
 	List<ScheduledPrivateSession> findByStartTime (Time startTime);
-	List<ScheduledPrivateSession> findByRoom (Room room);
+	List<ScheduledPrivateSession> findByRoom (SmallRoom smallRoom);
 	
 	List<ScheduledPrivateSession> findByIsFull (boolean isFull);
 	
 	List<ScheduledPrivateSession> findAll();
 	
-
 }

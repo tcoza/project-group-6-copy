@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import ca.mcgill.ecse321.tutoringapp.model.ClassRoom;
 import ca.mcgill.ecse321.tutoringapp.model.GroupRequest;
 import ca.mcgill.ecse321.tutoringapp.model.Room;
 import ca.mcgill.ecse321.tutoringapp.model.ScheduledGroupSession;
@@ -18,15 +19,13 @@ import ca.mcgill.ecse321.tutoringapp.model.Tutor;
  */
 @RepositoryRestResource(collectionResourceRel = "scheduledgroupsessions", path = "scheduledgroupsessions")
 public interface ScheduledGroupSessionRepository extends CrudRepository<ScheduledGroupSession, Integer> {
-	long count();
-	
-	
 
-	List<ScheduledGroupSession> findByRoom (Room room);
-	List<ScheduledGroupSession> findByStartTime (Time startTime);
-	List<ScheduledGroupSession> findByAssignedTutor (Tutor tutor);
+	ScheduledGroupSession findByRoom (ClassRoom classRoom);
+	ScheduledGroupSession findByStartTime (Time startTime);
+	ScheduledGroupSession findByAssignedTutor (Tutor tutor);
 	List<ScheduledGroupSession> findByGroupRequest (GroupRequest groupRequest);
 	List<ScheduledGroupSession> findByIsFull (boolean isFull);
 	List<ScheduledGroupSession> findAll();
+
 
 }

@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.tutoringapp.service;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -645,6 +647,101 @@ public class TutoringAppService {
 	//TODO: delete a comment of a given eval id
 	
 	/********** END of EVALUATION *********/
+	@Transactional
+	public ScheduledPrivateSession createScheduledPrivateSession(Tutor tutor, SmallRoom smallRoom, Date date, Time startTime) {
+		String error = "";
+		if (tutor == null) {
+			error = error + "Tutor needs to be selected to create a scheduled private session!";
+		} else if (!tutorRepository.existsByUsername(tutor.getUsername())){
+			error = error + "Tutor does not exist!";
+		}
+		if (smallRoom == null) {
+			error = error + "Room needs to be selected to create a scheduled private session!";
+		} else if (!roomRepository.existsById((smallRoom.getId()))){
+			error = error + "Room does not exist!";
+		}
+		error = error.trim();
+
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		ScheduledPrivateSession scheduledPrivateSession = new ScheduledPrivateSession();
+		
+		scheduledPrivateSession.setAssignedTutor(tutor);
+		scheduledPrivateSession.setDate(date);
+		scheduledPrivateSession.setStartTime(startTime);
+		scheduledPrivateSession.setRoom(smallRoom);
+		scheduledPrivateSessionRepository.save(scheduledPrivateSession);
+		return scheduledPrivateSession;
+	}
+	@Transactional
+	public ScheduledPrivateSession getScheduledPrivateSession(Tutor tutor) {
+		String error = "";
+		if (tutor == null) {
+			error = error + "Tutor needs to be selected to find a scheduled private session!";
+		} else if (!tutorRepository.existsByUsername(tutor.getUsername())){
+			error = error + "Tutor does not exist!";
+		}
+		error = error.trim();
+
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		ScheduledPrivateSession scheduledPrivateSession = scheduledPrivateSessionRepository.findByAssignedTutor(tutor);
+		return scheduledPrivateSession;
+	}
+	@Transactional
+	public List<ScheduledPrivateSession> getAllScheduledPrivateSession(){
+		return toList(scheduledPrivateSessionRepository.findAll());
+	}
+	@Transactional
+	public ScheduledGroupSession createScheduledGroupSession(Tutor tutor, ClassRoom classRoom, Date date, Time startTime) {
+		String error = "";
+		if (tutor == null) {
+			error = error + "Tutor needs to be selected to create a scheduled private session!";
+		} else if (!tutorRepository.existsByUsername(tutor.getUsername())){
+			error = error + "Tutor does not exist!";
+		}
+		if (classRoom == null) {
+			error = error + "Room needs to be selected to create a scheduled private session!";
+		} 
+		else if (!roomRepository.existsById(classRoom.getId())){
+			error = error + "Room does not exist!";
+		}
+		error = error.trim();
+
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		ScheduledGroupSession scheduledGroupSession = new ScheduledGroupSession();
+		
+		scheduledGroupSession.setAssignedTutor(tutor);
+		scheduledGroupSession.setDate(date);
+		scheduledGroupSession.setStartTime(startTime);
+		scheduledGroupSession.setRoom(classRoom);
+		scheduledGroupSessionRepository.save(scheduledGroupSession);
+		return scheduledGroupSession;
+	}
+	@Transactional
+	public ScheduledGroupSession getScheduledGroupSession(Tutor tutor) {
+		String error = "";
+		if (tutor == null) {
+			error = error + "Tutor needs to be selected to find a scheduled group session!";
+		} else if (!tutorRepository.existsByUsername(tutor.getUsername())){
+			error = error + "Tutor does not exist!";
+		}
+		error = error.trim();
+
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		ScheduledGroupSession scheduledGroupSession = scheduledGroupSessionRepository.findByAssignedTutor(tutor);
+		return scheduledGroupSession;
+	}
+	@Transactional
+	public List<ScheduledGroupSession> getAllScheduledGroupSession(){
+		return toList(scheduledGroupSessionRepository.findAll());
+	}
 	
 
 
