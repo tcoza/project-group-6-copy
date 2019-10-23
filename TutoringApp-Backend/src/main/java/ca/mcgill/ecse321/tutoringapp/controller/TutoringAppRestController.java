@@ -70,10 +70,22 @@ public class TutoringAppRestController {
 	//TODO: change tutor status
 	
 	//**** COURSE, SUBJECT, TEACHING INSTITUTION **************
-	//TODO: createSubject
 	
-	//TODO: createTeachingInstitutions (with type)
-	/** @author Helen Lin */
+	/** @author Alba Talelli */
+	@PostMapping(value = { "/Subject/{name}", "/Subject/{name}/" })
+	public Subject createSubject(@PathVariable("name") String name, @RequestParam(name = "school", required = true) String schoolname) throws IllegalArgumentException {
+		Subject subject = service.createSubject(name, schoolname);
+		return subject;
+	}
+	
+	/** @author Alba Talelli */
+	@PostMapping(value = { "/Teaching Institution/{name}", "/Teaching Institution/{name}/" })
+	public TeachingInstitution createTeachingInstitution(@PathVariable("name") String name) throws IllegalArgumentException {
+		TeachingInstitution school = service.createTeachingInstitution(name);
+		return school;
+	}
+	
+		/** @author Helen Lin */
 	@PostMapping(value = { "/courses/{coursecode}", "/courses/{coursecode}/" })
 	public Course createCourse(@PathVariable("coursecode") String coursecode, @RequestParam(name="name", required=true) String name, @RequestParam(name="school", required=true) String school) throws IllegalArgumentException {
 		Course course = service.createCourse(coursecode, name, school);
@@ -129,7 +141,77 @@ public class TutoringAppRestController {
 	}
 	
 	//***************EVALUATIONS ****************
-	//TODO: create evaluation for student or for tutor
+	
+	/** @author Alba Talelli */
+	@PostMapping(value = { "/createStudentEvaluation/", "/createStudent Evaluation" })
+	public StudentEvaluation createStudentEvaluation(@RequestParam(name = "rating", required=true) int rating, @RequestParam(name = "username", required=true) String studentUN, @RequestParam(name = "username", required = true) String tutorUN) throws IllegalArgumentException {
+		StudentEvaluation studentEval;
+		if (studentUN == null) { // give student name
+			throw new IllegalArgumentException("Must provide a Student Username");
+		}
+		if (tutorUN == null) { // give tutor name
+			throw new IllegalArgumentException("Must provide a Tutor Username");
+		}
+		if (rating == 0) { // give rating
+			throw new IllegalArgumentException("Must provide a Rating");
+		}
+		else {
+			Student student = service.getStudent(studentUN);
+			Tutor tutor = service.getTutor(tutorUN);
+			studentEval = service.createStudentEvaluation(rating, student, tutor);
+		}
+		
+		return studentEval;
+	}
+	
+	/** @author Alba Talelli */
+	@PostMapping(value = { "/createTutorEvaluation/", "/createTutorEvaluation" })
+	public TutorEvaluation createTutorEvaluation(@RequestParam(name = "rating", required=true) int rating, @RequestParam(name = "username", required=true) String studentUN, @RequestParam(name = "username", required = true) String tutorUN) throws IllegalArgumentException {
+		TutorEvaluation tutorEval;
+		if (studentUN == null) { // give student name
+			throw new IllegalArgumentException("Must provide a Student Username");
+		}
+		if (tutorUN == null) { // give tutor name
+			throw new IllegalArgumentException("Must provide a Tutor Username");
+		}
+		if (rating == 0) { // give rating
+			throw new IllegalArgumentException("Must provide a Rating");
+		}
+		else {
+			Student student = service.getStudent(studentUN);
+			Tutor tutor = service.getTutor(tutorUN);
+			tutorEval = service.createTutorEvaluation(rating, student, tutor);
+		}
+		
+		return tutorEval;
+	}
+	
+	/** @author Alba Talelli */
+	@PostMapping(value = { "/createsessionrequest/", "/createsessionrequest" })
+	public Evaluation createEvaluation(@RequestParam(required=true) int rating, @RequestParam(name = "username", required=true) String studentUN, @RequestParam(name = "username", required = true) String tutorUN, @RequestParam(name="isStudentEvaluation", required=true) boolean isStudentEvaluation) throws IllegalArgumentException {
+		Evaluation eval;
+		if (isStudentEvaluation) { //create private request
+			eval = this.createStudentEvaluation(rating, studentUN, tutorUN);
+		} else {
+			eval = this.createTutorEvaluation(rating, studentUN, tutorUN);
+		}
+		return eval;
+	}
+	
+	
+	
+	
+	
+	
+	
+	/*
+	 * @PostMapping(value = { "/createevaluation/", "/createevaluation" })
+	 * public Evaluation createEvaluation (@RequestParam(name = "username", required=true) String studentUN, @RequestParam(name = "username", required = true) String tutorUN) throws IllegalArgumentException {
+	 * Evaluation eval;
+	 * if (Student write){
+	 * 		eval = this.createTutorEvaluation
+	*/
+	
 	//TODO: delete evaluation comment
 	
 }
