@@ -187,7 +187,7 @@ public class TutoringAppRestController {
 	}
 	
 	/** @author Alba Talelli */
-	@PostMapping(value = { "/createsessionrequest/", "/createsessionrequest" })
+	@PostMapping(value = { "/createEvaluation/", "/createEvaluation" })
 	public Evaluation createEvaluation(@RequestParam(required=true) int rating, @RequestParam(name = "username", required=true) String studentUN, @RequestParam(name = "username", required = true) String tutorUN, @RequestParam(name="isStudentEvaluation", required=true) boolean isStudentEvaluation) throws IllegalArgumentException {
 		Evaluation eval;
 		if (isStudentEvaluation) { //create private request
