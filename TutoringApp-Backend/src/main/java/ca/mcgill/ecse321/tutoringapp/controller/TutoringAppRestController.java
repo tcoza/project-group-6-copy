@@ -80,8 +80,8 @@ public class TutoringAppRestController {
 	
 	/** @author Alba Talelli */
 	@PostMapping(value = { "/teachinginstitutions/{name}", "/teachinginstitutions/{name}/" })
-	public TeachingInstitution createTeachingInstitution(@PathVariable("name") String name) throws IllegalArgumentException {
-		TeachingInstitution school = service.createTeachingInstitution(name);
+	public TeachingInstitution createTeachingInstitution(@PathVariable("name") String name, @RequestParam(name="type",required=true) String type) throws IllegalArgumentException {
+		TeachingInstitution school = service.createTeachingInstitution(name, type);
 		return school;
 	}
 	

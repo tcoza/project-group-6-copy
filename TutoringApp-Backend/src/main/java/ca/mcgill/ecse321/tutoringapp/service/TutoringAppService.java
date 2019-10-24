@@ -108,6 +108,7 @@ public class TutoringAppService {
 		return user;
 	}
 	
+	/** @author Traian **/
 	@Transactional
 	public AppUser getUser(String username)
 	{
@@ -156,24 +157,6 @@ public class TutoringAppService {
 		return;
 	}
 	
-	// Student
-	/**@author Helen **/
-	@Transactional
-	public Student createStudent(String username, String firstname, String lastname) {
-		if (username == null || username.trim().length() == 0)
-			throw new IllegalArgumentException("Username cannot be empty!");
-		if (firstname == null || firstname.trim().length() == 0)
-			throw new IllegalArgumentException("First name cannot be empty!");
-		if (lastname == null || lastname.trim().length() == 0)
-			throw new IllegalArgumentException("Last name cannot be empty!");
-
-		Student student = new Student();
-		student.setUsername(username);
-		student.setFirstName(firstname);
-		student.setLastName(lastname);
-		studentRepository.save(student);
-		return student;
-	}
 	
 	// Get Student
 	/** @author Alba Talelli */
@@ -203,24 +186,6 @@ public class TutoringAppService {
 		return tutorRepository.findTutorByUsername(userName);
 	}
 	
-	//manager
-	/**@author Helen **/
-	@Transactional
-	public Manager createManager(String username, String firstname, String lastname) {
-		if (username == null || username.trim().length() == 0)
-			throw new IllegalArgumentException("Username cannot be empty!");
-		if (firstname == null || firstname.trim().length() == 0)
-			throw new IllegalArgumentException("First name cannot be empty!");
-		if (lastname == null || lastname.trim().length() == 0)
-			throw new IllegalArgumentException("Last name cannot be empty!");
-
-		Manager manager = new Manager();
-		manager.setUsername(username);
-		manager.setFirstName(firstname);
-		manager.setLastName(lastname);
-		managerRepository.save(manager);
-		return manager;
-	}
 	
 
 	// TODO: Odero's services
@@ -246,7 +211,8 @@ public class TutoringAppService {
 		}
 
 		PrivateRequest request = new PrivateRequest();
-
+		request.setId((username.hashCode()) * (courseOrSubject.hashCode()));
+		
 		java.util.Date today = new java.util.Date();
 		java.sql.Date date = new java.sql.Date(today.getTime());
 		request.setDateCreated(date);
@@ -254,6 +220,7 @@ public class TutoringAppService {
 		Student requestor = studentRepository.findByUsername(username);
 		request.setRequestor(requestor);
 
+		
 		//subject or course
 		if (isForCourse) {
 			if (!courseRepository.existsById(courseOrSubject)) {
@@ -266,7 +233,7 @@ public class TutoringAppService {
 			}
 			request.setRequestedSubject(subjectRepository.findSubjectByName(courseOrSubject));
 		}
-
+		
 		privateRequestRepository.save(request);
 		return request;
 	}
@@ -302,7 +269,7 @@ public class TutoringAppService {
 		}
 
 		GroupRequest request = new GroupRequest();
-
+		request.setId((username.hashCode()) * (courseOrSubject.hashCode()));
 		java.util.Date today = new java.util.Date();
 		java.sql.Date date = new java.sql.Date(today.getTime());
 		request.setDateCreated(date);
@@ -360,26 +327,19 @@ public class TutoringAppService {
 			throw new IllegalArgumentException("Course name cannot be empty!");
 		}
 		if (courseCode == null || courseCode.trim().length() == 0) {
-
 			throw new IllegalArgumentException("Course code cannot be empty!");
 		}
 		if (teachingInstitution == null || teachingInstitution.trim().length() == 0) {
-
 			throw new IllegalArgumentException("Associated school cannot be empty!");
+		} else if (!teachingInstitutionRepository.existsByName(teachingInstitution)) {
+			throw new IllegalArgumentException("Associated school does not exist! School must be created first.");
 		}
-
-		
 		
 		Course course = new Course();
 		course.setName(name);
 		course.setCourseCode(courseCode);
-		if (!teachingInstitutionRepository.existsByName(teachingInstitution)) {
-			TeachingInstitution school = this.createTeachingInstitution(teachingInstitution);
-			course.setSchool(school);
-		} else {
-			TeachingInstitution school = teachingInstitutionRepository.findTeachingInstitutionByName(teachingInstitution);
-			course.setSchool(school);
-		}
+		TeachingInstitution school = teachingInstitutionRepository.findTeachingInstitutionByName(teachingInstitution);
+		course.setSchool(school);
 		
 		courseRepository.save(course);
 		return course;
@@ -417,20 +377,15 @@ public class TutoringAppService {
 			throw new IllegalArgumentException("Subject name cannot be empty!");
 		}
 		if (schoolname == null || schoolname.trim().length() == 0) {
-
 			throw new IllegalArgumentException("Associated school cannot be empty!");
+		} else if (!teachingInstitutionRepository.existsByName(schoolname)) {
+			throw new IllegalArgumentException("Associated school does not exist! School must be created first.");
 		}
-
 		
 		Subject subject = new Subject();
 		subject.setName(name);
-		if (!teachingInstitutionRepository.existsByName(schoolname)) {
-			TeachingInstitution school = this.createTeachingInstitution(schoolname);
-			subject.setSchool(school);
-		} else {
-			TeachingInstitution school = teachingInstitutionRepository.findTeachingInstitutionByName(schoolname);
-			subject.setSchool(school);
-		}
+		TeachingInstitution school = teachingInstitutionRepository.findTeachingInstitutionByName(schoolname);
+		subject.setSchool(school);
 		subjectRepository.save(subject);
 		return subject;
 		
@@ -460,13 +415,35 @@ public class TutoringAppService {
 	/********* START of TEACHING INSTITUTION ***********/
 	/** @author Alba */
 	@Transactional
-	public TeachingInstitution createTeachingInstitution(String name) {
+	public TeachingInstitution createTeachingInstitution(String name, String type) {
 		if (name == null || name.trim().length() == 0) {
 			throw new IllegalArgumentException("Teaching Institution name cannot be empty!");
+		}
+		if (type == null || type.trim().length() == 0) {
+			throw new IllegalArgumentException("Teaching Institution type cannot be empty!");
+		}
+		InstitutionType iType;
+		switch (type) {
+		case "UNIVERSITY":
+			iType = InstitutionType.UNIVERSITY;
+			break;
+		case "CEGEP":
+			iType = InstitutionType.CEGEP;
+			break;
+		case "HIGHSCHOOL":
+			iType = InstitutionType.HIGHSCHOOL;
+			break;
+		case "OTHER":
+			iType = InstitutionType.OTHER;
+			break;
+		default:
+			throw new IllegalArgumentException("Invalid institution type! Options are UNIVERSITY, CEGEP, HIGHSCHOOL, or OTHER!");
 		}
 
 		TeachingInstitution teachingInstitution = new TeachingInstitution();
 		teachingInstitution.setName(name);
+		teachingInstitution.setType(iType);
+		
 		teachingInstitutionRepository.save(teachingInstitution);
 		return teachingInstitution;
 	}
@@ -692,7 +669,7 @@ public class TutoringAppService {
 			throw new IllegalArgumentException(error);
 		}
 		ScheduledPrivateSession scheduledPrivateSession = new ScheduledPrivateSession();
-		
+		scheduledPrivateSession.setId((tutor.getUsername().hashCode()) * (date.toString().hashCode())* (startTime.toString().hashCode())*smallRoom.getId());
 		scheduledPrivateSession.setAssignedTutor(tutor);
 		scheduledPrivateSession.setDate(date);
 		scheduledPrivateSession.setStartTime(startTime);
@@ -746,7 +723,7 @@ public class TutoringAppService {
 			throw new IllegalArgumentException(error);
 		}
 		ScheduledGroupSession scheduledGroupSession = new ScheduledGroupSession();
-		
+		scheduledGroupSession.setId((tutor.getUsername().hashCode()) * (date.toString().hashCode())* (startTime.toString().hashCode())*classRoom.getId());
 		scheduledGroupSession.setAssignedTutor(tutor);
 		scheduledGroupSession.setDate(date);
 		scheduledGroupSession.setStartTime(startTime);
