@@ -175,6 +175,24 @@ public class TutoringAppService {
 		return student;
 	}
 	
+	/**@author Alba **/
+	@Transactional
+	public Student getStudent(String username) {
+		if (!studentRepository.existsByUsername(username)) {
+				throw new IllegalArgumentException("Student '" + username + "' does not exist");
+		}
+		return studentRepository.findByUsername(username);
+	}
+	/**@author Alba **/
+	@Transactional
+	public Tutor getTutor(String username) {
+		if (!tutorRepository.existsByUsername(username)) {
+			throw new IllegalArgumentException("Tutor '" + username + "' does not exist");
+	}
+	return tutorRepository.findTutorByUsername(username);
+	}
+	
+	
 	//manager
 	/**@author Helen **/
 	@Transactional
@@ -753,7 +771,6 @@ public class TutoringAppService {
 	public List<ScheduledGroupSession> getAllScheduledGroupSession(){
 		return toList(scheduledGroupSessionRepository.findAll());
 	}
-	
 
 
 }

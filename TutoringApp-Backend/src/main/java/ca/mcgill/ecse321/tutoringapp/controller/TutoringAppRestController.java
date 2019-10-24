@@ -129,7 +129,5 @@ public class TutoringAppRestController {
 	}
 	
 	//***************EVALUATIONS ****************
-	//TODO: create evaluation for student or for tutor
-	//TODO: delete evaluation comment
 	
 }
