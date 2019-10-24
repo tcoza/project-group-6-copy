@@ -197,21 +197,21 @@ public class TutoringAppRestController {
 		}
 		return eval;
 	}
-	
-	
-	
-	
-	
-	
-	
-	/*
-	 * @PostMapping(value = { "/createevaluation/", "/createevaluation" })
-	 * public Evaluation createEvaluation (@RequestParam(name = "username", required=true) String studentUN, @RequestParam(name = "username", required = true) String tutorUN) throws IllegalArgumentException {
-	 * Evaluation eval;
-	 * if (Student write){
-	 * 		eval = this.createTutorEvaluation
-	*/
-	
 	//TODO: delete evaluation comment
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
