@@ -228,10 +228,6 @@ public class TutoringAppService {
 	// TODO: create SmallRoom, max 10
 	// TODO: create ClassRoom, max 3
 
-	// TODO: Arianit's services
-	// TODO: ScheduledGroupSession
-	// TODO: ScheduledPrivateSession
-	// TODO: ScheduledSession given a type
 
 	/********* START of SessionRequest, GroupSessionRequest, PrivateSessionRequest ***************/
 	/**
