@@ -77,7 +77,15 @@ public class TutoringAppRestController {
 		return user;
 	}
 	
-	//TODO: add course for a tutor and vice versa (add a qualifiedtutor for a course)
+	/** @author Traian Coza */
+	@PostMapping(value = { "/tutors/{username}/addcourse", "/tutors/{username}/addcourse/" })
+	public Tutor addQualifiedCourseForTutor(
+			@PathVariable("username") String username,
+			@RequestParam(name="coursecode", required=true) String coursecode)
+	{
+		service.addQualifiedCourseForTutor(username, coursecode);
+		return (Tutor)service.getUser(username);
+	}
 	
 	/** @author Traian Coza */
 	@PostMapping(value = { "/tutors/{username}/setstatus", "/tutors/{username}/setstatus/" })
