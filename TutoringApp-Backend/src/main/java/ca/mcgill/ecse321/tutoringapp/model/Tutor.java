@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.tutoringapp.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+
 import java.util.Set;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -21,59 +22,59 @@ public class Tutor extends AppUser {
 		return this.status;
 	}
 
-	private Set<Course> course;
+	private Set<Course> courses;
 
 	@ManyToMany
-	public Set<Course> getCourse() {
-		return this.course;
+	public Set<Course> getCourses() {
+		return this.courses;
 	}
 
-	public void setCourse(Set<Course> courses) {
-		this.course = courses;
+	public void setCourses(Set<Course> courses) {
+		this.courses = courses;
 	}
 	
-	private Set<TutorEvaluation> tutorEvaluation;
+	private Set<TutorEvaluation> tutorEvaluations;
 
 	@OneToMany(mappedBy = "recipient", cascade = { CascadeType.ALL }, orphanRemoval=true)
-	public Set<TutorEvaluation> getTutorEvaluation() {
-		return this.tutorEvaluation;
+	public Set<TutorEvaluation> getTutorEvaluations() {
+		return this.tutorEvaluations;
 	}
 
-	public void setTutorEvaluation(Set<TutorEvaluation> tutorEvaluations) {
-		this.tutorEvaluation = tutorEvaluations;
+	public void setTutorEvaluations(Set<TutorEvaluation> tutorEvaluations) {
+		this.tutorEvaluations = tutorEvaluations;
 	}
 
-	private Set<StudentEvaluation> studentEvaluation;
+	private Set<StudentEvaluation> studentEvaluations;
 
 	@OneToMany(mappedBy = "author", cascade = { CascadeType.ALL })
-	public Set<StudentEvaluation> getStudentEvaluation() {
-		return this.studentEvaluation;
+	public Set<StudentEvaluation> getStudentEvaluations() {
+		return this.studentEvaluations;
 	}
 
-	public void setStudentEvaluation(Set<StudentEvaluation> studentEvaluations) {
-		this.studentEvaluation = studentEvaluations;
+	public void setStudentEvaluations(Set<StudentEvaluation> studentEvaluations) {
+		this.studentEvaluations = studentEvaluations;
 	}
 
-	private Set<Subject> subject;
+	private Set<Subject> subjects;
 
 	@ManyToMany(mappedBy = "qualifiedTutor")
-	public Set<Subject> getSubject() {
-		return this.subject;
+	public Set<Subject> getSubjects() {
+		return this.subjects;
 	}
 
-	public void setSubject(Set<Subject> subjects) {
-		this.subject = subjects;
+	public void setSubjects(Set<Subject> subjects) {
+		this.subjects = subjects;
 	}
 
-	private Set<ScheduledSession> scheduledSession;
+	private Set<ScheduledSession> scheduledSessions;
 
 	@OneToMany(mappedBy = "assignedTutor")
-	public Set<ScheduledSession> getScheduledSession() {
-		return this.scheduledSession;
+	public Set<ScheduledSession> getScheduledSessions() {
+		return this.scheduledSessions;
 	}
 
-	public void setScheduledSession(Set<ScheduledSession> scheduledSessions) {
-		this.scheduledSession = scheduledSessions;
+	public void setScheduledSessions(Set<ScheduledSession> scheduledSessions) {
+		this.scheduledSessions = scheduledSessions;
 	}
 
 }

@@ -148,7 +148,7 @@ public class TutoringAppService {
 			throw new IllegalArgumentException("Course to add to tutor does not exist!");
 		}
 		Tutor tutor = tutorRepository.findTutorByUsername(username);
-		Set<Course> qualifiedcourses = tutor.getCourse();
+		Set<Course> qualifiedcourses = tutor.getCourses();
 		Course course = courseRepository.findCourseByCourseCode(courseCode);
 		qualifiedcourses.add(course);
 		
