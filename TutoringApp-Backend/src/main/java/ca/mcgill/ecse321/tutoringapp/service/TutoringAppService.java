@@ -117,22 +117,24 @@ public class TutoringAppService {
 		return appUserRepository.findAppUserByUsername(username);
 	}
 	
-	/**@author Helen **/
+	/**@author Traian Coza **/
 	@Transactional
 	public void changeTutorStatus(String username, String status) {
 		if (!tutorRepository.existsByUsername(username)) 
 			throw new IllegalArgumentException("This tutor does not exist!");
+		if (!status.matches("(PENDING|VERIFIED|TERMINATED)"))
+			throw new IllegalArgumentException("Unknown status '" + status + "'!");
 	
 		Tutor tutor = tutorRepository.findTutorByUsername(username);
-		if (status.equals("PENDING")) {
-			tutor.setStatus(TutorStatus.PENDING);
-		} else if (status.equals("VERIFIED")) {
-			tutor.setStatus(TutorStatus.VERIFIED);
-		} else if (status.equals("TERMINATED")) {
-			tutor.setStatus(TutorStatus.TERMINATED);
-			
-			//TODO: also remove all qualified courses from this tutor because they won't teach anymore
-		}
+		tutor.setStatus(
+				status.equals("PENDING") ? TutorStatus.PENDING :
+				status.equals("VERIFIED") ? TutorStatus.VERIFIED :
+				status.equals("TERMINATED") ? TutorStatus.TERMINATED :
+				null);
+		
+		if (status.equals("TERMINATED"))
+			tutor.getCourse().clear();
+		
 		tutorRepository.save(tutor);
 		return;
 	}
@@ -140,15 +142,13 @@ public class TutoringAppService {
 	/**@author Helen **/
 	@Transactional
 	public void addQualifiedCourseForTutor(String username, String courseCode) {
-		if (username == null || username.trim().length() == 0)
-			throw new IllegalArgumentException("Username cannot be empty!");
 		if (!tutorRepository.existsByUsername(username)) 
-			throw new IllegalArgumentException("This tutor does not exist!");
+			throw new IllegalArgumentException("Tutor '" + username + "' does not exist!");
 		if (!courseRepository.existsByCourseCode(courseCode)) {
-			throw new IllegalArgumentException("Course to add to tutor does not exist!");
+			throw new IllegalArgumentException("Course '" + courseCode + "' does not exist!");
 		}
 		Tutor tutor = tutorRepository.findTutorByUsername(username);
-		Set<Course> qualifiedcourses = tutor.getCourses();
+		Set<Course> qualifiedcourses = tutor.getCourse();
 		Course course = courseRepository.findCourseByCourseCode(courseCode);
 		qualifiedcourses.add(course);
 		
