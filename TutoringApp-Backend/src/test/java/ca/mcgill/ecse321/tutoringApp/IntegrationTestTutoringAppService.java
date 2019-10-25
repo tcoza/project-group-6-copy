@@ -17,7 +17,7 @@ import ca.mcgill.ecse321.tutoringapp.service.TutoringAppService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestTutoringAppService {
+public class IntegrationTestTutoringAppService {
 
 	@Autowired
 	private TutoringAppService service;
