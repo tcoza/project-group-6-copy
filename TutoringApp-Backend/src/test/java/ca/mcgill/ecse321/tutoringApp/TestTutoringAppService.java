@@ -519,7 +519,7 @@ public class TestTutoringAppService {
 	public void testOneUser()
 	{
 		service.createUser("STUDENT", "tcoza", "Traian", "Coza");
-		assertEquals(appUserRepository.findAppUserByUsername("tcoza").getUsername(),"tcoza");
+		assertEquals(appUserRepository.findAppUserByUsername("tcoza").getUsername(), "tcoza");
 		assertEquals(appUserRepository.count(), 1);
 		assertEquals(studentRepository.count(), 1);
 		assertEquals(tutorRepository.count(), 0);
@@ -539,7 +539,7 @@ public class TestTutoringAppService {
 	{
 		service.createUser("MANAGER", "odero", "Odero", "Otieno");
 		service.createUser("MANAGER", "arianit", "Arianit", "Vavla");
-		assertEquals(appUserRepository.count(),2);
+		assertEquals(appUserRepository.count(), 2);
 		assertEquals(managerRepository.count(), 2);
 		assertEquals(service.getUser("arianit").getLastName(), "Vavla");
 	}

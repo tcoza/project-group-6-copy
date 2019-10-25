@@ -24,50 +24,70 @@ public class TutoringAppRestController {
 		//e.g. /teachinginstitutions/{name}/courses to get all courses at that teaching institution
 	
 	//***********	APP USER, STUDENT, TUTOR, MANAGER *******************
-	/** @author Helen Lin */
+	/** @author Traian Coza */
 	@PostMapping(value = { "/students/{username}", "/students/{username}/" })
-	public Student createStudent(@PathVariable("username") String username, @RequestParam(name="first", required=true) String first, @RequestParam(name="last", required=true) String last) {
-		Student student = (Student)service.createUser("STUDENT", username, first, last);
-		return student;
+	public Student createStudent(
+			@PathVariable("username") String username,
+			@RequestParam(name="first", required=true) String first,
+			@RequestParam(name="last", required=true) String last)
+	{
+		return (Student)service.createUser("STUDENT", username, first, last);
 	}
 	
-	/** @author Helen Lin */
+	/** @author Traian Coza */
 	@PostMapping(value = { "/tutors/{username}", "/tutors/{username}/" })
-	public Tutor createTutor(@PathVariable("username") String username, @RequestParam(name="first", required=true) String first, @RequestParam(name="last", required=true) String last, @RequestParam(name="status", required=false) String status) {
+	public Tutor createTutor(
+			@PathVariable("username") String username,
+			@RequestParam(name="first", required=true) String first,
+			@RequestParam(name="last", required=true) String last,
+			@RequestParam(name="status", required=false) String status)
+	{
 		service.createUser("TUTOR", username, first, last);
-		if (status != null) {
-			//also update status if given
+		if (status != null)
 			service.changeTutorStatus(username, status);
-		}
 		return (Tutor)service.getUser(username);
 	}
 	
-	/** @author Helen Lin */
+	/** @author Traian Coza */
 	@PostMapping(value = { "/managers/{username}", "/managers/{username}/" })
-	public Manager createManager(@PathVariable("username") String username, @RequestParam(name="first", required=true) String first, @RequestParam(name="last", required=true) String last) {
-		Manager manager = (Manager)service.createUser("MANAGER", username, first, last);
-		return manager;
+	public Manager createManager(
+			@PathVariable("username") String username,
+			@RequestParam(name="first", required=true) String first,
+			@RequestParam(name="last", required=true) String last)
+	{
+		return (Manager)service.createUser("MANAGER", username, first, last);
 	}
 	
-	/** @author Helen Lin */
+	/** @author Traian Coza */
 	@PostMapping(value = { "/appusers/{username}", "/appusers/{username}/" })
-	public AppUser createAppUser(@PathVariable("username") String username, @RequestParam(name="first", required=true) String first, @RequestParam(name="last", required=true) String last, @RequestParam(name="usertype", required=true) String usertype, @RequestParam(name="status", required=false) String status) {
-		AppUser user;
-		if (usertype.equals("manager")) {
-			user = this.createManager(username, first, last);
-		} else if (usertype.equals("student")) {
-			user = this.createStudent(username, first, last);
-		} else if (usertype.equals("tutor")) {
-			user = this.createTutor(username, first, last, status);
-		} else {
-			throw new IllegalArgumentException("Invalid user type");
-		}
+	public AppUser createAppUser(
+			@PathVariable("username") String username,
+			@RequestParam(name="first", required=true) String first,
+			@RequestParam(name="last", required=true) String last,
+			@RequestParam(name="usertype", required=true) String userType,
+			@RequestParam(name="status", required=false) String status)
+	{
+		if (!userType.equals("TUTOR") && status != null)
+			throw new IllegalArgumentException("Status only applies to tutors!");
+		
+		AppUser user = service.createUser(userType, username, first, last);
+		if (status != null)
+			return changeTutorStatus(username, status);
+		
 		return user;
 	}
 	
 	//TODO: add course for a tutor and vice versa (add a qualifiedtutor for a course)
 	
-	//TODO: change tutor status
+	/** @author Traian Coza */
+	@PostMapping(value = { "/tutors/{username}/setstatus", "/tutors/{username}/setstatus/" })
+	public Tutor changeTutorStatus(
+			@PathVariable("username") String username,
+			@RequestParam(name="status", required=true) String status)
+	{
+		service.changeTutorStatus(username, status);
+		return (Tutor)service.getUser(username);
+	}
 	
 	//**** COURSE, SUBJECT, TEACHING INSTITUTION **************
 	
