@@ -690,14 +690,6 @@ public class TutoringAppService {
 		}
 	}
 	
-	
-
-	/** @author alba */
-	@Transactional
-	public void deleteComment() {
-		
-	}
-	
 	/********** END of EVALUATION *********/
 	
 	/** @author Arianit */
