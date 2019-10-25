@@ -669,7 +669,7 @@ public class TutoringAppService {
 		
 		return evalComment;
 	}
-	
+	// Can only be done from manager
 	@Transactional
 	public void deletEvalComment(Evaluation eval) {
 		
@@ -683,6 +683,7 @@ public class TutoringAppService {
 			throw new IllegalArgumentException ("This evaluation do not have a comment");
 		}
 		else {
+			
 		
 		EvaluationComment evalComment = evaluationCommentRepository.findByEvaluation(eval);
 		evaluationCommentRepository.delete(evalComment);
