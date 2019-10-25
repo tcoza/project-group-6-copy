@@ -59,6 +59,7 @@ public class TutoringAppService {
 	@Autowired
 	SessionRequestRepository sessionRequestRepository;
 
+
 	/** @author Alba */
 	private <T> List<T> toList(Iterable<T> iterable) {
 		List<T> resultList = new ArrayList<T>();
@@ -467,8 +468,6 @@ public class TutoringAppService {
 
 	/********* END of TEACHING INSTITUTION ***********/
 
-	/********** END of EVALUATION *********/
-
 	/********** START of EVALUATION AND EVALUATION COMMENT *********/
 
 	/** @author Alba */
@@ -643,9 +642,61 @@ public class TutoringAppService {
 		return toList(evaluationRepository.findAll());
 	}
 
+	public EvaluationComment createEvalComment(Evaluation eval, String comment) {
+		if (eval == null) {
+			throw new IllegalArgumentException ("Evaluation can't be empty");
+		}
+		if (comment == null) {
+			throw new IllegalArgumentException ("Comment can't be empty");
+		}
+		EvaluationComment evalComment = new EvaluationComment();
+		evalComment.setComment(comment);
+		evalComment.setEvaluation(eval);
+		evaluationCommentRepository.save(evalComment);
+		
+		return evalComment;
+	}
 	
-	//TODO: get a comment of an given eval id
-	//TODO: delete a comment of a given eval id
+	/** @author Alba */
+	@Transactional
+	public EvaluationComment getEvalComment(Evaluation eval) {
+		
+		if (eval == null) {
+			throw new IllegalArgumentException ("Evaluation can't be empty");
+		}
+
+		EvaluationComment evalComment = evaluationCommentRepository.findByEvaluation(eval);
+		
+		return evalComment;
+	}
+	
+	@Transactional
+	public void deletEvalComment(Evaluation eval) {
+		
+		if (eval == null) {
+			throw new IllegalArgumentException ("Evaluation can't be empty");
+		}
+
+		int ID = evaluationCommentRepository.findByEvaluation(eval).getId();
+		
+		if (!evaluationCommentRepository.existsById(ID)) {
+			throw new IllegalArgumentException ("This evaluation do not have a comment");
+		}
+		else {
+		
+		EvaluationComment evalComment = evaluationCommentRepository.findByEvaluation(eval);
+		evaluationCommentRepository.delete(evalComment);
+
+		}
+	}
+	
+	
+
+	/** @author alba */
+	@Transactional
+	public void deleteComment() {
+		
+	}
 	
 	/********** END of EVALUATION *********/
 	
@@ -754,4 +805,5 @@ public class TutoringAppService {
 	public List<ScheduledGroupSession> getAllScheduledGroupSession(){
 		return toList(scheduledGroupSessionRepository.findAll());
 	}
+
 }

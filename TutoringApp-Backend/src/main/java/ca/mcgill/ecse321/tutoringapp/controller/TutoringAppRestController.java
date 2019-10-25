@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -218,7 +219,7 @@ public class TutoringAppRestController {
 	@PostMapping(value = { "/evaluations/", "/evaluations" })
 	public Evaluation createEvaluation(@RequestParam(required=true) int rating, @RequestParam(name = "username", required=true) String studentUN, @RequestParam(name = "username", required = true) String tutorUN, @RequestParam(name="isStudentEvaluation", required=true) boolean isStudentEvaluation) throws IllegalArgumentException {
 		Evaluation eval;
-		if (isStudentEvaluation) { //create private request
+		if (isStudentEvaluation) {
 			eval = this.createStudentEvaluation(rating, studentUN, tutorUN);
 		} else {
 			eval = this.createTutorEvaluation(rating, studentUN, tutorUN);
@@ -227,7 +228,18 @@ public class TutoringAppRestController {
 	}
 	//TODO: delete evaluation comment
 
-	
+	/** @author Alba Talelli */
+	@DeleteMapping(value = { "/evaluationcomments/", "/evaluationcomments" })
+	public Evaluation deleteEvaluation(@RequestParam(required=true) int rating, @RequestParam(name = "username", required=true) String studentUN, @RequestParam(name = "username", required = true) String tutorUN, @RequestParam(name="isStudentEvaluation", required=true) boolean isStudentEvaluation) throws IllegalArgumentException {
+		Evaluation eval;
+		
+		if (isStudentEvaluation) {
+			eval = this.createStudentEvaluation(rating, studentUN, tutorUN);
+		} else {
+			eval = this.createTutorEvaluation(rating, studentUN, tutorUN);
+		}
+		return eval;
+	}
 	
 	
 	
