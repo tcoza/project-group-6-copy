@@ -24,8 +24,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+
 @RunWith(MockitoJUnitRunner.class)
-public class IntegrationTestTutoringApp {
+public class MockTestTutoringAppService {
 
 	@Mock
 	private TeachingInstitutionRepository teachingInstitutionRepository;
@@ -74,7 +75,7 @@ public class IntegrationTestTutoringApp {
 	//TODO
 	//private static final String PERSON_KEY = "TestPerson";
 	//private static final String NONEXISTING_KEY = "NotAPerson";
-
+	
 	@Before
 	public void setMockOutput() {
 		//TODO
@@ -89,11 +90,6 @@ public class IntegrationTestTutoringApp {
 //		});
 	}
 	
-	/** 
-	 * TODO write test for create multiple students, multiple tutors, setting course and subjects
-	 * Validation tutor and add course to them, create requests and book them to rooms
-	 * Give feedback (evaluation) 
-	 */
-	
+	//TODO add all unit tests from TestTutoringAppService.java once they are done to run as mock tests
 
 }
