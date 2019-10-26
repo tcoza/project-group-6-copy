@@ -16,8 +16,6 @@ import ca.mcgill.ecse321.tutoringapp.model.*;
 
 @Service
 public class TutoringAppService {
-
-	
 	@Autowired
 	TeachingInstitutionRepository teachingInstitutionRepository;
 	@Autowired
@@ -72,7 +70,6 @@ public class TutoringAppService {
 	// TODO: Traian's services
 	
 	// to do: business methods for:
-		//TODO: delete student
 		//TODO: check user stories/functional requirements
 	
 	// Tutor
@@ -118,7 +115,7 @@ public class TutoringAppService {
 		return appUserRepository.findAppUserByUsername(username);
 	}
 	
-	/**@author Traian Coza **/
+	/** @author Traian Coza **/
 	@Transactional
 	public void changeTutorStatus(String username, String status) {
 		if (!tutorRepository.existsByUsername(username)) 
@@ -138,6 +135,15 @@ public class TutoringAppService {
 		
 		tutorRepository.save(tutor);
 		return;
+	}
+	
+	/** @author Traian */
+	@Transactional
+	public void deleteStudent(String username)
+	{
+		if (!studentRepository.existsByUsername(username))
+			throw new IllegalArgumentException("Student '" + username + "' does not exist!");
+		studentRepository.delete(studentRepository.findByUsername(username));
 	}
 	
 	/**@author Helen **/

@@ -98,6 +98,14 @@ public class TutoringAppRestController {
 		return (Tutor)service.getUser(username);
 	}
 	
+	/** @author Traian Coza */
+	@PostMapping(value = { "/students/{username}/delete", "/tutors/{username}/delete/" })
+	public void deleteStudent(
+			@PathVariable("username") String username)
+	{
+		service.deleteStudent(username);
+	}
+	
 	//**** COURSE, SUBJECT, TEACHING INSTITUTION **************
 	
 	/** @author Alba Talelli */
