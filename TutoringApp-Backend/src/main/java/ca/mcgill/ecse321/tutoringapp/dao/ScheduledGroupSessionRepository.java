@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.tutoringapp.dao;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public interface ScheduledGroupSessionRepository extends CrudRepository<Schedule
 	ScheduledGroupSession findByRoom (ClassRoom classRoom);
 	ScheduledGroupSession findByStartTime (Time startTime);
 	ScheduledGroupSession findByAssignedTutor (Tutor tutor);
+	ScheduledGroupSession deleteByAssignedTutorAndRoomAndStartTimeAndDate(Tutor tutor, ClassRoom classRoom, Time startTime, Date date);
 	List<ScheduledGroupSession> findByGroupRequest (GroupRequest groupRequest);
 	List<ScheduledGroupSession> findByIsFull (boolean isFull);
 	List<ScheduledGroupSession> findAll();
