@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.tutoringapp.dao;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface ScheduledPrivateSessionRepository extends CrudRepository<Schedu
 	ScheduledPrivateSession findByAssignedTutor (Tutor tutor);
 	List<ScheduledPrivateSession> findByStartTime (Time startTime);
 	List<ScheduledPrivateSession> findByRoom (SmallRoom smallRoom);
-	
+	ScheduledPrivateSession deleteByAssignedTutorAndStartTimeAndRoomAndDate(Tutor tutor, Time startTime, SmallRoom smallRoom, Date date);
 	List<ScheduledPrivateSession> findByIsFull (boolean isFull);
 	
 	List<ScheduledPrivateSession> findAll();

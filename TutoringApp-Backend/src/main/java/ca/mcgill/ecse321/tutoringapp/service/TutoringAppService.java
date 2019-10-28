@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.hql.internal.ast.tree.DeleteStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,6 @@ import ca.mcgill.ecse321.tutoringapp.model.*;
 
 @Service
 public class TutoringAppService {
-
-	
 	@Autowired
 	TeachingInstitutionRepository teachingInstitutionRepository;
 	@Autowired
@@ -70,11 +69,10 @@ public class TutoringAppService {
 	}
 
 	// TODO: Traian's services
-	
+
 	// to do: business methods for:
-		//TODO: delete student
-		//TODO: check user stories/functional requirements
-	
+	//TODO: check user stories/functional requirements
+
 	// Tutor
 	/** @author Traian **/
 	@Transactional
@@ -87,28 +85,28 @@ public class TutoringAppService {
 			throw new IllegalArgumentException("First name cannot be empty!");
 		if (lastname == null || lastname.trim().length() == 0)
 			throw new IllegalArgumentException("Last name cannot be empty!");
-		
+
 		AppUser user =
 				userType.equals("STUDENT") ? new Student() :
-				userType.equals("TUTOR") ? new Tutor() :
-				userType.equals("MANAGER") ? new Manager() :
-				null;
-		
-		user.setUsername(username);
-		user.setFirstName(firstname);
-		user.setLastName(lastname);
-		
-		switch(userType)
-		{
-		case "STUDENT": studentRepository.save((Student)user); break;
-		case "TUTOR": tutorRepository.save((Tutor)user); break;
-		case "MANAGER": managerRepository.save((Manager)user); break;
-		default: break;
-		}
-		
-		return user;
+					userType.equals("TUTOR") ? new Tutor() :
+						userType.equals("MANAGER") ? new Manager() :
+							null;
+
+						user.setUsername(username);
+						user.setFirstName(firstname);
+						user.setLastName(lastname);
+
+						switch(userType)
+						{
+						case "STUDENT": studentRepository.save((Student)user); break;
+						case "TUTOR": tutorRepository.save((Tutor)user); break;
+						case "MANAGER": managerRepository.save((Manager)user); break;
+						default: break;
+						}
+
+						return user;
 	}
-	
+
 	/** @author Traian **/
 	@Transactional
 	public AppUser getUser(String username)
@@ -117,29 +115,38 @@ public class TutoringAppService {
 			throw new IllegalArgumentException("User '" + username + "' does not exist");
 		return appUserRepository.findAppUserByUsername(username);
 	}
-	
-	/**@author Traian Coza **/
+
+	/** @author Traian Coza **/
 	@Transactional
 	public void changeTutorStatus(String username, String status) {
 		if (!tutorRepository.existsByUsername(username)) 
 			throw new IllegalArgumentException("This tutor does not exist!");
 		if (!status.matches("(PENDING|VERIFIED|TERMINATED)"))
 			throw new IllegalArgumentException("Unknown status '" + status + "'!");
-	
+
 		Tutor tutor = tutorRepository.findTutorByUsername(username);
 		tutor.setStatus(
 				status.equals("PENDING") ? TutorStatus.PENDING :
-				status.equals("VERIFIED") ? TutorStatus.VERIFIED :
-				status.equals("TERMINATED") ? TutorStatus.TERMINATED :
-				null);
-		
+					status.equals("VERIFIED") ? TutorStatus.VERIFIED :
+						status.equals("TERMINATED") ? TutorStatus.TERMINATED :
+							null);
+
 		if (status.equals("TERMINATED"))
 			tutor.getCourse().clear();
-		
+
 		tutorRepository.save(tutor);
 		return;
 	}
-	
+
+	/** @author Traian */
+	@Transactional
+	public void deleteStudent(String username)
+	{
+		if (!studentRepository.existsByUsername(username))
+			throw new IllegalArgumentException("Student '" + username + "' does not exist!");
+		studentRepository.delete(studentRepository.findByUsername(username));
+	}
+
 	/**@author Helen **/
 	@Transactional
 	public void addQualifiedCourseForTutor(String username, String courseCode) {
@@ -152,13 +159,13 @@ public class TutoringAppService {
 		Set<Course> qualifiedcourses = tutor.getCourse();
 		Course course = courseRepository.findCourseByCourseCode(courseCode);
 		qualifiedcourses.add(course);
-		
+
 		tutorRepository.save(tutor);//update tutor
 		courseRepository.save(course); //update course
 		return;
 	}
-	
-	
+
+
 	// Get Student
 	/** @author Alba Talelli */
 	public Student getStudent(String userName) {
@@ -176,7 +183,7 @@ public class TutoringAppService {
 		Student student = studentRepository.findByUsername(userName);
 		return student;
 	}
-	
+
 	// Get Tutor
 	/** @author Alba Talelli */
 	public Tutor getTutor(String userName){
@@ -186,8 +193,8 @@ public class TutoringAppService {
 			throw new IllegalArgumentException("User '" + userName + "' does not exist");
 		return tutorRepository.findTutorByUsername(userName);
 	}
-	
-	
+
+
 
 	// TODO: Odero's services
 	// TODO: create Room given a type
@@ -213,7 +220,7 @@ public class TutoringAppService {
 
 		PrivateRequest request = new PrivateRequest();
 		request.setId((username.hashCode()) * (courseOrSubject.hashCode()));
-		
+
 		java.util.Date today = new java.util.Date();
 		java.sql.Date date = new java.sql.Date(today.getTime());
 		request.setDateCreated(date);
@@ -221,7 +228,7 @@ public class TutoringAppService {
 		Student requestor = studentRepository.findByUsername(username);
 		request.setRequestor(requestor);
 
-		
+
 		//subject or course
 		if (isForCourse) {
 			if (!courseRepository.existsById(courseOrSubject)) {
@@ -234,7 +241,7 @@ public class TutoringAppService {
 			}
 			request.setRequestedSubject(subjectRepository.findSubjectByName(courseOrSubject));
 		}
-		
+
 		privateRequestRepository.save(request);
 		return request;
 	}
@@ -302,7 +309,7 @@ public class TutoringAppService {
 		if (!privateRequestRepository.existsById(id)) {
 			throw new IllegalArgumentException("Invalid GroupSessionRequest id or request does not exist!");
 		}
-		
+
 		GroupRequest request = groupRequestRepository.findById(id);
 		return request;
 	}
@@ -335,13 +342,13 @@ public class TutoringAppService {
 		} else if (!teachingInstitutionRepository.existsByName(teachingInstitution)) {
 			throw new IllegalArgumentException("Associated school does not exist! School must be created first.");
 		}
-		
+
 		Course course = new Course();
 		course.setName(name);
 		course.setCourseCode(courseCode);
 		TeachingInstitution school = teachingInstitutionRepository.findTeachingInstitutionByName(teachingInstitution);
 		course.setSchool(school);
-		
+
 		courseRepository.save(course);
 		return course;
 	}
@@ -382,18 +389,18 @@ public class TutoringAppService {
 		} else if (!teachingInstitutionRepository.existsByName(schoolname)) {
 			throw new IllegalArgumentException("Associated school does not exist! School must be created first.");
 		}
-		
+
 		Subject subject = new Subject();
 		subject.setName(name);
 		TeachingInstitution school = teachingInstitutionRepository.findTeachingInstitutionByName(schoolname);
 		subject.setSchool(school);
 		subjectRepository.save(subject);
 		return subject;
-		
+
 	}
 
 	//TODO: add type parameter to create Teaching Institution (must be UNIVERSITY, CEGEP, OTHER)
-	
+
 	/** @author Alba */
 	@Transactional
 	public Subject getSubject(String name) {
@@ -444,7 +451,7 @@ public class TutoringAppService {
 		TeachingInstitution teachingInstitution = new TeachingInstitution();
 		teachingInstitution.setName(name);
 		teachingInstitution.setType(iType);
-		
+
 		teachingInstitutionRepository.save(teachingInstitution);
 		return teachingInstitution;
 	}
@@ -503,7 +510,7 @@ public class TutoringAppService {
 		// add today's date
 		java.util.Date utilToday = new java.util.Date();
 		java.sql.Date date = new java.sql.Date(utilToday.getTime()); // convert util todays date in ms and add to
-																		// sqldate
+		// sqldate
 
 		TutorEvaluation tutorEval = new TutorEvaluation();
 		tutorEval.setRating(rating);
@@ -553,7 +560,7 @@ public class TutoringAppService {
 	public List<TutorEvaluation> getAllTutorEvaluation() {
 		return toList(tutorEvaluationRepository.findAll());
 	}
-	
+
 	/** @author Alba */
 	@Transactional
 	public StudentEvaluation createStudentEvaluation(int rating, Student student, Tutor tutor) {
@@ -586,7 +593,7 @@ public class TutoringAppService {
 		// add today's date
 		java.util.Date utilToday = new java.util.Date();
 		java.sql.Date date = new java.sql.Date(utilToday.getTime()); // convert util todays date in ms and add to
-																		// sqldate
+		// sqldate
 
 		StudentEvaluation studentEval = new StudentEvaluation();
 		studentEval.setRating(rating);
@@ -635,7 +642,7 @@ public class TutoringAppService {
 	public List<StudentEvaluation> getAllStudentEvaluation() {
 		return toList(studentEvaluationRepository.findAll());
 	}
-	
+
 	/** @author Alba */
 	@Transactional
 	public List<Evaluation> getAllEvaluation() {
@@ -653,45 +660,46 @@ public class TutoringAppService {
 		evalComment.setComment(comment);
 		evalComment.setEvaluation(eval);
 		evaluationCommentRepository.save(evalComment);
-		
+
 		return evalComment;
 	}
-	
+
 	/** @author Alba */
 	@Transactional
 	public EvaluationComment getEvalComment(Evaluation eval) {
-		
+
 		if (eval == null) {
 			throw new IllegalArgumentException ("Evaluation can't be empty");
 		}
 
 		EvaluationComment evalComment = evaluationCommentRepository.findByEvaluation(eval);
-		
+
 		return evalComment;
 	}
-	
+	// Can only be done from manager
 	@Transactional
 	public void deletEvalComment(Evaluation eval) {
-		
+
 		if (eval == null) {
 			throw new IllegalArgumentException ("Evaluation can't be empty");
 		}
 
 		int ID = evaluationCommentRepository.findByEvaluation(eval).getId();
-		
+
 		if (!evaluationCommentRepository.existsById(ID)) {
 			throw new IllegalArgumentException ("This evaluation do not have a comment");
 		}
 		else {
-		
-		EvaluationComment evalComment = evaluationCommentRepository.findByEvaluation(eval);
-		evaluationCommentRepository.delete(evalComment);
+
+
+			EvaluationComment evalComment = evaluationCommentRepository.findByEvaluation(eval);
+			evaluationCommentRepository.delete(evalComment);
 
 		}
 	}
-	
+
 	/********** END of EVALUATION *********/
-	
+
 	/** @author Arianit */
 	@Transactional
 	public ScheduledPrivateSession createScheduledPrivateSession(Tutor tutor, SmallRoom smallRoom, Date date, Time startTime) {
@@ -720,7 +728,7 @@ public class TutoringAppService {
 		scheduledPrivateSessionRepository.save(scheduledPrivateSession);
 		return scheduledPrivateSession;
 	}
-	
+
 	/** @author Arianit */
 	@Transactional
 	public ScheduledPrivateSession getScheduledPrivateSession(Tutor tutor) {
@@ -738,13 +746,35 @@ public class TutoringAppService {
 		ScheduledPrivateSession scheduledPrivateSession = scheduledPrivateSessionRepository.findByAssignedTutor(tutor);
 		return scheduledPrivateSession;
 	}
-	
+	/** @author Arianit */
+	@Transactional
+	public ScheduledPrivateSession deleteScheduledPrivateSession(Tutor tutor, Time startTime, SmallRoom smallRoom, Date date) {
+		String error = "";
+		if (tutor == null) {
+			error = error + "Tutor needs to be selected to delete the scheduled private session!";
+		} else if (!tutorRepository.existsByUsername(tutor.getUsername())){
+			error = error + "Tutor does not exist!";
+		}
+		if(smallRoom == null) {
+			error = error + "Room needs to be selected to delete the scheduled private session!";
+		} 
+		error = error.trim();
+
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		ScheduledPrivateSession scheduledPrivateSession = scheduledPrivateSessionRepository.deleteByAssignedTutorAndStartTimeAndRoomAndDate(tutor, startTime, smallRoom, date);
+		return scheduledPrivateSession;
+
+	}
+
+
 	/** @author Arianit */
 	@Transactional
 	public List<ScheduledPrivateSession> getAllScheduledPrivateSession(){
 		return toList(scheduledPrivateSessionRepository.findAll());
 	}
-	
+
 	/** @author Arianit */
 	@Transactional
 	public ScheduledGroupSession createScheduledGroupSession(Tutor tutor, ClassRoom classRoom, Date date, Time startTime) {
@@ -774,7 +804,7 @@ public class TutoringAppService {
 		scheduledGroupSessionRepository.save(scheduledGroupSession);
 		return scheduledGroupSession;
 	}
-	
+
 	/** @author Arianit */
 	@Transactional
 	public ScheduledGroupSession getScheduledGroupSession(Tutor tutor) {
@@ -792,6 +822,28 @@ public class TutoringAppService {
 		ScheduledGroupSession scheduledGroupSession = scheduledGroupSessionRepository.findByAssignedTutor(tutor);
 		return scheduledGroupSession;
 	}
+	/** @author Arianit */
+	@Transactional
+	public ScheduledGroupSession deleteScheduledGroupSession(Tutor tutor, ClassRoom classRoom, Time startTime, Date date) {	
+			String error = "";
+			if (tutor == null) {
+				error = error + "Tutor needs to be selected to delete the scheduled private session!";
+			} else if (!tutorRepository.existsByUsername(tutor.getUsername())){
+				error = error + "Tutor does not exist!";
+			}
+			if(classRoom == null) {
+				error = error + "Room needs to be selected to delete the scheduled private session!";
+			} 
+			error = error.trim();
+
+			if (error.length() > 0) {
+				throw new IllegalArgumentException(error);
+			}
+			ScheduledGroupSession scheduledGroupSession = scheduledGroupSessionRepository.deleteByAssignedTutorAndRoomAndStartTimeAndDate(tutor, classRoom, startTime, date);
+			return scheduledGroupSession;
+			
+	}
+	
 	/** @author Arianit */
 	@Transactional
 	public List<ScheduledGroupSession> getAllScheduledGroupSession(){

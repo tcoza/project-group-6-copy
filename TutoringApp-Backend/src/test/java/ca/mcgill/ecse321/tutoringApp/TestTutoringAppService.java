@@ -106,11 +106,14 @@ public class TestTutoringAppService {
 		String first = "First";
 		String last = "Last";
 		
-		service.createUser("STUDENT",username, first, last);
+		try {
+			service.createUser("STUDENT",username, first, last);
+		}catch (IllegalArgumentException e) {
+			fail();
+		}
 		assertEquals(studentRepository.findByUsername(username).getUsername(), username);
 		assertEquals(studentRepository.findByUsername(username).getFirstName(), first);
-		assertEquals(studentRepository.findByUsername(username).getLastName(), last);
-		
+		assertEquals(studentRepository.findByUsername(username).getLastName(), last);	
 	}
 	
 	/** @author Alba */
@@ -415,15 +418,19 @@ public class TestTutoringAppService {
 	/** Test to create a group session request for a subject
 	 * @author Helen
 	 * */
+	@Test
 	public void testCreateGroupRequest() {
-		assertEquals(0, service.getAllPrivateRequests());
+		assertEquals(0, service.getAllGroupRequests().size());
 
 		String username = "Bob1";
 		String subject = "Math";
+		String school = "schooltest";
 		boolean isCourse = false;
 
 		try {
 			service.createUser("STUDENT",username, "Bob", "Test");
+			service.createTeachingInstitution(school, "HIGHSCHOOL");
+			service.createSubject(subject, school);
 			service.createGroupRequest(username, subject, isCourse);
 		} catch (IllegalArgumentException e) {
 			fail();
@@ -433,7 +440,7 @@ public class TestTutoringAppService {
 
 		assertEquals(1, allRequests.size());
 		assertEquals(username, allRequests.get(0).getRequestor().getUsername());
-		assertEquals(subject, allRequests.get(0).getRequestedCourse().getName());
+		assertEquals(subject, allRequests.get(0).getRequestedSubject().getName());
 	}
 
 	/**
