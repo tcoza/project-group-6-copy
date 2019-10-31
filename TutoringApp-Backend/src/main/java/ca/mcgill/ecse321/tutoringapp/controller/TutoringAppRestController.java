@@ -236,7 +236,7 @@ public class TutoringAppRestController {
 	}
 
 	/** @author Alba Talelli */
-	@DeleteMapping(value = { "/evaluationcomments/", "/evaluationcomments" })
+	@PostMapping(value = { "/evaluationcomments/", "/evaluationcomments" })
 	public EvaluationComment createEvaluationComment(@RequestParam(name = "username", required=true) String studentUN, @RequestParam(name = "username", required = true) String tutorUN,@RequestParam(name="isStudentEvaluation", required=true) boolean isStudentEvaluation, @RequestParam(required=true) String comment) throws IllegalArgumentException {
 		Evaluation eval = new Evaluation();
 		Student student = service.getStudent(studentUN);

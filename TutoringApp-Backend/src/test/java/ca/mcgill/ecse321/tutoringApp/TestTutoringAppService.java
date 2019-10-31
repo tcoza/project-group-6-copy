@@ -387,7 +387,7 @@ public class TestTutoringAppService {
 
 	}	
 	
-	/** Test to create a private session request for a course
+	/** Positive test to create a private session request for a course
 	 * @author Helen
 	 * */
 	@Test
@@ -414,6 +414,86 @@ public class TestTutoringAppService {
 		assertEquals(1, allRequests.size());
 		assertEquals(username, allRequests.get(0).getRequestor().getUsername());
 		assertEquals(course, allRequests.get(0).getRequestedCourse().getCourseCode());
+	}
+	
+	/** Tests all null and invalid input parameters to createPrivateRequest()
+	 * @author Helen
+	 * */
+	@Test
+	public void testInvalidCreatePrivateRequest() {
+		assertEquals(0, service.getAllPrivateRequests().size());
+
+		//set up test for course
+		String username = "helen-m-lin";
+		String course = "ECSE321";
+		String courseName = "Software Eng";
+		String school = "McGill";
+		boolean isCourse = true;
+		
+		service.createUser("STUDENT", username, "Helen", "Lin");
+		service.createTeachingInstitution(school, "UNIVERSITY");
+		service.createCourse(course, courseName , school);
+		
+		try { //test null username
+			service.createPrivateRequest(null, course, isCourse);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Username for student requestor does not exist or is incorrect!");
+		}
+		try { //test empty username
+			service.createPrivateRequest("", course, isCourse);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Username for student requestor does not exist or is incorrect!");
+		}
+		try { //test invalid username
+			service.createPrivateRequest("helen-lin", course, isCourse); //doesn't exist (the correct one is "helen-m-lin"
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Username for student requestor does not exist or is incorrect!");
+		}
+		try { //test null course
+			service.createPrivateRequest(username, null, isCourse);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Invalid course or subject requested!");
+		}
+		try { //test empty course
+			service.createPrivateRequest(username, "", isCourse); 
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Invalid course or subject requested!");
+		}
+		try { //test invalid course
+			service.createPrivateRequest(username, "ECSE21", isCourse);  //incorrect course code
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Invalid course requested!");
+		}
+		
+		//set up test for subject
+		String sbj = "Math";
+		school = "TestSchool";
+		isCourse = false;
+		service.createTeachingInstitution(school, "HIGHSCHOOL");
+		service.createSubject(sbj, school);
+		
+		try { //test null sbj
+			service.createPrivateRequest(username, null, isCourse);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Invalid course or subject requested!");
+		}
+		try { //test empty sbj
+			service.createPrivateRequest(username, "", isCourse); 
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Invalid course or subject requested!");
+		}
+		try { //test invalid sbj
+			service.createPrivateRequest(username, "mat", isCourse);  //incorrect course code
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Invalid subject requested!");
+		}
+		List<PrivateRequest> allRequests = service.getAllPrivateRequests();	
+		assertEquals(0, allRequests.size());
+		assertEquals(1, studentRepository.count());
+		assertEquals(1, courseRepository.count());
+		assertEquals(1, subjectRepository.count());
+		assertEquals(2, teachingInstitutionRepository.count());
+
 	}
 
 	/** Test to create a group session request for a subject
@@ -443,6 +523,87 @@ public class TestTutoringAppService {
 		assertEquals(username, allRequests.get(0).getRequestor().getUsername());
 		assertEquals(subject, allRequests.get(0).getRequestedSubject().getName());
 	}
+	
+	/** Tests all null and invalid input parameters to createGroupRequest()
+	 * @author Helen
+	 * */
+	@Test
+	public void testInvalidCreateGroupRequest() {
+		assertEquals(0, service.getAllGroupRequests().size());
+
+		//set up test for course
+		String username = "helen-m-lin";
+		String course = "ECSE321";
+		String courseName = "Software Eng";
+		String school = "McGill";
+		boolean isCourse = true;
+		
+		service.createUser("STUDENT", username, "Helen", "Lin");
+		service.createTeachingInstitution(school, "UNIVERSITY");
+		service.createCourse(course, courseName , school);
+		
+		try { //test null username
+			service.createGroupRequest(null, course, isCourse);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Username for student requestor does not exist or is incorrect!");
+		}
+		try { //test empty username
+			service.createGroupRequest("", course, isCourse);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Username for student requestor does not exist or is incorrect!");
+		}
+		try { //test invalid username
+			service.createGroupRequest("helen-lin", course, isCourse); //doesn't exist (the correct one is "helen-m-lin"
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Username for student requestor does not exist or is incorrect!");
+		}
+		try { //test null course
+			service.createGroupRequest(username, null, isCourse);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Invalid course or subject requested!");
+		}
+		try { //test empty course
+			service.createGroupRequest(username, "", isCourse); 
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Invalid course or subject requested!");
+		}
+		try { //test invalid course
+			service.createGroupRequest(username, "ECSE21", isCourse);  //incorrect course code
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Invalid course requested!");
+		}
+		
+		//set up test for subject
+		String sbj = "Math";
+		school = "TestSchool";
+		isCourse = false;
+		service.createTeachingInstitution(school, "HIGHSCHOOL");
+		service.createSubject(sbj, school);
+		
+		try { //test null sbj
+			service.createGroupRequest(username, null, isCourse);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Invalid course or subject requested!");
+		}
+		try { //test empty sbj
+			service.createGroupRequest(username, "", isCourse); 
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Invalid course or subject requested!");
+		}
+		try { //test invalid sbj
+			service.createGroupRequest(username, "mat", isCourse);  //incorrect course code
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Invalid subject requested!");
+		}
+
+		List<GroupRequest> allRequests = service.getAllGroupRequests();	
+		assertEquals(0, allRequests.size());
+		assertEquals(1, studentRepository.count());
+		assertEquals(1, courseRepository.count());
+		assertEquals(1, subjectRepository.count());
+		assertEquals(2, teachingInstitutionRepository.count());
+	}
+	
 
 	/**
 	 * Test that group request repository can persist information to students

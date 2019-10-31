@@ -233,7 +233,14 @@ public class TutoringAppService {
 		if (username == null || username.trim().length() == 0 || !studentRepository.existsByUsername(username)) {
 			throw new IllegalArgumentException("Username for student requestor does not exist or is incorrect!");
 		}
-
+		if (courseOrSubject == null || courseOrSubject.trim().length() == 0) {
+			throw new IllegalArgumentException("Invalid course or subject requested!");
+		}
+		if (isForCourse && !courseRepository.existsById(courseOrSubject))
+			throw new IllegalArgumentException("Invalid course requested!");
+		else if (!isForCourse && !subjectRepository.existsById(courseOrSubject))
+			throw new IllegalArgumentException("Invalid subject requested!");
+				
 		PrivateRequest request = new PrivateRequest();
 		request.setId((username.hashCode()) * (courseOrSubject.hashCode()));
 
@@ -244,17 +251,10 @@ public class TutoringAppService {
 		Student requestor = studentRepository.findByUsername(username);
 		request.setRequestor(requestor);
 
-
-		//subject or course
+		//set subject or course
 		if (isForCourse) {
-			if (!courseRepository.existsById(courseOrSubject)) {
-				throw new IllegalArgumentException("Invalid course requested!");
-			}
 			request.setRequestedCourse(courseRepository.findCourseByCourseCode(courseOrSubject));
 		} else {
-			if (!subjectRepository.existsById(courseOrSubject)) {
-				throw new IllegalArgumentException("Invalid subject requested!");
-			}
 			request.setRequestedSubject(subjectRepository.findSubjectByName(courseOrSubject));
 		}
 
@@ -291,6 +291,13 @@ public class TutoringAppService {
 		if (username == null || username.trim().length() == 0 || !studentRepository.existsByUsername(username)) {
 			throw new IllegalArgumentException("Username for student requestor does not exist or is incorrect!");
 		}
+		if (courseOrSubject == null || courseOrSubject.trim().length() == 0) {
+			throw new IllegalArgumentException("Invalid course or subject requested!");
+		}
+		if (isForCourse && !courseRepository.existsById(courseOrSubject))
+			throw new IllegalArgumentException("Invalid course requested!");
+		else if (!isForCourse && !subjectRepository.existsById(courseOrSubject))
+			throw new IllegalArgumentException("Invalid subject requested!");
 
 		GroupRequest request = new GroupRequest();
 		request.setId((username.hashCode()) * (courseOrSubject.hashCode()));
@@ -301,16 +308,10 @@ public class TutoringAppService {
 		Student requestor = studentRepository.findByUsername(username);
 		request.setRequestor(requestor);
 
-		//subject or course
+		//set subject or course
 		if (isForCourse) {
-			if (!courseRepository.existsById(courseOrSubject)) {
-				throw new IllegalArgumentException("Invalid course requested!");
-			}
 			request.setRequestedCourse(courseRepository.findCourseByCourseCode(courseOrSubject));
 		} else {
-			if (!subjectRepository.existsById(courseOrSubject)) {
-				throw new IllegalArgumentException("Invalid subject requested!");
-			}
 			request.setRequestedSubject(subjectRepository.findSubjectByName(courseOrSubject));
 		}
 
