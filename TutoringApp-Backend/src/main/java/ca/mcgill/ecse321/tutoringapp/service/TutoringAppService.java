@@ -68,7 +68,7 @@ public class TutoringAppService {
 		return resultList;
 	}
 
-	// TODO: Traian's services
+	// TODO: Traian's services (done?)
 
 	// to do: business methods for:
 	//TODO: check user stories/functional requirements
@@ -145,6 +145,14 @@ public class TutoringAppService {
 		if (!studentRepository.existsByUsername(username))
 			throw new IllegalArgumentException("Student '" + username + "' does not exist!");
 		studentRepository.delete(studentRepository.findByUsername(username));
+	}
+	
+	@Transactional
+	public Room getRoomByID(int id)
+	{
+		if (!roomRepository.existsById(id))
+			throw new IllegalArgumentException("Room with id " + id + " does not exist!");
+		return roomRepository.findById(id).get();
 	}
 
 	/**@author Helen **/
