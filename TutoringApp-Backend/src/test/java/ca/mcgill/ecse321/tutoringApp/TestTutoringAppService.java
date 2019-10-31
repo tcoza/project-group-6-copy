@@ -757,6 +757,7 @@ public class TestTutoringAppService {
 		assertEquals(2, sessionRequestRepository.findByRequestor((Student)appUserRepository.findAppUserByUsername(username2)).size());
 	}
 
+	/** @author Traian Coza */
 	@Test
 	public void testOneUser()
 	{
@@ -780,6 +781,7 @@ public class TestTutoringAppService {
 		assertEquals(appUserRepository.count(), 0);
 	}
 	
+	/** @author Traian Coza */
 	@Test
 	public void testTutor()
 	{
@@ -795,6 +797,7 @@ public class TestTutoringAppService {
 		assertEquals(((Tutor)service.getUser("helen")).getStatus(), TutorStatus.VERIFIED);
 	}
 	
+	/** @author Traian Coza */
 	@Test
 	public void testManager()
 	{

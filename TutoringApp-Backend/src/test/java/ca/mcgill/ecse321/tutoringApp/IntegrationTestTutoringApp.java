@@ -95,5 +95,27 @@ public class IntegrationTestTutoringApp {
 	 * Give feedback (evaluation) 
 	 */
 	
-
+	@Test
+	public void integration()
+	{
+		service.createUser("STUDENT", "tcoza", "Traian", "Coza");
+		service.createUser("MANAGER", "odero", "Odero", "Otieno");
+		service.createUser("MANAGER", "arianit", "Arianit", "Vavla");
+		service.createUser("TUTOR", "alba", "Alba", "Talelli");
+		service.createUser("TUTOR", "helen", "Helen", "Lin");
+		assertEquals(appUserRepository.count(), 5);
+		service.changeTutorStatus("alba", "VERIFIED");
+		service.changeTutorStatus("helen", "VERIFIED");
+		service.createTeachingInstitution("Magill", "UNIVERSITY");
+		service.createTeachingInstitution("Concordia", "UNIVERSITY");
+		service.createCourse("ECSE321", "Introduction to Software", "Magill");
+		service.createCourse("ECSE324", "Introduction to Polish", "Magill");
+		service.createCourse("FINE432", "Financial stuff", "Concordia");
+		service.addQualifiedCourseForTutor("helen", "ECSE321");
+		service.addQualifiedCourseForTutor("alba", "ECSE321");
+		service.addQualifiedCourseForTutor("helen", "ECSE324");
+		
+		
+		
+	}
 }
