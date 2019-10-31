@@ -1,7 +1,9 @@
 package ca.mcgill.ecse321.tutoringApp;
 
+import java.util.Date;
 import java.util.List;
 
+import org.apache.tomcat.jni.Time;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -102,9 +104,9 @@ public class IntegrationTestTutoringApp {
 		service.addQualifiedCourseForTutor("helen", "ECSE324");
 		service.createSmallRoom();
 		service.createClassRoom();
-		service.createSmallRoom();
-		
-		
+		int id = service.createSmallRoom().getId();
+		assertEquals(roomRepository.count(), 3);
+		service.createPrivateRequest("tcoza", "ECSE321", true);
 		
 	}
 }
