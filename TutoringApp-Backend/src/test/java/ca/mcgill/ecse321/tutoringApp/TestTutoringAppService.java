@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 import org.junit.*;
@@ -804,5 +806,49 @@ public class TestTutoringAppService {
 		assertEquals(managerRepository.count(), 2);
 		assertEquals(service.getUser("arianit").getLastName(), "Vavla");
 	}
+	@Test
+	public void testCreateScheduledPrivateSession() {
+		Tutor tutor = (Tutor) service.createUser("TUTOR", "a", "a", "a");
+		SmallRoom smallRoom = service.createSmallRoom(2);
+		@SuppressWarnings("deprecation")
+		Date date = new Date(2019, 10, 20);
+		@SuppressWarnings("deprecation")
+		Time startTime = new Time(13, 35, 00);
+		service.createScheduledPrivateSession(tutor, smallRoom, date, startTime);
+		assertEquals(1, scheduledPrivateSessionRepository.count());
+	}
+	
+	@Test 
+	public void testCreateScheduledGroupSession() {
+		Tutor tutor = (Tutor) service.createUser("TUTOR", "a", "a", "a");
+		ClassRoom classRoom = service.createClassRoom(1);
+		@SuppressWarnings("deprecation")
+		Date date = new Date(2019, 10, 20);
+		@SuppressWarnings("deprecation")
+		Time startTime = new Time(13, 35, 00);
+		service.createScheduledGroupSession(tutor, classRoom, date, startTime);
+		assertEquals(1, scheduledGroupSessionRepository.count());
+	}
+	
+	@Test
+	public void createNullScheduledPrivateSession() {
+		Tutor tutor = null;
+		SmallRoom smallRoom = null;
+		Date date = null;
+		Time startTime = null;
+		service.createScheduledPrivateSession(tutor, smallRoom, date, startTime);
+		assertEquals(0, scheduledPrivateSessionRepository.count());
+	}
+	
+	@Test 
+	public void createNullScheduledGroupSession() {
+		Tutor tutor = null;
+		ClassRoom classRoom = null;
+		Date date = null;
+		Time startTime = null;
+		service.createScheduledGroupSession(tutor, classRoom, date, startTime);
+		assertEquals(0, scheduledGroupSessionRepository.count());
+	}
+	
 
 }
