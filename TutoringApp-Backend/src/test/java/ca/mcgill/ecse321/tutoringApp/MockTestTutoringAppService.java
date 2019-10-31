@@ -2,30 +2,20 @@ package ca.mcgill.ecse321.tutoringApp;
 
 import java.util.List;
 
-import org.junit.*;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.Mock;
 import org.mockito.InjectMocks;
-import org.mockito.invocation.InvocationOnMock;
-
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import ca.mcgill.ecse321.tutoringapp.dao.*;
 import ca.mcgill.ecse321.tutoringapp.model.*;
 import ca.mcgill.ecse321.tutoringapp.service.TutoringAppService;
-import ca.mcgill.ecse321.tutoringapp.controller.TutoringAppRestController;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.StrictStubs.class)
 public class MockTestTutoringAppService {
 
 	@Mock
@@ -72,24 +62,42 @@ public class MockTestTutoringAppService {
 	@InjectMocks
 	private TutoringAppService service;
 
-	//TODO
-	//private static final String PERSON_KEY = "TestPerson";
-	//private static final String NONEXISTING_KEY = "NotAPerson";
 	
-	@Before
-	public void setMockOutput() {
-		//TODO
-//		when(personDao.findPersonByName(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
-//			if(invocation.getArgument(0).equals(PERSON_KEY)) {
-//				Person person = new Person();
-//				person.setName(PERSON_KEY);
-//				return person;
-//			} else {
-//				return null;
-//			}
-//		});
-	}
+	/*
+	 * NOTE: In this test suite, we use Mockito and dependency injection to run MOCK tests.
+	 * 
+	 * By running this class with @RunWith(MockitoJUnitRunner.StrictStubs.class),
+	 * we are able to skip the setUpMockOutput() and also skip MockitoAnnotations.initMocks(Object).
+	 * 
+	 * So, using this StrictStubs runner also allows us to create cleaner tests.
+	 * 
+	 * From the MockitoJUnitRunner.StrictStubs JavaDoc: 
+	 * 			• MockitoJUnitRunner.StrictStubs automatically detects stubbing argument mismatches
+	 * 			• Initializes mocks annotated with Mock,so that explicit usage of MockitoAnnotations.initMocks(Object) is not necessary.
+	 * 			• Mocks are initialized before each test method. 
+	 * 			•It is highly recommended to use MockitoJUnitRunner.StrictStubs variant of the runner.
+	 * 				It drives cleaner tests and improves debugging experience.
+	 */
+	
 	
 	//TODO add all unit tests from TestTutoringAppService.java once they are done to run as mock tests
 
+	/** @author Helen */
+	@Test
+	public void testCreateStudent() {
+		assertEquals(0, studentRepository.count());
+		
+		String username = "testusername";
+		String first = "First";
+		String last = "Last";
+		Student student = null;
+		try {
+			student = (Student) service.createUser("STUDENT",username, first, last);
+		}catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertEquals(student.getUsername(), username);
+		assertEquals(student.getFirstName(), first);
+		assertEquals(student.getLastName(), last);	
+	}
 }
