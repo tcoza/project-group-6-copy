@@ -349,6 +349,30 @@ public class TestTutoringAppService {
 	
 	/** @author Alba */
 	@Test
+	public void testCreateNullNameSubejct() {
+		assertEquals(0, service.getAllSubject().size());
+		assertEquals(0, service.getAllTeachingInstitution().size());
+		String error = null;
+		
+		String name = null;
+		String nameS = "test high school";
+		service.createTeachingInstitution(nameS, "HIGHSCHOOL");
+		
+		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
+		String school = allSchools.get(0).getName();
+	
+		try {
+			service.createSubject(name,school);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();;
+		}
+		
+		assertEquals("Subject name cannot be empty!", error);
+		
+	}
+	
+	/** @author Alba */
+	@Test
 	public void testTeachingInstitutionCreate() {
 		assertEquals(0, service.getAllTeachingInstitution().size());
 
