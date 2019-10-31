@@ -808,8 +808,8 @@ public class TestTutoringAppService {
 	}
 	@Test
 	public void testCreateScheduledPrivateSession() {
-		Tutor tutor = (Tutor) service.createUser("TUTOR", "a", "a", "a");
-		SmallRoom smallRoom = service.createSmallRoom(2);
+		Tutor tutor = (Tutor) service.createUser("TUTOR", "av", "ar", "ac");
+		SmallRoom smallRoom = service.createSmallRoom(1);
 		@SuppressWarnings("deprecation")
 		Date date = new Date(2019, 10, 20);
 		@SuppressWarnings("deprecation")
