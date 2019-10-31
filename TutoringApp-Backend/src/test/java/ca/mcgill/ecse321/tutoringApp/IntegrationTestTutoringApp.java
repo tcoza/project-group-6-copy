@@ -74,20 +74,6 @@ public class IntegrationTestTutoringApp {
 	//TODO
 	//private static final String PERSON_KEY = "TestPerson";
 	//private static final String NONEXISTING_KEY = "NotAPerson";
-
-	@Before
-	public void setMockOutput() {
-		//TODO
-//		when(personDao.findPersonByName(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
-//			if(invocation.getArgument(0).equals(PERSON_KEY)) {
-//				Person person = new Person();
-//				person.setName(PERSON_KEY);
-//				return person;
-//			} else {
-//				return null;
-//			}
-//		});
-	}
 	
 	/** 
 	 * TODO write test for create multiple students, multiple tutors, setting course and subjects
