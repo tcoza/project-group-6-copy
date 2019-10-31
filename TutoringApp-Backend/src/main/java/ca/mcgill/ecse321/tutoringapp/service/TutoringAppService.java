@@ -227,7 +227,10 @@
 		// Create SmallRoom, max 10
 		/** @author Odero Otieno */	
 		@Transactional
-		public SmallRoom createSmallRoom(int id) {
+		public SmallRoom createSmallRoom() {
+			int id;		// Auto-generated id
+			for (id = 1; roomRepository.existsById(id); id++);
+			
 			SmallRoom smallRoom = new SmallRoom();
 			smallRoom.setId(id);
 			smallRoomRepository.save(smallRoom);
@@ -251,7 +254,10 @@
 		/** @author Odero Otieno */	
 		@Transactional
 		
-		public ClassRoom createClassRoom(int id) {
+		public ClassRoom createClassRoom() {
+			int id;		// Auto-generated id
+			for (id = 1; roomRepository.existsById(id); id++);
+			
 			ClassRoom classRoom = new ClassRoom();
 			classRoom.setId(id);
 			classRoomRepository.save(classRoom);

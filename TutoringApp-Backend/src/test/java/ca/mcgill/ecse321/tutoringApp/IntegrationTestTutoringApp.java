@@ -100,6 +100,9 @@ public class IntegrationTestTutoringApp {
 		service.addQualifiedCourseForTutor("helen", "ECSE321");
 		service.addQualifiedCourseForTutor("alba", "ECSE321");
 		service.addQualifiedCourseForTutor("helen", "ECSE324");
+		service.createSmallRoom();
+		service.createClassRoom();
+		service.createSmallRoom();
 		
 		
 		
