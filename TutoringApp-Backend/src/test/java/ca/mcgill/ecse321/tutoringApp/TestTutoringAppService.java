@@ -701,6 +701,11 @@ public class TestTutoringAppService {
 		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "name", null, "Fancy name"));
 		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "name", "Name", null));
 		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "tcoza", "Already", "Exists"));
+		assertThrows(IllegalArgumentException.class, () -> service.deleteStudent(null));
+		assertThrows(IllegalArgumentException.class, () -> service.deleteStudent("non existent"));
+		service.deleteStudent("tcoza");
+		assertEquals(studentRepository.count(), 0);
+		assertEquals(appUserRepository.count(), 0);
 	}
 	
 	@Test

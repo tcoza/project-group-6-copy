@@ -81,6 +81,8 @@ public class TutoringAppService {
 			throw new IllegalArgumentException("Unknown user type '" + userType + "'!");
 		if (username == null || username.trim().length() == 0)
 			throw new IllegalArgumentException("Username cannot be empty!");
+		if (appUserRepository.existsByUsername(username))
+			throw new IllegalArgumentException("User '" + username + "' already exists!");
 		if (firstname == null || firstname.trim().length() == 0)
 			throw new IllegalArgumentException("First name cannot be empty!");
 		if (lastname == null || lastname.trim().length() == 0)
@@ -103,15 +105,7 @@ public class TutoringAppService {
 		case "MANAGER": managerRepository.save((Manager)user); break;
 		default: break;
 		}
-
-		switch(userType)
-		{
-		case "STUDENT": studentRepository.save((Student)user); break;
-		case "TUTOR": tutorRepository.save((Tutor)user); break;
-		case "MANAGER": managerRepository.save((Manager)user); break;
-		default: break;
-		}
-
+		
 		return user;
 	}
 
