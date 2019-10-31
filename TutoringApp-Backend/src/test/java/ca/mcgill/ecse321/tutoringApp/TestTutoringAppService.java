@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.tutoringApp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -527,10 +528,18 @@ public class TestTutoringAppService {
 	public void testOneUser()
 	{
 		service.createUser("STUDENT", "tcoza", "Traian", "Coza");
-		assertEquals(appUserRepository.findAppUserByUsername("tcoza").getUsername(), "tcoza");
+		assertEquals(service.getUser("tcoza").getUsername(), "tcoza");
 		assertEquals(appUserRepository.count(), 1);
 		assertEquals(studentRepository.count(), 1);
 		assertEquals(tutorRepository.count(), 0);
+		assertThrows(IllegalArgumentException.class, () -> service.getUser("Non existent username haha"));
+		assertThrows(IllegalArgumentException.class, () -> service.getUser(null));
+		assertThrows(IllegalArgumentException.class, () -> service.createUser("Uhh type", "name", "Name", "Fancy name"));
+		assertThrows(IllegalArgumentException.class, () -> service.createUser(null, "name", "Name", "Fancy name"));
+		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", null, "Name", "Fancy name"));
+		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "name", null, "Fancy name"));
+		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "name", "Name", null));
+		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "tcoza", "Already", "Exists"));
 	}
 	
 	@Test
@@ -540,6 +549,12 @@ public class TestTutoringAppService {
 		service.createUser("TUTOR", "helen", "Helen", "Lin");
 		assertEquals(tutorRepository.count(), 2);
 		assertEquals(service.getUser("alba").getLastName(), "Talelli");
+		assertEquals(((Tutor)service.getUser("helen")).getStatus(), TutorStatus.PENDING);
+		assertThrows(IllegalArgumentException.class, () -> service.changeTutorStatus("helen", "Uhh status"));
+		assertThrows(IllegalArgumentException.class, () -> service.changeTutorStatus(null, "Uhh status"));
+		assertThrows(IllegalArgumentException.class, () -> service.changeTutorStatus("helen", null));
+		service.changeTutorStatus("helen", "VERIFIED");
+		assertEquals(((Tutor)service.getUser("helen")).getStatus(), TutorStatus.VERIFIED);
 	}
 	
 	@Test

@@ -77,7 +77,7 @@ public class TutoringAppService {
 	/** @author Traian **/
 	@Transactional
 	public AppUser createUser(String userType, String username, String firstname, String lastname) {
-		if (!userType.matches("(STUDENT|TUTOR|MANAGER)"))
+		if (userType == null || !userType.matches("(STUDENT|TUTOR|MANAGER)"))
 			throw new IllegalArgumentException("Unknown user type '" + userType + "'!");
 		if (username == null || username.trim().length() == 0)
 			throw new IllegalArgumentException("Username cannot be empty!");
@@ -88,30 +88,38 @@ public class TutoringAppService {
 
 		AppUser user =
 				userType.equals("STUDENT") ? new Student() :
-					userType.equals("TUTOR") ? new Tutor() :
-						userType.equals("MANAGER") ? new Manager() :
-							null;
+				userType.equals("TUTOR") ? new Tutor() :
+				userType.equals("MANAGER") ? new Manager() :
+				null;
 
-						user.setUsername(username);
-						user.setFirstName(firstname);
-						user.setLastName(lastname);
+		user.setUsername(username);
+		user.setFirstName(firstname);
+		user.setLastName(lastname);
 
-						switch(userType)
-						{
-						case "STUDENT": studentRepository.save((Student)user); break;
-						case "TUTOR": tutorRepository.save((Tutor)user); break;
-						case "MANAGER": managerRepository.save((Manager)user); break;
-						default: break;
-						}
+		switch(userType)
+		{
+		case "STUDENT": studentRepository.save((Student)user); break;
+		case "TUTOR": tutorRepository.save((Tutor)user); break;
+		case "MANAGER": managerRepository.save((Manager)user); break;
+		default: break;
+		}
 
-						return user;
+		switch(userType)
+		{
+		case "STUDENT": studentRepository.save((Student)user); break;
+		case "TUTOR": tutorRepository.save((Tutor)user); break;
+		case "MANAGER": managerRepository.save((Manager)user); break;
+		default: break;
+		}
+
+		return user;
 	}
 
 	/** @author Traian **/
 	@Transactional
 	public AppUser getUser(String username)
 	{
-		if (!appUserRepository.existsByUsername(username))
+		if (username == null || !appUserRepository.existsByUsername(username))
 			throw new IllegalArgumentException("User '" + username + "' does not exist");
 		return appUserRepository.findAppUserByUsername(username);
 	}
@@ -119,18 +127,18 @@ public class TutoringAppService {
 	/** @author Traian Coza **/
 	@Transactional
 	public void changeTutorStatus(String username, String status) {
-		if (!tutorRepository.existsByUsername(username)) 
+		if (username == null || !tutorRepository.existsByUsername(username)) 
 			throw new IllegalArgumentException("This tutor does not exist!");
-		if (!status.matches("(PENDING|VERIFIED|TERMINATED)"))
+		if (status == null || !status.matches("(PENDING|VERIFIED|TERMINATED)"))
 			throw new IllegalArgumentException("Unknown status '" + status + "'!");
 
 		Tutor tutor = tutorRepository.findTutorByUsername(username);
 		tutor.setStatus(
 				status.equals("PENDING") ? TutorStatus.PENDING :
-					status.equals("VERIFIED") ? TutorStatus.VERIFIED :
-						status.equals("TERMINATED") ? TutorStatus.TERMINATED :
-							null);
-
+				status.equals("VERIFIED") ? TutorStatus.VERIFIED :
+				status.equals("TERMINATED") ? TutorStatus.TERMINATED :
+				null);
+		
 		if (status.equals("TERMINATED"))
 			tutor.getCourse().clear();
 
@@ -142,7 +150,7 @@ public class TutoringAppService {
 	@Transactional
 	public void deleteStudent(String username)
 	{
-		if (!studentRepository.existsByUsername(username))
+		if (username == null || !studentRepository.existsByUsername(username))
 			throw new IllegalArgumentException("Student '" + username + "' does not exist!");
 		studentRepository.delete(studentRepository.findByUsername(username));
 	}
