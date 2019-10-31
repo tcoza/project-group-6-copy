@@ -688,6 +688,7 @@ public class TutoringAppService {
 		return evalComment;
 	}
 	// Can only be done from manager
+	/** @author Alba */
 	@Transactional
 	public void deletEvalComment(Evaluation eval) {
 

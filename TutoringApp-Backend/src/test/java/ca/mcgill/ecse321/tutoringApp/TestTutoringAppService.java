@@ -118,7 +118,6 @@ public class TestTutoringAppService {
 	}
 	
 	/** @author Alba */
-	@SuppressWarnings("null")
 	@Test
 	public void testCreateCourse() {
 		assertEquals(0, service.getAllCourse().size());
@@ -214,6 +213,31 @@ public class TestTutoringAppService {
 		assertEquals(uny.getName(), school.getName());
 
 	}
+	
+	/** @author Alba */
+	@Test
+	public void testCreateNullCourse() {
+		assertEquals(0, service.getAllCourse().size());
+		assertEquals(0, service.getAllTeachingInstitution().size());
+		
+		String name = null;
+		String courseCode = null;
+		String nameS = "Mcgill";
+		String error = null;
+		
+		service.createTeachingInstitution(nameS, "UNIVERSITY");
+		TeachingInstitution school = service.getAllTeachingInstitution().get(0);
+
+		try {
+			service.createCourse(courseCode, name, school.getName());
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertEquals("Course name cannot be empty! Course code cannot be empty!", error);
+		
+	}
+
 
 	/** @author Alba */
 	@Test
