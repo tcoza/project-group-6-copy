@@ -96,6 +96,8 @@ public class IntegrationTestTutoringApp {
 		service.changeTutorStatus("helen", "VERIFIED");
 		service.createTeachingInstitution("Magill", "UNIVERSITY");
 		service.createTeachingInstitution("Concordia", "UNIVERSITY");
+		service.createSubject("Engineering", "Magill");
+		service.createSubject("Finance", "Concordia");
 		service.createCourse("ECSE321", "Introduction to Software", "Magill");
 		service.createCourse("ECSE324", "Introduction to Polish", "Magill");
 		service.createCourse("FINE432", "Financial stuff", "Concordia");
@@ -108,5 +110,10 @@ public class IntegrationTestTutoringApp {
 		assertEquals(roomRepository.count(), 3);
 		service.createPrivateRequest("tcoza", "ECSE321", true);
 		service.createScheduledPrivateSession("alba", id, new java.sql.Time(System.currentTimeMillis() + 100));
+		Evaluation
+		eval = service.createStudentEvaluation(7, service.getStudent("tcoza"), service.getTutor("alba"));
+		service.createEvalComment(eval, "Great job although your methods should take string arguments");
+		eval = service.createTutorEvaluation(9, service.getStudent("tcoza"), service.getTutor("alba"));
+		service.createEvalComment(eval, "Bruh Arianit also did them like that but alright");
 	}
 }
