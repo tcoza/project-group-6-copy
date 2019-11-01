@@ -320,13 +320,13 @@ public class TutoringAppRestController {
 	/** @author Arianit */
 	@DeleteMapping(value = {"/scheduledprivatesessions/", "/scheduledprivatesessions" })
 	public void deleteScheduledPrivateSession(
-			@RequestParam(name = "id", required = true) int id) throws IllegalArgumentException {
+			@RequestParam(required = true) int id) {
 		service.deleteScheduledPrivateSession(id);
 	}
 	/** @author Arianit */
 	@DeleteMapping(value = {"/scheduledgroupsessions/", "/scheduledgroupsessions" })
 	public void deleteScheduledGroupSession(
-			@RequestParam(name = "id", required = true) int id) throws IllegalArgumentException {
+			@RequestParam(required = true) int id){
 		service.deleteScheduledGroupSession(id);
 	}
 	
