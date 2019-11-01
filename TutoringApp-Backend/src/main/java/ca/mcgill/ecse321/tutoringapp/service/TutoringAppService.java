@@ -69,10 +69,6 @@
 			return resultList;
 		}
 
-		// TODO: Traian's services (done?)
-
-		// to do: business methods for:
-		//TODO: check user stories/functional requirements
 
 		// Tutor
 		/** @author Traian **/
@@ -179,6 +175,7 @@
 
 		// Get Student
 		/** @author Alba Talelli */
+		@Transactional
 		public Student getStudent(String userName) {
 			String error = "";
 			if (userName == null) {
@@ -194,9 +191,36 @@
 			Student student = studentRepository.findByUsername(userName);
 			return student;
 		}
+		
+		/**@author Helen **/
+		@Transactional
+		public List<Student> getAllStudents() {
+			return toList(studentRepository.findAll());
+		}
+		
+		/**@author Helen **/
+		@Transactional
+		public List<Tutor> getAllTutors() {
+			return toList(tutorRepository.findAll());
+		}
+		
+		/**@author Helen **/
+		@Transactional
+		public List<Manager> getAllManagers() {
+			return toList(managerRepository.findAll());
+		}
+		
+		/**@author Helen **/
+		@Transactional
+		public List<AppUser> getAllUsers() {
+			return toList(appUserRepository.findAll());
+		}
+
+
 
 		// Get Tutor
 		/** @author Alba Talelli */
+		@Transactional
 		public Tutor getTutor(String userName){
 			if (userName == null) {
 				throw new IllegalArgumentException("Tutor name need to be probided");
@@ -219,6 +243,7 @@
 		}
 		
 		/** @author Odero Otieno */	
+		@Transactional
 		public List<Room> getAllRooms() {
 			return toList(roomRepository.findAll());
 		}
@@ -333,6 +358,7 @@
 		}
 
 		/** @author Helen */
+		@Transactional
 		public List<PrivateRequest> getAllPrivateRequests() {
 			return toList(privateRequestRepository.findAll());
 		}
@@ -394,11 +420,13 @@
 
 
 		/** @author Helen */
+		@Transactional
 		public List<GroupRequest> getAllGroupRequests() {
 			return toList(groupRequestRepository.findAll());
 		}
 
 		/** @author Helen */
+		@Transactional
 		public List<SessionRequest> getAllSessionRequests() {
 
 			return toList(sessionRequestRepository.findAll());
@@ -852,12 +880,12 @@
 			
 			String error = "";
 			if (tutor == null) {
-				error = error + "Tutor needs to be selected to create a scheduled private session!";
+				error = error + "Tutor needs to be selected to create a scheduled group session!";
 			} else if (!tutorRepository.existsByUsername(tutor.getUsername())){
 				error = error + "Tutor does not exist!";
 			}
 			if (classRoom == null) {
-				error = error + "Room needs to be selected to create a scheduled private session!";
+				error = error + "Room needs to be selected to create a scheduled group session!";
 			} 
 			else if (!roomRepository.existsById(classRoom.getId())){
 				error = error + "Room does not exist!";
@@ -912,6 +940,7 @@
 			return toList(scheduledGroupSessionRepository.findAll());
 		}
 
+		
 	}
 
 	
