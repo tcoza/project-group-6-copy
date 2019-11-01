@@ -768,16 +768,16 @@ public class TestTutoringAppService {
 		assertEquals(service.getAllUsers().size(),1);
 		assertEquals(service.getAllStudents().size(),1);
 		assertEquals(service.getAllTutors().size(), 0);
-//		assertThrows(IllegalArgumentException.class, () -> service.getUser("Non existent username haha"));
-//		assertThrows(IllegalArgumentException.class, () -> service.getUser(null));
-//		assertThrows(IllegalArgumentException.class, () -> service.createUser("Uhh type", "name", "Name", "Fancy name"));
-//		assertThrows(IllegalArgumentException.class, () -> service.createUser(null, "name", "Name", "Fancy name"));
-//		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", null, "Name", "Fancy name"));
-//		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "name", null, "Fancy name"));
-//		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "name", "Name", null));
-//		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "tcoza", "Already", "Exists"));
-//		assertThrows(IllegalArgumentException.class, () -> service.deleteStudent(null));
-//		assertThrows(IllegalArgumentException.class, () -> service.deleteStudent("non existent"));
+		assertThrows(IllegalArgumentException.class, () -> service.getUser("Non existent username haha"));
+		assertThrows(IllegalArgumentException.class, () -> service.getUser(null));
+		assertThrows(IllegalArgumentException.class, () -> service.createUser("Uhh type", "name", "Name", "Fancy name"));
+		assertThrows(IllegalArgumentException.class, () -> service.createUser(null, "name", "Name", "Fancy name"));
+		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", null, "Name", "Fancy name"));
+		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "name", null, "Fancy name"));
+		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "name", "Name", null));
+		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "tcoza", "Already", "Exists"));
+		assertThrows(IllegalArgumentException.class, () -> service.deleteStudent(null));
+		assertThrows(IllegalArgumentException.class, () -> service.deleteStudent("non existent"));
 		service.deleteStudent("tcoza");
 		assertEquals(service.getAllStudents().size(), 0);
 		assertEquals(service.getAllUsers().size(), 0);
@@ -792,9 +792,9 @@ public class TestTutoringAppService {
 		assertEquals(service.getAllTutors().size(), 2);
 		assertEquals(service.getUser("alba").getLastName(), "Talelli");
 		assertEquals(((Tutor)service.getUser("helen")).getStatus(), TutorStatus.PENDING);
-//		assertThrows(IllegalArgumentException.class, () -> service.changeTutorStatus("helen", "Uhh status"));
-//		assertThrows(IllegalArgumentException.class, () -> service.changeTutorStatus(null, "Uhh status"));
-//		assertThrows(IllegalArgumentException.class, () -> service.changeTutorStatus("helen", null));
+		assertThrows(IllegalArgumentException.class, () -> service.changeTutorStatus("helen", "Uhh status"));
+		assertThrows(IllegalArgumentException.class, () -> service.changeTutorStatus(null, "Uhh status"));
+		assertThrows(IllegalArgumentException.class, () -> service.changeTutorStatus("helen", null));
 		service.changeTutorStatus("helen", "VERIFIED");
 		assertEquals(((Tutor)service.getUser("helen")).getStatus(), TutorStatus.VERIFIED);
 	}
@@ -862,5 +862,19 @@ public class TestTutoringAppService {
 		}
 		
 		assertEquals(0, service.getAllScheduledGroupSession().size());
+	}
+	
+	public <T extends Throwable> T assertThrows(Class<T> type, Runnable run)
+	{
+		try { run.run(); }
+		catch (Throwable th)
+		{
+			if (type.isInstance(th))
+				return (T)th;
+			else
+				throw new AssertionError("Expected: " + type.toString() + ", got: " + th.getClass().toString());
+		}
+		
+		throw new AssertionError("No exception thrown!");
 	}
 }
