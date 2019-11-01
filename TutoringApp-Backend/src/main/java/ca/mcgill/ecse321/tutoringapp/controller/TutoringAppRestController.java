@@ -126,24 +126,14 @@ public class TutoringAppRestController {
 	/** @author Odero Otieno */
 	@PostMapping(value = { "/classrooms/", "/classrooms" })
 	public ClassRoom createClassRoom() {
-		int id;		// Auto-generated id
-		for (id = 1; roomRepository.existsById(id); id++);
-		ClassRoom classRoom = new ClassRoom();
-		classRoom.setId(id);
-		classRoomRepository.save(classRoom);
-		return classRoom;
+		return service.createClassRoom();
 	}
 			
 
 	/** @author Odero Otieno */
 	@PostMapping(value = { "/smallrooms/", "/smallrooms" })
 	public SmallRoom createSmallRoom() {
-		int id;		// Auto-generated id
-		for (id = 1; roomRepository.existsById(id); id++);
-		SmallRoom smalRoom = new Small Room();
-		smallRoom.setId(id);
-		smallRoomRepository.save(smallRoom);
-		return smallRoom;
+		return service.createSmallRoom();
 	}
 	
 		/** @author Helen Lin */
