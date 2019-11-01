@@ -1,32 +1,17 @@
 package ca.mcgill.ecse321.tutoringApp;
 
-import java.util.Date;
-import java.util.List;
 
-import org.apache.tomcat.jni.Time;
-import org.junit.*;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.Mock;
 import org.mockito.InjectMocks;
-import org.mockito.invocation.InvocationOnMock;
-
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import ca.mcgill.ecse321.tutoringapp.dao.*;
-import ca.mcgill.ecse321.tutoringapp.model.*;
 import ca.mcgill.ecse321.tutoringapp.service.TutoringAppService;
-import ca.mcgill.ecse321.tutoringapp.controller.TutoringAppRestController;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.StrictStubs.class)
 public class IntegrationTestTutoringApp {
 
 	@Mock
@@ -73,15 +58,23 @@ public class IntegrationTestTutoringApp {
 	@InjectMocks
 	private TutoringAppService service;
 
-	//TODO
-	//private static final String PERSON_KEY = "TestPerson";
-	//private static final String NONEXISTING_KEY = "NotAPerson";
 	
-	/** 
-	 * TODO write test for create multiple students, multiple tutors, setting course and subjects
-	 * Validation tutor and add course to them, create requests and book them to rooms
-	 * Give feedback (evaluation) 
+	/*
+	 * NOTE: In this test suite, we use Mockito and dependency injection to run MOCK tests.
+	 * 
+	 * By running this class with @RunWith(MockitoJUnitRunner.StrictStubs.class),
+	 * we are able to skip the setUpMockOutput() and also skip MockitoAnnotations.initMocks(Object).
+	 * 
+	 * So, using this StrictStubs runner also allows us to create cleaner tests.
+	 * 
+	 * From the MockitoJUnitRunner.StrictStubs JavaDoc: 
+	 * 			-MockitoJUnitRunner.StrictStubs automatically detects stubbing argument mismatches
+	 * 			-Initializes mocks annotated with Mock,so that explicit usage of MockitoAnnotations.initMocks(Object) is not necessary.
+	 * 			-Mocks are initialized before each test method. 
+	 * 			-It is highly recommended to use MockitoJUnitRunner.StrictStubs variant of the runner.
+	 * 				It drives cleaner tests and improves debugging experience.
 	 */
+	
 	
 	@Test
 	public void integration()
@@ -91,13 +84,11 @@ public class IntegrationTestTutoringApp {
 		service.createUser("MANAGER", "arianit", "Arianit", "Vavla");
 		service.createUser("TUTOR", "alba", "Alba", "Talelli");
 		service.createUser("TUTOR", "helen", "Helen", "Lin");
-		assertEquals(appUserRepository.count(), 5);
+		assertEquals(service.getAllUsers().size(), 5);
 		service.changeTutorStatus("alba", "VERIFIED");
 		service.changeTutorStatus("helen", "VERIFIED");
 		service.createTeachingInstitution("Magill", "UNIVERSITY");
 		service.createTeachingInstitution("Concordia", "UNIVERSITY");
-		service.createSubject("Engineering", "Magill");
-		service.createSubject("Finance", "Concordia");
 		service.createCourse("ECSE321", "Introduction to Software", "Magill");
 		service.createCourse("ECSE324", "Introduction to Polish", "Magill");
 		service.createCourse("FINE432", "Financial stuff", "Concordia");
@@ -107,13 +98,12 @@ public class IntegrationTestTutoringApp {
 		service.createSmallRoom();
 		service.createClassRoom();
 		int id = service.createSmallRoom().getId();
-		assertEquals(roomRepository.count(), 3);
+		assertEquals(service.getAllRooms().size(), 3);
 		service.createPrivateRequest("tcoza", "ECSE321", true);
 		service.createScheduledPrivateSession("alba", id, new java.sql.Time(System.currentTimeMillis() + 100));
-		Evaluation
-		eval = service.createStudentEvaluation(7, service.getStudent("tcoza"), service.getTutor("alba"));
-		service.createEvalComment(eval, "Great job although your methods should take string arguments");
-		eval = service.createTutorEvaluation(9, service.getStudent("tcoza"), service.getTutor("alba"));
-		service.createEvalComment(eval, "Bruh Arianit also did them like that but alright");
 	}
+
 }
+
+
+

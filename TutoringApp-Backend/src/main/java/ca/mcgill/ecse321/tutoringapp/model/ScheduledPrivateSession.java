@@ -22,7 +22,7 @@ public class ScheduledPrivateSession extends ScheduledSession {
 
 	private PrivateRequest privateRequest;
 
-	@OneToOne(optional = false)
+	@OneToOne
 	public PrivateRequest getPrivateRequest() {
 		return this.privateRequest;
 	}

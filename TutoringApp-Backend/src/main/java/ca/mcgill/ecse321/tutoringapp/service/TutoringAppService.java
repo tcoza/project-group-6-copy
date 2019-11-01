@@ -179,7 +179,7 @@
 		public Student getStudent(String userName) {
 			String error = "";
 			if (userName == null) {
-				error = error + "Student name need to be provided";
+				error = error + "Student name needs to be provided";
 			} else if (!studentRepository.existsByUsername(userName)){
 				error = error + "Student does not exist!";
 			}
@@ -223,7 +223,7 @@
 		@Transactional
 		public Tutor getTutor(String userName){
 			if (userName == null) {
-				throw new IllegalArgumentException("Tutor name need to be probided");
+				throw new IllegalArgumentException("Tutor name needs to be provided");
 			}else if (!tutorRepository.existsByUsername(userName))
 				throw new IllegalArgumentException("User '" + userName + "' does not exist");
 			return tutorRepository.findTutorByUsername(userName);

@@ -798,36 +798,38 @@ public class MockTestTutoringAppService {
 	public void testCreateScheduledPrivateSession() {
 		Tutor tutor = (Tutor) service.createUser("TUTOR", "av", "ar", "ac");
 		SmallRoom smallRoom = service.createSmallRoom();
-		@SuppressWarnings("deprecation")
-		Date date = new Date(2019, 10, 20);
-		@SuppressWarnings("deprecation")
-		Time startTime = new Time(13, 35, 00);
-		service.createScheduledPrivateSession(tutor, smallRoom, date, startTime);
+		int id = smallRoom.getId();
+		try {
+			service.createScheduledPrivateSession(tutor.getUsername(), id, new java.sql.Time(System.currentTimeMillis() + 100));
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
 		assertEquals(1, service.getAllScheduledPrivateSession().size());
 	}
 	
 	@Test 
 	public void testCreateScheduledGroupSession() {
+		
 		Tutor tutor = (Tutor) service.createUser("TUTOR", "a", "a", "a");
 		ClassRoom classRoom = service.createClassRoom();
-		@SuppressWarnings("deprecation")
-		Date date = new Date(2019, 10, 20);
-		@SuppressWarnings("deprecation")
-		Time startTime = new Time(13, 35, 00);
-		service.createScheduledGroupSession(tutor, classRoom, date, startTime);
+		int id = classRoom.getId();
+		try {
+			service.createScheduledGroupSession(tutor.getUsername(), id, new java.sql.Time(System.currentTimeMillis() + 100));
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
 		assertEquals(1, service.getAllScheduledGroupSession().size());
 	}
 	
 	@Test
 	public void createNullScheduledPrivateSession() {
-		Tutor tutor = null;
-		SmallRoom smallRoom = null;
-		Date date = null;
+		String tutor = null;
+		int smallRoom = 0;
 		Time startTime = null;
 		try {
-			service.createScheduledPrivateSession(tutor, smallRoom, date, startTime);
+			service.createScheduledPrivateSession(tutor, smallRoom, startTime);
 		} catch(IllegalArgumentException e) {
-			assertEquals(e.getMessage(), "Tutor needs to be selected to create a scheduled private session!Room needs to be selected to create a scheduled private session!");
+			assertEquals(e.getMessage(), "Tutor name needs to be provided");
 		}
 		
 		assertEquals(0, service.getAllScheduledPrivateSession().size());
@@ -835,14 +837,13 @@ public class MockTestTutoringAppService {
 	
 	@Test 
 	public void createNullScheduledGroupSession() {
-		Tutor tutor = null;
-		ClassRoom classRoom = null;
-		Date date = null;
-		Time startTime = null;
+		String tutor = null;
+		int classRoomid = 0;
+		Time time = null;
 		try {
-			service.createScheduledGroupSession(tutor, classRoom, date, startTime);
+			service.createScheduledGroupSession(tutor, classRoomid, time);
 		} catch(IllegalArgumentException e) {
-			assertEquals(e.getMessage(), "Tutor needs to be selected to create a scheduled group session!Room needs to be selected to create a scheduled group session!");
+			assertEquals(e.getMessage(), "Tutor name needs to be provided");
 		}
 		
 		assertEquals(0, service.getAllScheduledGroupSession().size());
