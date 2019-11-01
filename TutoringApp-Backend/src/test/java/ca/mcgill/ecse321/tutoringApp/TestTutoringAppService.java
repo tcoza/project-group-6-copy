@@ -809,7 +809,29 @@ public class TestTutoringAppService {
 		assertEquals(service.getAllManagers().size(), 2);
 		assertEquals(service.getUser("arianit").getLastName(), "Vavla");
 	}
+	/** @author Odero Otieno */
+	@Test
+	public void testCreateSmallRoom() {
+		assertEquals(0, smallRoomRepository.count());
+			
+		service.createSmallRoom();
+		assertEquals(smallRoomRepository.count(), 1);
+		assertEquals(roomRepository.count(), 1);
 
+	}
+
+	/** @author Odero Otieno */
+	@Test
+	public void testCreateClassRoom() {
+		assertEquals(0, classRoomRepository.count());
+			
+		service.createClassRoom();
+		assertEquals(classRoomRepository.count(), 1);
+		assertEquals(roomRepository.count(), 1);
+
+	}
+	
+	/** @author Traian Coza */
 	@Test
 	public void testCreateScheduledPrivateSession() {
 		Tutor tutor = (Tutor) service.createUser("TUTOR", "av", "ar", "ac");
@@ -822,6 +844,7 @@ public class TestTutoringAppService {
 		assertEquals(1, service.getAllScheduledPrivateSession().size());
 	}
 	
+	/** @author Traian Coza */
 	@Test 
 	public void testCreateScheduledGroupSession() {
 		Tutor tutor = (Tutor) service.createUser("TUTOR", "a", "a", "a");
@@ -834,6 +857,7 @@ public class TestTutoringAppService {
 		assertEquals(1, service.getAllScheduledGroupSession().size());
 	}
 	
+	/** @author Traian Coza */
 	@Test
 	public void createNullScheduledPrivateSession() {
 		Tutor tutor = null;
@@ -849,6 +873,7 @@ public class TestTutoringAppService {
 		assertEquals(0, service.getAllScheduledPrivateSession().size());
 	}
 	
+	/** @author Traian Coza */
 	@Test 
 	public void createNullScheduledGroupSession() {
 		Tutor tutor = null;
