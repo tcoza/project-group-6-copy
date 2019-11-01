@@ -781,7 +781,10 @@
 
 		/** @author Arianit */
 		@Transactional
-		public ScheduledPrivateSession createScheduledPrivateSession(Tutor tutor, SmallRoom smallRoom, Date date, Time startTime) {
+		public ScheduledPrivateSession createScheduledPrivateSession(String tutorname, int smallRoomID, Time startTime) {
+			Tutor tutor = getTutor(tutorname);
+			SmallRoom smallRoom = getSmallRoomById(smallRoomID);
+			
 			String error = "";
 			if (tutor == null) {
 				error = error + "Tutor needs to be selected to create a scheduled private session!";
@@ -799,9 +802,9 @@
 				throw new IllegalArgumentException(error);
 			}
 			ScheduledPrivateSession scheduledPrivateSession = new ScheduledPrivateSession();
-			scheduledPrivateSession.setId((tutor.getUsername().hashCode()) * (date.toString().hashCode())* (startTime.toString().hashCode())*smallRoom.getId());
+			scheduledPrivateSession.setId((tutor.getUsername().hashCode()) * (startTime.toString().hashCode())*smallRoom.getId());
 			scheduledPrivateSession.setAssignedTutor(tutor);
-			scheduledPrivateSession.setDate(date);
+			scheduledPrivateSession.setDate(new java.sql.Date(System.currentTimeMillis()));
 			scheduledPrivateSession.setStartTime(startTime);
 			scheduledPrivateSession.setRoom(smallRoom);
 			scheduledPrivateSessionRepository.save(scheduledPrivateSession);
@@ -810,7 +813,9 @@
 
 		/** @author Arianit */
 		@Transactional
-		public ScheduledPrivateSession getScheduledPrivateSession(Tutor tutor) {
+		public ScheduledPrivateSession getScheduledPrivateSession(String tutorname) {
+			Tutor tutor = getTutor(tutorname);
+			
 			String error = "";
 			if (tutor == null) {
 				error = error + "Tutor needs to be selected to find a scheduled private session!";
@@ -822,29 +827,14 @@
 			if (error.length() > 0) {
 				throw new IllegalArgumentException(error);
 			}
-			ScheduledPrivateSession scheduledPrivateSession = scheduledPrivateSessionRepository.findByAssignedTutor(tutor);
-			return scheduledPrivateSession;
+			return scheduledPrivateSessionRepository.findByAssignedTutor(tutor);
 		}
 		/** @author Arianit */
 		@Transactional
-		public ScheduledPrivateSession deleteScheduledPrivateSession(Tutor tutor, Time startTime, SmallRoom smallRoom, Date date) {
-			String error = "";
-			if (tutor == null) {
-				error = error + "Tutor needs to be selected to delete the scheduled private session!";
-			} else if (!tutorRepository.existsByUsername(tutor.getUsername())){
-				error = error + "Tutor does not exist!";
-			}
-			if(smallRoom == null) {
-				error = error + "Room needs to be selected to delete the scheduled private session!";
-			} 
-			error = error.trim();
-
-			if (error.length() > 0) {
-				throw new IllegalArgumentException(error);
-			}
-			ScheduledPrivateSession scheduledPrivateSession = scheduledPrivateSessionRepository.deleteByAssignedTutorAndStartTimeAndRoomAndDate(tutor, startTime, smallRoom, date);
-			return scheduledPrivateSession;
-
+		public void deleteScheduledPrivateSession(int id) {
+			if (!scheduledPrivateSessionRepository.existsById(id))
+				throw new IllegalArgumentException("Private session with id " + id + " does not exist!");
+			scheduledPrivateSessionRepository.deleteById(id);
 		}
 
 
@@ -856,7 +846,10 @@
 
 		/** @author Arianit */
 		@Transactional
-		public ScheduledGroupSession createScheduledGroupSession(Tutor tutor, ClassRoom classRoom, Date date, Time startTime) {
+		public ScheduledGroupSession createScheduledGroupSession(String tutorname, int classroomID, Time startTime) {
+			Tutor tutor = getTutor(tutorname);
+			ClassRoom classRoom = getClassRoomByID(classroomID);
+			
 			String error = "";
 			if (tutor == null) {
 				error = error + "Tutor needs to be selected to create a scheduled private session!";
@@ -875,9 +868,9 @@
 				throw new IllegalArgumentException(error);
 			}
 			ScheduledGroupSession scheduledGroupSession = new ScheduledGroupSession();
-			scheduledGroupSession.setId((tutor.getUsername().hashCode()) * (date.toString().hashCode())* (startTime.toString().hashCode())*classRoom.getId());
+			scheduledGroupSession.setId((tutor.getUsername().hashCode()) * (startTime.toString().hashCode())*classRoom.getId());
 			scheduledGroupSession.setAssignedTutor(tutor);
-			scheduledGroupSession.setDate(date);
+			scheduledGroupSession.setDate(new java.sql.Date(System.currentTimeMillis()));
 			scheduledGroupSession.setStartTime(startTime);
 			scheduledGroupSession.setRoom(classRoom);
 			scheduledGroupSessionRepository.save(scheduledGroupSession);
@@ -886,7 +879,9 @@
 
 		/** @author Arianit */
 		@Transactional
-		public ScheduledGroupSession getScheduledGroupSession(Tutor tutor) {
+		public ScheduledGroupSession getScheduledGroupSession(String tutorname) {
+			Tutor tutor = getTutor(tutorname);
+			
 			String error = "";
 			if (tutor == null) {
 				error = error + "Tutor needs to be selected to find a scheduled group session!";
@@ -903,23 +898,11 @@
 		}
 		/** @author Arianit */
 		@Transactional
-		public ScheduledGroupSession deleteScheduledGroupSession(Tutor tutor, ClassRoom classRoom, Time startTime, Date date) {	
-				String error = "";
-				if (tutor == null) {
-					error = error + "Tutor needs to be selected to delete the scheduled private session!";
-				} else if (!tutorRepository.existsByUsername(tutor.getUsername())){
-					error = error + "Tutor does not exist!";
-				}
-				if(classRoom == null) {
-					error = error + "Room needs to be selected to delete the scheduled private session!";
-				} 
-				error = error.trim();
-
-				if (error.length() > 0) {
-					throw new IllegalArgumentException(error);
-				}
-				ScheduledGroupSession scheduledGroupSession = scheduledGroupSessionRepository.deleteByAssignedTutorAndRoomAndStartTimeAndDate(tutor, classRoom, startTime, date);
-				return scheduledGroupSession;
+		public void deleteScheduledGroupSession(int id) {	
+			if (!scheduledGroupSessionRepository.existsById(id))
+				throw new IllegalArgumentException("Group session with id " + id + " does not exist!");
+			
+			scheduledGroupSessionRepository.deleteById(id);
 				
 		}
 		

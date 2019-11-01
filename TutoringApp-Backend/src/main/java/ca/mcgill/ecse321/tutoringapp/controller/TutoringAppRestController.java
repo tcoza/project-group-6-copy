@@ -277,15 +277,10 @@ public class TutoringAppRestController {
 	/** @author Arianit */ 	
 	@PostMapping(value = {"/scheduledprivatesessions/", "/scheduledprivatesessions" })
 	public ScheduledPrivateSession createScheduledPrivateSession(
-			@RequestParam(name = "username", required = true) String tutorS,
-			@RequestParam (required = true) int smallRoomS, 
-			@RequestParam (required = true) Date date,
+			@RequestParam(name = "username", required = true) String tutor,
+			@RequestParam (required = true) int smallRoomID, 
 			@RequestParam (required = true) Time startTime) throws IllegalArgumentException {
-		ScheduledPrivateSession scheduledPrivateSession = new ScheduledPrivateSession();
-		Tutor tutor = service.getTutor(tutorS);
-		SmallRoom smallRoom = service.getSmallRoomById(smallRoomS);
-		scheduledPrivateSession = service.createScheduledPrivateSession(tutor, smallRoom, date, startTime);
-		return scheduledPrivateSession;
+		return service.createScheduledPrivateSession(tutor, smallRoomID, startTime);
 		
 	}
 	/** @author Arianit */

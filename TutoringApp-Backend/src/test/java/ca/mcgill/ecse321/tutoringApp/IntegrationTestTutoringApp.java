@@ -107,6 +107,6 @@ public class IntegrationTestTutoringApp {
 		int id = service.createSmallRoom().getId();
 		assertEquals(roomRepository.count(), 3);
 		service.createPrivateRequest("tcoza", "ECSE321", true);
-		
+		service.createScheduledPrivateSession("alba", id, new java.sql.Time(System.currentTimeMillis() + 100));
 	}
 }
