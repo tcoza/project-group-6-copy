@@ -903,4 +903,106 @@ public class TestTutoringAppService {
 		
 		throw new AssertionError("No exception thrown!");
 	}
+	
+	/**@author alba **/
+	@Test
+	public void testCreateStudentEvaluation() {
+		assertEquals(0, service.getAllStudentEvaluation().size());
+		
+		
+		String usernameS = "1234";
+		String nameS = "Alba";
+		String fNameS = "Talelli";
+		String usernameT = "9876";
+		String nameT = "MS.X";
+		String fNameT = "Grup";
+		int rating = 4;
+		
+		
+		service.createUser("STUDENT", usernameS, nameS, fNameS);
+		service.createUser("TUTOR", usernameT, nameT, fNameT);
+		
+		Student student = service.getStudent(usernameS);
+		Tutor tutor = service.getTutor(usernameT);
+		
+		try { //test null rating
+			service.createStudentEvaluation(0, student, tutor);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Student Evaluation can not have a rating of 0");
+		}
+		try { //test over rating
+			service.createStudentEvaluation(6, student, tutor);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Student Evaluation can not have a rating of more than 5");
+		}
+		try { //test empty student
+			service.createStudentEvaluation(rating, null, tutor);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Student needs to be selected for Student Evaluation!");
+		}
+		try { //test empty tutor
+			service.createStudentEvaluation(rating, student, null);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Tutor needs to be selected for Student Evaluation!");
+		}
+		try { //working test
+			service.createStudentEvaluation(rating, student, tutor);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		
+		List<StudentEvaluation> allStudentEval = service.getAllStudentEvaluation();
+		assertEquals(1, allStudentEval.size());
+	}
+	/**@author alba **/
+	@Test
+	public void testCreateTutorEvaluation() {
+		assertEquals(0, service.getAllTutorEvaluation().size());
+		
+		
+		String usernameS = "1234";
+		String nameS = "Alba";
+		String fNameS = "Talelli";
+		String usernameT = "9876";
+		String nameT = "MS.X";
+		String fNameT = "Grup";
+		int rating = 4;
+		
+		
+		service.createUser("STUDENT", usernameS, nameS, fNameS);
+		service.createUser("TUTOR", usernameT, nameT, fNameT);
+		
+		Student student = service.getStudent(usernameS);
+		Tutor tutor = service.getTutor(usernameT);
+		
+		try { //test null rating
+			service.createTutorEvaluation(0, student, tutor);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Tutor Evaluation can not have a rating of 0");
+		}
+		try { //test over rating
+			service.createTutorEvaluation(6, student, tutor);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Tutor Evaluation can not have a rating of more than 5");
+		}
+		try { //test empty student
+			service.createTutorEvaluation(rating, null, tutor);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Student needs to be selected for Tutor Evaluation!");
+		}
+		try { //test empty tutor
+			service.createTutorEvaluation(rating, student, null);
+		} catch (IllegalArgumentException e) {
+			assertEquals(e.getMessage(), "Tutor needs to be selected for Tutor Evaluation!");
+		}
+		try { //working test
+			service.createTutorEvaluation(rating, student, tutor);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		
+		List<TutorEvaluation> allTutorEval = service.getAllTutorEvaluation();
+		assertEquals(1, allTutorEval.size());
+	}
+	
 }

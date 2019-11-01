@@ -588,7 +588,10 @@
 		@Transactional
 		public TutorEvaluation createTutorEvaluation(int rating, Student student, Tutor tutor) {
 			if (rating == 0) {
-				throw new IllegalArgumentException("Rating cannot be empty!");
+				throw new IllegalArgumentException("Tutor Evaluation can not have a rating of 0");
+			}
+			if (rating > 5) {
+				throw new IllegalArgumentException("Tutor Evaluation can not have a rating of more than 5");
 			}
 			String error = "";
 			if (tutor == null) {
@@ -671,7 +674,10 @@
 		@Transactional
 		public StudentEvaluation createStudentEvaluation(int rating, Student student, Tutor tutor) {
 			if (rating == 0) {
-				throw new IllegalArgumentException("Rating cannot be empty!");
+				throw new IllegalArgumentException("Student Evaluation can not have a rating of 0");
+			}
+			if (rating > 5) {
+				throw new IllegalArgumentException("Student Evaluation can not have a rating of more than 5");
 			}
 			String error = "";
 			if (tutor == null) {
