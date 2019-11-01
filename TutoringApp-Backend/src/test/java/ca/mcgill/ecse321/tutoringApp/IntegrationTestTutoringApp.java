@@ -7,6 +7,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.Mock;
 import org.mockito.InjectMocks;
 import ca.mcgill.ecse321.tutoringapp.dao.*;
+import ca.mcgill.ecse321.tutoringapp.model.Evaluation;
 import ca.mcgill.ecse321.tutoringapp.service.TutoringAppService;
 
 import static org.junit.Assert.assertEquals;
@@ -101,6 +102,11 @@ public class IntegrationTestTutoringApp {
 		assertEquals(service.getAllRooms().size(), 3);
 		service.createPrivateRequest("tcoza", "ECSE321", true);
 		service.createScheduledPrivateSession("alba", id, new java.sql.Time(System.currentTimeMillis() + 100));
+		Evaluation
+		eval = service.createStudentEvaluation(7, service.getStudent("tcoza"), service.getTutor("alba"));
+		service.createEvalComment(eval, "Great job although your methods should take string arguments");
+		eval = service.createTutorEvaluation(9, service.getStudent("tcoza"), service.getTutor("alba"));
+		service.createEvalComment(eval, "Bruh Arianit also did them like that but alright");
 	}
 
 }
