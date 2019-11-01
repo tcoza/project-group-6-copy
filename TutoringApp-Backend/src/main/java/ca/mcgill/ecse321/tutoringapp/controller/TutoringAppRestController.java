@@ -128,7 +128,7 @@ public class TutoringAppRestController {
 	public ClassRoom createClassRoom() {
 		return service.createClassRoom();
 	}
-			
+		
 
 	/** @author Odero Otieno */
 	@PostMapping(value = { "/smallrooms/", "/smallrooms" })
