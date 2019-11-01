@@ -310,12 +310,9 @@ public class TutoringAppRestController {
 	public ScheduledGroupSession createScheduledGroupSession(
 			@RequestParam(name = "username", required = true) String tutorS,
 			@RequestParam (required = true) int classRoomS, 
-			@RequestParam (required = true) Date date,
 			@RequestParam (required = true) Time startTime) throws IllegalArgumentException {
 		ScheduledGroupSession scheduledGroupSession = new ScheduledGroupSession();
-		Tutor tutor = service.getTutor(tutorS);
-		ClassRoom classRoom = service.getClassRoomByID(classRoomS);
-		scheduledGroupSession = service.createScheduledGroupSession(tutor, classRoom, date, startTime);
+		scheduledGroupSession = service.createScheduledGroupSession(tutorS, classRoomS, startTime);
 		return scheduledGroupSession;
 		
 	}
@@ -323,24 +320,14 @@ public class TutoringAppRestController {
 	/** @author Arianit */
 	@DeleteMapping(value = {"/scheduledprivatesessions/", "/scheduledprivatesessions" })
 	public void deleteScheduledPrivateSession(
-			@RequestParam(name = "username", required = true) String tutorS,
-			@RequestParam (required = true) int smallRoomS, 
-			@RequestParam (required = true) Date date,
-			@RequestParam (required = true) Time startTime) throws IllegalArgumentException {
-		Tutor tutor = service.getTutor(tutorS);
-		SmallRoom smallRoom = service.getSmallRoomById(smallRoomS);
-		service.deleteScheduledPrivateSession(tutor, startTime, smallRoom, date);
+			@RequestParam(required = true) int id) {
+		service.deleteScheduledPrivateSession(id);
 	}
 	/** @author Arianit */
 	@DeleteMapping(value = {"/scheduledgroupsessions/", "/scheduledgroupsessions" })
 	public void deleteScheduledGroupSession(
-			@RequestParam(name = "username", required = true) String tutorS,
-			@RequestParam (required = true) int classRoomS, 
-			@RequestParam (required = true) Date date,
-			@RequestParam (required = true) Time startTime) throws IllegalArgumentException {
-		Tutor tutor = service.getTutor(tutorS);
-		ClassRoom classRoom = service.getClassRoomByID(classRoomS);
-		service.deleteScheduledGroupSession(tutor, classRoom, startTime, date);
+			@RequestParam(required = true) int id){
+		service.deleteScheduledGroupSession(id);
 	}
 	
 	
