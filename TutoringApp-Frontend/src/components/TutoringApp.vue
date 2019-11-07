@@ -1,25 +1,18 @@
 <template>
   <div id="tutoringapp">
-    <h2>People</h2>
-    <table>
-      <tr>
-          <td>John</td>
-          <td>Event to attend</td>
-      </tr>
-      <tr>
-          <td>
-              <input type="text" placeholder="Person Name">
-          </td>
-          <td>
-              <button>Create</button>
-          </td>
-      </tr>
-    </table>
-    <p>
-      <span style="color:red">Error: Message text comes here</span>
-    </p>
+    <button v-on:click="counter += 1">Add 1</button>
+    <p>The button above has been clicked {{ counter }} times.</p>
   </div>
 </template>
+
+<script>
+  new Vue({
+    el: '#tutoringapp',
+    data: {
+      counter: 0
+    }
+  });
+</script>
 
 <style>
   #tutoringapp {
