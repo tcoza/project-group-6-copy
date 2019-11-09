@@ -3,6 +3,7 @@
 
         <div class="bar">
 
+            <h1 id="titleHome">Home</h1>
             <!-- These two buttons switch the layout variable,
                 which causes the correct UL to be shown. -->
 
@@ -15,7 +16,7 @@
         <ul v-if="layout == 'grid'" class="grid">
             <!-- A view with big photos and no text -->
             <li v-for="a in articles">
-                <a v-bind:href="a.url" target="_blank"><img v-bind:src="a.image.large" /></a>
+                <a v-bind:href="a.url" target="_blank"> <img v-bind:src="a.image.large" /></a>
             </li>
         </ul>
 
@@ -31,7 +32,6 @@
 </template>
 
 <script>
-
 </script>
 
 <style>
@@ -178,5 +178,11 @@ ul.grid li img{
     object-fit: cover;
     display:block;
     border:none;
+}
+
+# titleHome{
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    color: #2c3e50;
+    position:left;
 }
 </style>
