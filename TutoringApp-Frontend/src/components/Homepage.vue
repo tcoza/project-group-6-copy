@@ -5,8 +5,8 @@
             <h1> Home </h1> 
         </div>
 
-        <li v-for="a in articles">
-            <a v-bind:href="a.url" target="_self"> <img src="a.image" /> </a>
+        <li v-for="a in articles"  v-bind:key="a">
+            <a v-bind:href="a.url" target="_self"> <img :src="a.image" /> </a>
             <p>{{a.title}}</p>
         </li>
 
