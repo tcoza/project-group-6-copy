@@ -12,7 +12,7 @@
     export default {
         data: function () {
             return {
-                "image": image1,
+                "image": image1
             }
         }
     }
