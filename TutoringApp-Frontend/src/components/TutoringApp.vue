@@ -6,8 +6,9 @@
     <br />
     <br />
     <ul>
-      <li v-for="message in messages" v-bind:key="message" v-on:click="msg = message">
-        <a href='#'>{{ message }}</a>
+      <li v-for="(message, index) in messages" v-bind:key="message" v-bind:index="index" v-on:click="msg = message">
+        {{ index+1 }}. <a href='#'>{{ message }}</a>
+        <button v-on:click="messages.splice(index, 1)">Remove</button>
       </li>
     </ul>
     <input ref='input' type='text' v-model='msg' v-on:keyup.enter='$refs.add.click(); $refs.input.select();'>
