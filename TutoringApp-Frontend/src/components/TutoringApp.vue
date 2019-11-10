@@ -7,11 +7,11 @@
     <br />
     <ul>
       <li v-for="(message, index) in messages" v-bind:key="message" v-bind:index="index" v-on:click="msg = message">
-        {{ index+1 }}. <a href='#'>{{ message }}</a>
+        {{ index+1 }}. <a href='#input'>{{ message }}</a>
         <button v-on:click="messages.splice(index, 1)">Remove</button>
       </li>
     </ul>
-    <input ref='input' type='text' v-model='msg' v-on:keyup.enter='$refs.add.click(); $refs.input.select();'>
+    <input id='input' ref='input' type='text' v-model='msg' v-on:keyup.enter='$refs.add.click(); $refs.input.select();'>
     <button ref='add' v-on:click="addToList()">Add</button>
   </div>
 </template>
