@@ -2,37 +2,48 @@
    <form id="main" v-cloak>
 
         <div class="bar">
-
-            <!-- These two buttons switch the layout variable,
-                which causes the correct UL to be shown. -->
-            
             <h1> Home </h1> 
-            <a class="list-icon" v-bind:class="{ 'active': layout == 'list'}" v-on:click="layout = 'list'"></a>
-            <a class="grid-icon" v-bind:class="{ 'active': layout == 'grid'}" v-on:click="layout = 'grid'"></a>
         </div>
 
-        <!-- We have two layouts. We choose which one to show depending on the "layout" binding -->
-
-        <ul v-if="layout == 'grid'" class="grid">
-            <!-- A view with big photos and no text -->
-            <li v-for="a in articles">
-                <a v-bind:href="a.url" target="_blank"> <img v-bind:src="a.image.large" /></a>
-            </li>
-        </ul>
-
-        <ul v-if="layout == 'list'" class="list">
-            <!-- A compact view smaller photos and titles -->
-            <li v-for="a in articles">
-                <a v-bind:href="a.url" target="_blank"><img v-bind:src="a.image.small" /></a>
-                <p>{{a.title}}</p>
-            </li>
-        </ul>
+        <li v-for="a in articles">
+            <a v-bind:href="a.url" target="_self"> <img src="a.image" /> </a>
+            <p>{{a.title}}</p>
+        </li>
 
     </form>
 </template>
 
 <script>
+    import image1 from "../assets/logo.png"
 
+    export default {
+        data: function(){
+            return{
+                articles: [{
+                    "image": image1,
+                    "url":"http://127.0.0.1:8087/#/signin",
+                    "title":"TEST"
+                },{
+                    "image": image1,
+                    "url":"http://127.0.0.1:8087/#/helo",
+                    "title":"TEST"
+                },{
+                    "image": image1,
+                    "url":"http://127.0.0.1:8087/#/helo",
+                    "title":"TEST"
+                },{
+                    "image": image1,
+                    "url":"http://127.0.0.1:8087/#/helo",
+                    "title":"TEST"
+                },{
+                    "image": image1,
+                    "url":"http://127.0.0.1:8087/#/helo",
+                    "title":"TEST"
+                }
+                ]
+            }
+        }
+    }
 </script>
 
 <style>
@@ -132,57 +143,29 @@ section, footer, header, aside, nav{
 }
 
 /*-------------------------
-    List layout
---------------------------*/
-
-ul.list{
-    list-style: none;
-    width: 500px;
-    margin: 0 auto;
-    text-align: left;
-}
-
-ul.list li{
-    border-bottom: 1px solid #ddd;
-    padding: 10px;
-    overflow: hidden;
-}
-
-ul.list li img{
-    width:120px;
-    height:120px;
-    float:left;
-    border:none;
-}
-
-ul.list li p{
-    margin-left: 135px;
-    font-weight: bold;
-    color:#6e7a7f;
-}
-
-/*-------------------------
     Grid layout
 --------------------------*/
 
-ul.grid{
+li{
     list-style: none;
-    width: 570px;
+    width: 315px;
     margin: 0 auto;
     text-align: left;
-}
-
-ul.grid li{
-    padding: 2px;
+    padding: 10px;
     float:left;
 }
 
-ul.grid li img{
-    width:280px;
-    height:280px;
+li img{
+    width:250px;
+    height:250px;
     object-fit: cover;
     display:block;
     border:none;
+}
+li p{
+    margin: 0 auto;
+    font-weight: bold;
+    color:#6e7a7f;
 }
 
 </style>
