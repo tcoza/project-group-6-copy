@@ -6,7 +6,9 @@
         </div>
 
         <li v-for="a in articles">
-            <a v-bind:href="a.url" target="_self"> <img src="a.image" /> </a>
+            <a v-bind:href="a.url" target="_self"> 
+            <img src="a.image" /> 
+            </a>
             <p>{{a.title}}</p>
         </li>
 
@@ -20,7 +22,7 @@
         data: function(){
             return{
                 articles: [{
-                    "image": image1,
+                    "image": "image1",
                     "url":"http://127.0.0.1:8087/#/signin",
                     "title":"TEST"
                 },{
