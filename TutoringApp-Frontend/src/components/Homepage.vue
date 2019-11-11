@@ -1,10 +1,10 @@
 <template>
    <form id="main" v-cloak>
-
         <div class="bar">
-            <h1> Home </h1> 
+            <h2> TutoringApp Manager View - Home Page </h2> 
         </div>
 
+        <h3> Welcome, Manager (name)! </h3>
         <li v-for="a in articles"  v-bind:key="a">
             <a v-bind:href="a.url" target="_self"> <img :src="a.image" /> </a>
             <p>{{a.title}}</p>
@@ -14,31 +14,35 @@
 </template>
 
 <script>
-    import image1 from "../assets/logo.png"
+    import image1 from "../assets/Youtube.jpg"
+    import image2 from "../assets/money.jpg"
+    import image3 from "../assets/evaluation.jpg"
+    import image4 from "../assets/session.jpg"
+    import image5 from "../assets/courses.png"
 
     export default {
         data: function(){
             return{
                 articles: [{
                     "image": image1,
-                    "url":"http://127.0.0.1:8087/#/signin",
-                    "title":"TEST"
+                    "url":"http://127.0.0.1:8087/#/tutors",
+                    "title":"Tutors"
                 },{
-                    "image": image1,
-                    "url":"http://127.0.0.1:8087/#/helo",
-                    "title":"TEST"
+                    "image": image2,
+                    "url":"http://127.0.0.1:8087/#/students",
+                    "title":"Students"
                 },{
-                    "image": image1,
-                    "url":"http://127.0.0.1:8087/#/helo",
-                    "title":"TEST"
+                    "image": image3,
+                    "url":"http://127.0.0.1:8087/#/evaluations",
+                    "title":"Evaluations"
                 },{
-                    "image": image1,
-                    "url":"http://127.0.0.1:8087/#/helo",
-                    "title":"TEST"
+                    "image": image4,
+                    "url":"http://127.0.0.1:8087/#/tutoringsessions",
+                    "title":"Tutoring Sessions"
                 },{
-                    "image": image1,
-                    "url":"http://127.0.0.1:8087/#/helo",
-                    "title":"TEST"
+                    "image": image5,
+                    "url":"http://127.0.0.1:8087/#/css",
+                    "title":"Courses, Subjects, Schools"
                 }
                 ]
             }
@@ -47,6 +51,7 @@
 </script>
 
 <style>
+
     [v-cloak] {
   display: none;
 }
@@ -75,6 +80,7 @@ section, footer, header, aside, nav{
     display: block;
 }
 
+
 /*-------------------------
     The search input
 --------------------------*/
@@ -90,7 +96,7 @@ section, footer, header, aside, nav{
     border-radius: 2px;
     width: 100%;
     padding: 10px;
-    margin: 45px auto 25px;
+    margin: 0px auto 25px;
     text-align:right;
     position:relative;
     line-height: 1;
@@ -118,9 +124,12 @@ section, footer, header, aside, nav{
 .bar a.grid-icon{
     background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjBEQkMyQzE0MTBCRjExRTNBMDlGRTYyOTlBNDdCN0I4IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjBEQkMyQzE1MTBCRjExRTNBMDlGRTYyOTlBNDdCN0I4Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MERCQzJDMTIxMEJGMTFFM0EwOUZFNjI5OUE0N0I3QjgiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MERCQzJDMTMxMEJGMTFFM0EwOUZFNjI5OUE0N0I3QjgiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4MjPshAAAAXklEQVR42mL4////h/8I8B6IGaCYKHFGEMnAwCDIAAHvgZgRyiZKnImBQsACxB+hNoDAQyQ5osQZIT4gH1DsBZABH6AB8x/JaQzEig++WPiII7Rxio/GwmCIBYAAAwAwVIzMp1R0aQAAAABJRU5ErkJggg==);
 }
-.bar h1{
+.bar h2{
     display:inline-block;
-        margin-right:80%;
+    margin-right:68%;
+    font-weight: bold;
+    font-size: 20px;
+    color:#FFFFFF;
 }
 
 .bar input{
@@ -129,7 +138,7 @@ section, footer, header, aside, nav{
     border: none;
     width: 100%;
     line-height: 19px;
-    padding: 11px 0;
+    padding: 5px 0;
 
     border-radius: 2px;
     box-shadow: 0 2px 8px #c4c4c4 inset;
@@ -140,6 +149,16 @@ section, footer, header, aside, nav{
     font-weight: bold;
     outline: none;
     text-indent: 40px;
+}
+
+h3 {
+    font-size: 30px;
+    margin-left:10%;
+    font-weight: bold;
+    text-align: left;
+    color: #FE0101;
+    font-family:Times;
+
 }
 
 /*-------------------------
@@ -163,9 +182,11 @@ li img{
     border:none;
 }
 li p{
-    margin: 0 auto;
-    font-weight: bold;
-    color:#6e7a7f;
+    margin-left: 5%;
+    font-weight: normal;
+    color:#000000;
+    font-size: 20px;
+    
 }
 
 </style>
