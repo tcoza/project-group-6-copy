@@ -10,24 +10,12 @@
                 Username<br />
                 <input type="text" value="Manager" /><br /><br />
                 Password<br />
-                <input type="Password" placeholder="password" /><br /><br />
+                <input type="Password" placeholder="" /><br /><br />
             </div>
             <button onclick="location.href='#/home'">Sign in</button>
         </div>
     </div>
 </template>
-
-<script>
-    import image1 from "../assets/logo.png"
-
-    export default {
-        data: function () {
-            return {
-                "image": image1
-            }
-        }
-    }
-</script>
 
 <style src="./Style.css" />
 <style scoped>
