@@ -29,6 +29,7 @@
 }
 
 input {
+    padding: 5px;
     margin: 5px 0;
 }
 
