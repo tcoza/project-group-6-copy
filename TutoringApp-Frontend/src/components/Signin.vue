@@ -1,13 +1,16 @@
 <template>
-    <div>
-        <h1>Sign In</h1>
-        <img :src="image" />
+    <div v-cloak>
+        <div class="bar">
+            <h2>Sign In</h2> 
+        </div>
+
+
+
     </div>
 </template>
 
 <script>
     import image1 from "../assets/logo.png"
-
 
     export default {
         data: function () {
@@ -18,5 +21,4 @@
     }
 </script>
 
-<style>
-</style>
+<style src="./Style.css" />
