@@ -28,6 +28,10 @@
     border: 3px solid #73AD21;
 }
 
+input {
+    margin: 5px 0;
+}
+
 #fields {
     text-align: left;
 }
