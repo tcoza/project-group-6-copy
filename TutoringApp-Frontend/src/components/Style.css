@@ -98,6 +98,7 @@ section, footer, header, aside, nav {
 h3 {
     font-size: 30px;
     margin-left:10%;
+    margin-bottom: 30px;
     font-weight: bold;
     text-align: left;
     color: #FE0101;
