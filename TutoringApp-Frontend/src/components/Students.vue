@@ -7,6 +7,7 @@
     <div class="container">
         <div
             tabindex="0"
+            ref="scroll"
             class="scroll"
             v-on:keydown.up='$event.preventDefault(); select(selected-1)'
             v-on:keydown.down='$event.preventDefault(); select(selected+1)'
@@ -36,7 +37,12 @@
                 </tr>
             </table>
         </div>
-        <input ref="searchbox" style="display: none" v-model="query" v-on:focusout="unsearch()" />
+        <input
+        ref="searchbox"
+        style="display: none"
+        v-model="query"
+        v-on:keydown.esc="$refs.scroll.focus()"
+        v-on:focusout="unsearch()" />
     </div>
   </div>
 </template>
@@ -118,9 +124,9 @@ div.scroll {
   text-align: left;
   overflow-y: auto;
   border: 3px solid #73ad21;
-  outline: none;
 }
 
+div.scroll:focus, tr:focus { outline: none; }
 th { background-color: #4CAF50; font-size: 18pt; }
 td { font-size: 16pt; }
 
