@@ -8,9 +8,10 @@
         <div class="scroll">
             <table style="width: 100%"
                 ref="table"
+                tabindex="0"
                 v-on:keydown.up='$event.preventDefault(); select(selected-1)'
                 v-on:keydown.down='$event.preventDefault(); select(selected+1)'
-                v-on:keypress='search($event)'>
+                v-on:keypress='search()'>
                 <tr>
                     <th style="width: 25%">Username</th>
                     <th style="width: 30%">First</th>
@@ -51,43 +52,9 @@ export default {
     {
         this.students.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'ACTIVE' });
         this.students.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'ACTIVE' });
-        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'REMOVED' });
-         this.students.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'ACTIVE' });
-        this.students.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'ACTIVE' });
-        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'REMOVED' });
-         this.students.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'ACTIVE' });
-        this.students.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'ACTIVE' });
-        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'REMOVED' });
-         this.students.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'ACTIVE' });
-        this.students.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'ACTIVE' });
-        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'REMOVED' });
-         this.students.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'ACTIVE' });
-        this.students.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'ACTIVE' });
-        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'REMOVED' });
-         this.students.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'ACTIVE' });
-        this.students.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'ACTIVE' });
-        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'REMOVED' });
-         this.students.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'ACTIVE' });
-        this.students.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'ACTIVE' });
-        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'REMOVED' });
-         this.students.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'ACTIVE' });
-        this.students.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'ACTIVE' });
-        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'REMOVED' });
-         this.students.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'ACTIVE' });
-        this.students.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'ACTIVE' });
-        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'REMOVED' });
-         this.students.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'ACTIVE' });
-        this.students.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'ACTIVE' });
-        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'REMOVED' });
-         this.students.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'ACTIVE' });
-        this.students.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'ACTIVE' });
-        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'REMOVED' });
-         this.students.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'ACTIVE' });
-        this.students.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'ACTIVE' });
-        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'REMOVED' });
-         this.students.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'ACTIVE' });
-        this.students.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'ACTIVE' });
-        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'REMOVED' });
+        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'ACTIVE' });
+        this.students.push({ username: 'alba', firstname: 'Alba', lastname: 'Talelli', status: 'ACTIVE' });
+        this.students.push({ username: 'helen', firstname: 'Helen', lastname: 'Lin', status: 'ACTIVE' });
     },
     methods:
     {
@@ -98,9 +65,10 @@ export default {
             this.selected = index;
             this.$refs.table.rows[index].focus();
         },
-        search: function ()
+        search: function (query)
         {
             this.$refs.searchbox.style.display = "initial";
+            this.query = query;
             this.$refs.searchbox.focus();
         },
         unsearch: function()
@@ -117,11 +85,14 @@ export default {
         query: function (val)
         {
             this.selected = 0;
+            if (this.query == "")
+                this.query = undefined;
             for (var i = 0; i < this.students.length; i++)
             {
                 if (this.students[i].username.startsWith(this.query))
                 {
-                    this.selected = i+1;
+                    this.select(i+1);
+                    this.search(this.query);
                     break;
                 }
             }
