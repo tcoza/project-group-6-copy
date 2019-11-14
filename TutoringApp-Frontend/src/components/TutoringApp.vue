@@ -1,30 +1,57 @@
 <template>
-  <div id="tutoringapp">
-    <h2>People</h2>
-    <table>
-      <tr>
-          <td>John</td>
-          <td>Event to attend</td>
-      </tr>
-      <tr>
-          <td>
-              <input type="text" placeholder="Person Name">
-          </td>
-          <td>
-              <button>Create</button>
-          </td>
-      </tr>
-    </table>
-    <p>
-      <span style="color:red">Error: Message text comes here</span>
-    </p>
+  <div class="count">
+    <h1>Button clicked {{ count }} times.</h1>
+    <button v-on:click="count += 1">Click me!</button>
+    <button v-on:click="greet()">Greet!</button>
+    <br />
+    <br />
+    <ul>
+      <li
+        v-for="(message, index) in messages"
+        v-bind:key="message"
+        v-bind:index="index"
+        v-on:click="msg = message"
+      >
+        {{ index+1 }}.
+        <a href="#input">{{ message }}</a>
+        <button v-on:click="messages.splice(index, 1)">Remove</button>
+      </li>
+    </ul>
+    <input
+      id="input"
+      ref="input"
+      type="text"
+      v-model="msg"
+      v-on:keyup.enter="$refs.add.click(); $refs.input.select();"
+    />
+    <button ref="add" v-on:click="addToList()">Add</button>
   </div>
 </template>
 
-<style>
-  #tutoringapp {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    color: #2c3e50;
-    background: #f2ece8;
+<script>
+export default
+{
+  name: "count",
+  data: function()
+  {
+    return { count: 0, msg: "F", messages: [] };
+  },
+  methods:
+  {
+    greet: function()
+    {
+      alert(this.msg);
+    },
+    addToList: function()
+    {
+      this.messages.push(this.msg);
+    }
   }
+};
+</script>
+
+<style scoped>
+ul {
+  list-style-type: none;
+}
 </style>
