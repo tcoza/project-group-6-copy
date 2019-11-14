@@ -127,10 +127,4 @@ div.scroll {
 }
 
 div.scroll:focus, tr:focus { outline: none; }
-th { background-color: #4CAF50; font-size: 18pt; }
-td { font-size: 16pt; }
-
-.highlight {
-    background-color: greenyellow;
-}
 </style>
