@@ -139,11 +139,11 @@
 
 		/** @author Traian */
 		@Transactional
-		public void deleteStudent(String username)
+		public void setStudentStatus(String username, boolean active)
 		{
 			if (username == null || !studentRepository.existsByUsername(username))
 				throw new IllegalArgumentException("Student '" + username + "' does not exist!");
-			studentRepository.findByUsername(username).setIsActiveAccount(false);
+			studentRepository.findByUsername(username).setIsActiveAccount(active);
 		}
 		
 		@Transactional

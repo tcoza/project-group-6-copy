@@ -1,0 +1,7 @@
+#!/bin/bash
+
+curl -d first=Traian\&last=Coza -X POST localhost:8080/students/traian
+curl -d first=Helen\&last=Lin -X POST localhost:8080/tutors/helen
+curl -d first=Alba\&last=Talelli -X POST localhost:8080/tutors/alba
+curl -d first=Arianit\&last=Vavla -X POST localhost:8080/students/arianit
+curl -d first=Odero\&last=Otieno -X POST localhost:8080/students/odero

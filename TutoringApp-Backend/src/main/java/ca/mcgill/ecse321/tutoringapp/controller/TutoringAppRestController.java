@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ca.mcgill.ecse321.tutoringapp.model.*;
 import ca.mcgill.ecse321.tutoringapp.service.TutoringAppService;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @RestController
 public class TutoringAppRestController {
 	
@@ -101,11 +101,19 @@ public class TutoringAppRestController {
 	}
 	
 	/** @author Traian Coza */
-	@PostMapping(value = { "/students/{username}/delete", "/tutors/{username}/delete/" })
+	@PostMapping(value = { "/students/{username}/deactivate", "/tutors/{username}/deactivate/" })
 	public void deleteStudent(
 			@PathVariable("username") String username)
 	{
-		service.deleteStudent(username);
+		service.setStudentStatus(username, false);
+	}
+	
+	/** @author Traian Coza */
+	@PostMapping(value = { "/students/{username}/reactivate", "/tutors/{username}/reactivate/" })
+	public void reactivateStudent(
+			@PathVariable("username") String username)
+	{
+		service.setStudentStatus(username, true);
 	}
 	
 	//**** COURSE, SUBJECT, TEACHING INSTITUTION **************
