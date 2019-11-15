@@ -143,7 +143,7 @@
 		{
 			if (username == null || !studentRepository.existsByUsername(username))
 				throw new IllegalArgumentException("Student '" + username + "' does not exist!");
-			studentRepository.delete(studentRepository.findByUsername(username));
+			studentRepository.findByUsername(username).setIsActiveAccount(false);
 		}
 		
 		@Transactional
