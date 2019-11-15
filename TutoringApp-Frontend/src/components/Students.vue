@@ -96,7 +96,7 @@ export default {
 
             const userAction = async () => {
                 const response = await fetch(url, { method: "POST" });
-                if (response.status != 200)
+                if (!response.ok)
                     console.log(response);
             }
             userAction();

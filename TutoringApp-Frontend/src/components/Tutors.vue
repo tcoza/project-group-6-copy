@@ -26,10 +26,12 @@
                     v-on:mousedown="select(index)"
                     v-bind:class="[selected == index ? 'highlight' : '']">
                     <td>{{ tutors[index-1].username }}</td>
-                    <td>{{ tutors[index-1].firstname }}</td>
-                    <td>{{ tutors[index-1].lastname }}</td>
+                    <td>{{ tutors[index-1].firstName }}</td>
+                    <td>{{ tutors[index-1].lastName }}</td>
                     <td>
-                        <select v-model='tutors[index-1].status'>
+                        <select
+                        v-model='tutors[index-1].status'
+                        v-on:change="statusChanged(index-1)">
                             <option value="PENDING">Pending</option>
                             <option value="VERIFIED">Verified</option>
                             <option value="TERMINATED">Terminated</option>
@@ -57,11 +59,16 @@ export default {
     },
     created: function()
     {
-        this.tutors.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'PENDING' });
-        this.tutors.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'PENDING' });
-        this.tutors.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'VERIFIED' });
-        this.tutors.push({ username: 'alba', firstname: 'Alba', lastname: 'Talelli', status: 'TERMINATED' });
-        this.tutors.push({ username: 'helen', firstname: 'Helen', lastname: 'Lin', status: 'TERMINATED' });
+        const userAction = async () => {
+            const response = await fetch('http://localhost:8080/tutors');
+            const myJson = await response.json();
+            this.tutors = myJson._embedded.tutors
+            this.tutors.forEach(function (tutor)
+            {
+                tutor.username = tutor._links.self.href.substr(tutor._links.self.href.lastIndexOf('/')+1);
+            });
+        }
+        userAction();
     },
     methods:
     {
@@ -81,6 +88,22 @@ export default {
         unsearch: function()
         {
             this.$refs.searchbox.style.display = "none";
+        },
+        statusChanged(index)
+        {
+            var url = 'http://localhost:8080/tutors/' + this.tutors[index].username + "/setstatus";
+
+            const userAction = async () => {
+                const response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: "status=" + this.tutors[index].status
+                });
+                if (!response.ok)
+                    console.log(response);
+            }
+            userAction();
         },
         popup: function(message)
         {
