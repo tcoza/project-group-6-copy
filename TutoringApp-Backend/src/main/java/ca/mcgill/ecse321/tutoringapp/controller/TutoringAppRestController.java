@@ -101,11 +101,19 @@ public class TutoringAppRestController {
 	}
 	
 	/** @author Traian Coza */
-	@PostMapping(value = { "/students/{username}/delete", "/tutors/{username}/delete/" })
+	@PostMapping(value = { "/students/{username}/deactivate", "/tutors/{username}/deactivate/" })
 	public void deleteStudent(
 			@PathVariable("username") String username)
 	{
-		service.deleteStudent(username);
+		service.setStudentStatus(username, false);
+	}
+	
+	/** @author Traian Coza */
+	@PostMapping(value = { "/students/{username}/reactivate", "/tutors/{username}/reactivate/" })
+	public void reactivateStudent(
+			@PathVariable("username") String username)
+	{
+		service.setStudentStatus(username, true);
 	}
 	
 	//**** COURSE, SUBJECT, TEACHING INSTITUTION **************

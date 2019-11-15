@@ -29,7 +29,9 @@
                     <td>{{ students[index-1].firstName }}</td>
                     <td>{{ students[index-1].lastName }}</td>
                     <td>
-                        <select v-model='students[index-1].isActiveAccount'>
+                        <select
+                        v-model='students[index-1].isActiveAccount'
+                        v-on:change="statusChanged(index-1)">
                             <option value="true">Active</option>
                             <option value="false">Removed</option>
                         </select>
@@ -86,6 +88,18 @@ export default {
         unsearch: function()
         {
             this.$refs.searchbox.style.display = "none";
+        },
+        statusChanged(index)
+        {
+            var url = 'http://localhost:8080/students/' + this.students[index].username;
+            url += this.students[index].isActiveAccount == "true" ? '/reactivate' : '/deactivate';
+
+            const userAction = async () => {
+                const response = await fetch(url, { method: "POST" });
+                if (response.status != 200)
+                    console.log(response);
+            }
+            userAction();
         },
         popup: function(message)
         {

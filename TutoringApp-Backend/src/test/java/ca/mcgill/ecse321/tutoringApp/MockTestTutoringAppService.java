@@ -760,9 +760,9 @@ public class MockTestTutoringAppService {
 		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "name", null, "Fancy name"));
 		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "name", "Name", null));
 		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "tcoza", "Already", "Exists"));
-		assertThrows(IllegalArgumentException.class, () -> service.deleteStudent(null));
-		assertThrows(IllegalArgumentException.class, () -> service.deleteStudent("non existent"));
-		service.deleteStudent("tcoza");
+		assertThrows(IllegalArgumentException.class, () -> service.setStudentStatus(null));
+		assertThrows(IllegalArgumentException.class, () -> service.setStudentStatus("non existent"));
+		service.setStudentStatus("tcoza");
 		assertEquals(service.getAllStudents().size(), 0);
 		assertEquals(service.getAllUsers().size(), 0);
 	}
