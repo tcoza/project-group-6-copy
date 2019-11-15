@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import ca.mcgill.ecse321.tutoringapp.model.Room;
 import ca.mcgill.ecse321.tutoringapp.model.ScheduledPrivateSession;
@@ -17,6 +18,7 @@ import ca.mcgill.ecse321.tutoringapp.model.Tutor;
  * @author Arianit
  *
  */
+@CrossOrigin
 @RepositoryRestResource(collectionResourceRel = "scheduledprivatesessions", path = "scheduledprivatesessions")
 public interface ScheduledPrivateSessionRepository extends CrudRepository<ScheduledPrivateSession, Integer> {
 	ScheduledPrivateSession findByAssignedTutor (Tutor tutor);

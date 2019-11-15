@@ -4,6 +4,7 @@
       <h2>Students</h2>
     </div>
     <h3>Welcome, Manager!</h3>
+    <button v-on:click="popup()">Request</button>
     <div class="container">
         <div
             tabindex="0"
@@ -26,12 +27,12 @@
                     v-on:mousedown="select(index)"
                     v-bind:class="[selected == index ? 'highlight' : '']">
                     <td>{{ students[index-1].username }}</td>
-                    <td>{{ students[index-1].firstname }}</td>
-                    <td>{{ students[index-1].lastname }}</td>
+                    <td>{{ students[index-1].firstName }}</td>
+                    <td>{{ students[index-1].lastName }}</td>
                     <td>
-                        <select v-model='students[index-1].status'>
-                            <option value="ACTIVE">Active</option>
-                            <option value="REMOVED">Removed</option>
+                        <select v-model='students[index-1].isActiveAccount'>
+                            <option value="true">Active</option>
+                            <option value="false">Removed</option>
                         </select>
                     </td>
                 </tr>
@@ -56,11 +57,7 @@ export default {
     },
     created: function()
     {
-        this.students.push({ username: 'traian', firstname: 'Traian', lastname: 'Coza', status: 'ACTIVE' });
-        this.students.push({ username: 'arianit', firstname: 'Arianit', lastname: 'Vavla', status: 'ACTIVE' });
-        this.students.push({ username: 'odero', firstname: 'Odero', lastname: 'Otieno', status: 'ACTIVE' });
-        this.students.push({ username: 'alba', firstname: 'Alba', lastname: 'Talelli', status: 'ACTIVE' });
-        this.students.push({ username: 'helen', firstname: 'Helen', lastname: 'Lin', status: 'ACTIVE' });
+        
     },
     methods:
     {
@@ -83,7 +80,14 @@ export default {
         },
         popup: function(message)
         {
-            console.log(message);
+            const userAction = async () => {
+                const response = await fetch('http://localhost:8080/students');
+                const myJson = await response.json(); //extract JSON from the http response
+                // do something with myJson
+                console.log(myJson);
+                this.students = myJson._embedded.students
+            }
+            userAction();
         }
     },
     watch:

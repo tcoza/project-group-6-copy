@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ca.mcgill.ecse321.tutoringapp.model.*;
 import ca.mcgill.ecse321.tutoringapp.service.TutoringAppService;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @RestController
 public class TutoringAppRestController {
 	
