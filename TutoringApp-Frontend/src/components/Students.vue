@@ -63,10 +63,8 @@ export default {
             const myJson = await response.json(); //extract JSON from the http response
             // do something with myJson
             this.students = myJson._embedded.students
-            this.students.forEach(function (student)
-            {
-                student.username = student._links.self.href.substr(student._links.self.href.lastIndexOf('/')+1);
-            });
+            this.students.forEach((student) => student.username = student._links.self.href.substr(student._links.self.href.lastIndexOf('/')+1));
+            this.students.sort((a,b) => (a.username > b.username) ? 1 : -1);
         }
         userAction();
     },

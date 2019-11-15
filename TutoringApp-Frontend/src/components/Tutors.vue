@@ -63,10 +63,8 @@ export default {
             const response = await fetch('http://localhost:8080/tutors');
             const myJson = await response.json();
             this.tutors = myJson._embedded.tutors
-            this.tutors.forEach(function (tutor)
-            {
-                tutor.username = tutor._links.self.href.substr(tutor._links.self.href.lastIndexOf('/')+1);
-            });
+            this.tutors.forEach((tutor) => tutor.username = tutor._links.self.href.substr(tutor._links.self.href.lastIndexOf('/')+1));
+            this.tutors.sort((a,b) => (a.username > b.username) ? 1 : -1);
         }
         userAction();
     },
