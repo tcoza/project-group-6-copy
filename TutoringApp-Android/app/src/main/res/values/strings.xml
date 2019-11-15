@@ -1,0 +1,4 @@
+<resources>
+    <string name="newperson_hint">Who?</string>
+    <string name="newperson_button">Add Person</string>
+</resources>
