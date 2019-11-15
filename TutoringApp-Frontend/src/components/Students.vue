@@ -4,7 +4,6 @@
       <h2>Students</h2>
     </div>
     <h3>Welcome, Manager!</h3>
-    <button v-on:click="popup()">Request</button>
     <div class="container">
         <div
             tabindex="0"
@@ -57,7 +56,17 @@ export default {
     },
     created: function()
     {
-        
+        const userAction = async () => {
+            const response = await fetch('http://localhost:8080/students');
+            const myJson = await response.json(); //extract JSON from the http response
+            // do something with myJson
+            this.students = myJson._embedded.students
+            this.students.forEach(function (student)
+            {
+                student.username = student._links.self.href.substr(student._links.self.href.lastIndexOf('/')+1);
+            });
+        }
+        userAction();
     },
     methods:
     {
@@ -80,14 +89,7 @@ export default {
         },
         popup: function(message)
         {
-            const userAction = async () => {
-                const response = await fetch('http://localhost:8080/students');
-                const myJson = await response.json(); //extract JSON from the http response
-                // do something with myJson
-                console.log(myJson);
-                this.students = myJson._embedded.students
-            }
-            userAction();
+            console.log(message);
         }
     },
     watch:
