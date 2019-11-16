@@ -9,7 +9,9 @@ This project aims to create a tutoring application from end-to-end. This
 application is for a company that provides tutoring services for students to 
 recieve one-on-one private tutoring, or group tutoring sessions from the tutor 
 employees of the company. The main views of the application are: Tutor, 
-Manager, Student, and General. In this project, we implement the Manager view, 
+Manager, Student, and General. 
+
+In this project, we implement the Manager view, 
 where managers are responsible for various tasks such as verifying a tutor, 
 removing students, removing evaluation comments, booking rooms for group 
 sessions, etc.
