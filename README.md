@@ -28,10 +28,15 @@ Iteration 3 - Architecture and Front-End (architecture model, GUI of front-end, 
 Iteration 4 - TODO
 
 Team 6 Members:
+
 Andrei Traian Coza
+
 Helen Lin
+
 Otieno Odero
+
 Alba Talelli
+
 Arianit Vavla
 
 See the Github wiki for more information: 
