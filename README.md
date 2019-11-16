@@ -23,7 +23,8 @@ domain modelling, creation of persistence layer)
 Iteration 2 - Service Implementation in Backend (implementation of service 
 methods, mapping to REST API, unit and integration testing)
 
-Iteration 3 - Front-End -- TODO
+Iteration 3 - Architecture and Front-End (architecture model, GUI of front-end, integrating web front-end and backend services)
+
 Iteration 4 - TODO
 
 Team 6 Members:
