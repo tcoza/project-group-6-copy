@@ -29,5 +29,24 @@
 <script>
 </script>
 
-<style>
+<style src="./Style.css" />
+<style scoped>
+#login {
+  position: absolute;  
+  text-align: auto;
+  right: 150px;
+  width: 400px;
+  margin: 0 right;
+  padding: 10px;
+  border: 3px solid #73ad21;
+}
+input {
+  width: 374px;
+  padding: 5px;
+  margin: 5px 0;
+}
+#fields {
+  text-align: left;
+}
+</style>
 </style>
