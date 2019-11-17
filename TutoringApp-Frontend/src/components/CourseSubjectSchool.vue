@@ -113,7 +113,7 @@
         },
         add() {
             this.originalData = null
-            this.items.push({ institution: ''})
+            this.items.push({ TeachingInstitution: ''})
             this.editIndex = this.items.length - 1
             this.originalData = null
             this.editIndex = null
