@@ -1,5 +1,5 @@
 <template>
-   <form id="main" v-cloak>
+   <div id="main" v-cloak>
         <div class="bar">
             <h2> TutoringApp Manager View - Home Page </h2> 
         </div>
@@ -10,7 +10,7 @@
             <p>{{a.title}}</p>
         </li>
 
-    </form>
+    </div>
 </template>
 
 <script>

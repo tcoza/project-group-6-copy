@@ -1,10 +1,9 @@
 <template>
-    <form id="main" v-cloak>
+    <div id="main" v-cloak>
         <div class="bar">
             <h2> TutoringApp Manager View - Courses, Subjects, and Teaching Institutions </h2> 
         </div>
             <h3> Welcome, Manager (name)! </h3>
-        <div>
         
         <div class="buttonPart">
             <button class="classes" v-on:click="classes()"> Create Classes</button>
@@ -13,6 +12,15 @@
         </div>
 
         <div class="list">
+
+            <table style="width: 100%" ref="table">
+                <tr>
+                    <th style="width: 30%">Teaching institution</th>
+                    <th style="width: 20%">Classes Code</th>
+                    <th style="width: 20%">Classes Name</th>
+                    <th style="width: 20%">Subjects</th>
+                </tr>
+            </table>
         </div>
         
         <div class="class-popup" id="myclass">
@@ -34,13 +42,52 @@
                 //////////////
 
                 <button type="submit" class="btn"> Create </button>
-                <button type="button" class="btn cancel" v-on:click="closeForm()">Close</button>
+                <button type="button" class="btn cancel" v-on:click="closeFormClass()">Close</button>
             </form>
         </div>
 
-     </div>
+        <div class="subject-popup" id="mysubject">
+            <form action="/action_page.php" class="form-container">
+                <h1>Create Subjects </h1>
 
-    </form>
+                <label for="subjectName"><b>Subject Name</b></label>
+                <input type="text" placeholder="Enter subject Name" name="subjectName" required>
+
+                <label for="TI"> <b>Teaching Institution </b> </label>
+               ///////////
+               
+                <select>
+                    <option v-for="institution in TInstitutions" v-bind:key="institution.name" v-bind:value="institution.name"> {{institution.name}}</option>
+                </select>
+                //////////////
+
+                <button type="submit" class="btn"> Create </button>
+                <button type="button" class="btn cancel" v-on:click="closeFormSubject()">Close</button>
+            </form>
+        </div>
+
+        <div class="school-popup" id="myschool">
+            <form action="/action_page.php" class="form-container">
+                <h1>Create A Teaching Institution </h1>
+
+                <label for="School name"><b>School Name</b></label>
+                <input type="text" placeholder="Enter subject Name" name="subjectName" required>
+
+                <label for="SchoolType"> <b>Type of Teaching Institution </b> </label>
+               
+                <select>
+                    <option> Elementary School </option>
+                    <option> High School </option>
+                    <option> Cegep </option>
+                    <option> Univercity </option>
+                </select>
+                
+                <button v-show="!editIndex" @click="add" class="btn"> Create</button>
+                <button type="button" class="btn cancel" v-on:click="closeFormSchool()">Close</button>
+            </form>
+        </div>
+
+    </div>
 </template>
 
 <script>
@@ -49,11 +96,27 @@
         classes() {
             console.log(document.getElementById("myclass").style.display = "block");
         },
-        closeForm() {
+        subjects(){
+            console.log(document.getElementById("mysubject").style.display = "block");
+        },
+        TI(){
+            console.log(document.getElementById("myschool").style.display = "block");
+        },
+        closeFormClass() {
             console.log(document.getElementById("myclass").style.display = "none");
         },
-        addToList: function () {
-            this.messages.push(this.msg);
+        closeFormSubject() {
+            console.log(document.getElementById("mysubject").style.display = "none");
+        },
+        closeFormSchool() {
+            console.log(document.getElementById("myschool").style.display = "none");
+        },
+        add() {
+            this.originalData = null
+            this.items.push({ Teaching institution: ''})
+            this.editIndex = this.items.length - 1
+            this.originalData = null
+            this.editIndex = null
         }
     }
   }
@@ -74,6 +137,22 @@ button.TI {
 
 /* The popup form - hidden by default */
 .class-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+.subject-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+.school-popup{
   display: none;
   position: fixed;
   bottom: 0;
