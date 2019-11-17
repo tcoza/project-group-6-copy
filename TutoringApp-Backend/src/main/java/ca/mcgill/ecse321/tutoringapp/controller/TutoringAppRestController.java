@@ -132,14 +132,14 @@ public class TutoringAppRestController {
 		return (TeachingInstitution)service.getTeachingInstitution(name);
 	}
 	/** @author Odero Otieno */
-	@PostMapping(value = { "/classrooms/", "/classrooms" })
+	@PostMapping(value = { "/createclassroom/", "/createclassroom" })
 	public ClassRoom createClassRoom() {
 		return service.createClassRoom();
 	}
 		
 
 	/** @author Odero Otieno */
-	@PostMapping(value = { "/smallrooms/", "/smallrooms" })
+	@PostMapping(value = { "/createsmallroom/", "/createsmallroom" })
 	public SmallRoom createSmallRoom() {
 		return service.createSmallRoom();
 	}
@@ -202,8 +202,8 @@ public class TutoringAppRestController {
 	//***************EVALUATIONS ****************
 	
 	/** @author Alba Talelli */
-	@PostMapping(value = { "/studentevaluations/", "/studentevaluations" })
-	public StudentEvaluation createStudentEvaluation(@RequestParam(name = "rating", required=true) int rating, @RequestParam(name = "username", required=true) String studentUN, @RequestParam(name = "username", required = true) String tutorUN) throws IllegalArgumentException {
+	@PostMapping(value = { "/createstudentevaluation/", "/createstudentevaluation" })
+	public StudentEvaluation createStudentEvaluation(@RequestParam(name = "rating", required=true) int rating, @RequestParam(name = "studentUN", required=true) String studentUN, @RequestParam(name = "tutorUN", required = true) String tutorUN) throws IllegalArgumentException {
 		StudentEvaluation studentEval = new StudentEvaluation();
 		if (studentUN == null) { // give student name
 			throw new IllegalArgumentException("Must provide a Student Username");
@@ -224,8 +224,8 @@ public class TutoringAppRestController {
 	}
 	
 	/** @author Alba Talelli */
-	@PostMapping(value = { "/tutorevaluations/", "/tutorevaluations" })
-	public TutorEvaluation createTutorEvaluation(@RequestParam(name = "rating", required=true) int rating, @RequestParam(name = "username", required=true) String studentUN, @RequestParam(name = "username", required = true) String tutorUN) throws IllegalArgumentException {
+	@PostMapping(value = { "/createtutorevaluation/", "/createtutorevaluation" })
+	public TutorEvaluation createTutorEvaluation(@RequestParam(name = "rating", required=true) int rating, @RequestParam(name = "studentUN", required=true) String studentUN, @RequestParam(name = "tutorUN", required = true) String tutorUN) throws IllegalArgumentException {
 		TutorEvaluation tutorEval = new TutorEvaluation();
 		if (studentUN == null) { // give student name
 			throw new IllegalArgumentException("Must provide a Student Username");
@@ -246,8 +246,8 @@ public class TutoringAppRestController {
 	}
 	
 	/** @author Alba Talelli */
-	@PostMapping(value = { "/evaluations/", "/evaluations" })
-	public Evaluation createEvaluation(@RequestParam(required=true) int rating, @RequestParam(name = "username", required=true) String studentUN, @RequestParam(name = "username", required = true) String tutorUN, @RequestParam(name="isStudentEvaluation", required=true) boolean isStudentEvaluation) throws IllegalArgumentException {
+	@PostMapping(value = { "/createevaluation/", "/createevaluation" })
+	public Evaluation createEvaluation(@RequestParam(required=true) int rating, @RequestParam(name = "studentUN", required=true) String studentUN, @RequestParam(name = "tutorUN", required = true) String tutorUN, @RequestParam(name="isStudentEvaluation", required=true) boolean isStudentEvaluation) throws IllegalArgumentException {
 		Evaluation eval = new Evaluation();
 		if (isStudentEvaluation) {
 			eval = this.createStudentEvaluation(rating, studentUN, tutorUN);
@@ -258,8 +258,8 @@ public class TutoringAppRestController {
 	}
 
 	/** @author Alba Talelli */
-	@PostMapping(value = { "/evaluationcomments/", "/evaluationcomments" })
-	public EvaluationComment createEvaluationComment(@RequestParam(name = "username", required=true) String studentUN, @RequestParam(name = "username", required = true) String tutorUN,@RequestParam(name="isStudentEvaluation", required=true) boolean isStudentEvaluation, @RequestParam(required=true) String comment) throws IllegalArgumentException {
+	@PostMapping(value = { "/createevaluationcomment/", "/createevaluationcomment" })
+	public EvaluationComment createEvaluationComment(@RequestParam(name = "studentUN", required=true) String studentUN, @RequestParam(name = "tutorUN", required = true) String tutorUN,@RequestParam(name="isStudentEvaluation", required=true) boolean isStudentEvaluation, @RequestParam(name="comment",required=true) String comment) throws IllegalArgumentException {
 		Evaluation eval = new Evaluation();
 		Student student = service.getStudent(studentUN);
 		Tutor tutor = service.getTutor(tutorUN);
@@ -277,8 +277,8 @@ public class TutoringAppRestController {
 	}
 	
 	/** @author Alba Talelli */
-	@DeleteMapping(value = { "/evaluationcomments/", "/evaluationcomments" })
-	public void deleteEvaluationComment(@RequestParam(name = "username", required=true) String studentUN, @RequestParam(name = "username", required = true) String tutorUN,@RequestParam(name="isStudentEvaluation", required=true) boolean isStudentEvaluation, @RequestParam(required=true) String comment) throws IllegalArgumentException {
+	@DeleteMapping(value = { "/deleteevaluationcomment/", "/deleteevaluationcomment" })
+	public void deleteEvaluationComment(@RequestParam(name = "studentUN", required=true) String studentUN, @RequestParam(name = "tutorUN", required = true) String tutorUN,@RequestParam(name="isStudentEvaluation", required=true) boolean isStudentEvaluation, @RequestParam(required=true) String comment) throws IllegalArgumentException {
 		Evaluation eval = new Evaluation();
 		Student student = service.getStudent(studentUN);
 		Tutor tutor = service.getTutor(tutorUN);
@@ -295,7 +295,7 @@ public class TutoringAppRestController {
 	}
 
 	/** @author Arianit */ 	
-	@PostMapping(value = {"/scheduledprivatesessions/", "/scheduledprivatesessions" })
+	@PostMapping(value = {"/createscheduledprivatesession/", "/createscheduledprivatesession" })
 	public ScheduledPrivateSession createScheduledPrivateSession(
 			@RequestParam(name = "username", required = true) String tutor,
 			@RequestParam (required = true) int smallRoomID, 
@@ -304,7 +304,7 @@ public class TutoringAppRestController {
 		
 	}
 	/** @author Arianit */
-	@PostMapping(value = {"/scheduledgroupsessions/", "/scheduledgroupsessions" })
+	@PostMapping(value = {"/createscheduledgroupsession/", "/createscheduledgroupsession" })
 	public ScheduledGroupSession createScheduledGroupSession(
 			@RequestParam(name = "username", required = true) String tutorS,
 			@RequestParam (name = "roomid", required = true) int classRoomS, 
@@ -316,13 +316,13 @@ public class TutoringAppRestController {
 	}
 	
 	/** @author Arianit */
-	@DeleteMapping(value = {"/scheduledprivatesessions/", "/scheduledprivatesessions" })
+	@DeleteMapping(value = {"/deletescheduledprivatesession/", "/deletescheduledprivatesession" })
 	public void deleteScheduledPrivateSession(
 			@RequestParam(required = true) int id) {
 		service.deleteScheduledPrivateSession(id);
 	}
 	/** @author Arianit */
-	@DeleteMapping(value = {"/scheduledgroupsessions/", "/scheduledgroupsessions" })
+	@DeleteMapping(value = {"/deletescheduledgroupsession/", "/deletescheduledgroupsession" })
 	public void deleteScheduledGroupSession(
 			@RequestParam(required = true) int id){
 		service.deleteScheduledGroupSession(id);
