@@ -13,7 +13,7 @@
             </table>
         </div>
     </div>
-<template>
+</template>
 <script>
 </script>
 <style src="./Style.css" />
