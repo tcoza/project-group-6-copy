@@ -307,8 +307,8 @@ public class TutoringAppRestController {
 	@PostMapping(value = {"/scheduledgroupsessions/", "/scheduledgroupsessions" })
 	public ScheduledGroupSession createScheduledGroupSession(
 			@RequestParam(name = "username", required = true) String tutorS,
-			@RequestParam (required = true) int classRoomS, 
-			@RequestParam (required = true) Time startTime) throws IllegalArgumentException {
+			@RequestParam (name = "roomid", required = true) int classRoomS, 
+			@RequestParam (name = "starttime", required = true) Time startTime) throws IllegalArgumentException {
 		ScheduledGroupSession scheduledGroupSession = new ScheduledGroupSession();
 		scheduledGroupSession = service.createScheduledGroupSession(tutorS, classRoomS, startTime);
 		return scheduledGroupSession;
