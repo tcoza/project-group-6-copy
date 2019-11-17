@@ -593,9 +593,7 @@
 			String error = "";
 			if (tutor == null) {
 				error = error + "Tutor needs to be selected for Tutor Evaluation! ";
-			} else if (!tutorRepository.existsByUsername(tutor.getUsername()))
-				;
-			{
+			} else if (!tutorRepository.existsByUsername(tutor.getUsername())){
 				error = error + "Tutor does not exist! ";
 			}
 			if (student == null) {
@@ -676,9 +674,7 @@
 			String error = "";
 			if (tutor == null) {
 				error = error + "Tutor needs to be selected for Student Evaluation! ";
-			} else if (!tutorRepository.existsByUsername(tutor.getUsername()))
-				;
-			{
+			} else if (!tutorRepository.existsByUsername(tutor.getUsername()))	{
 				error = error + "Tutor does not exist! ";
 			}
 			if (student == null) {
@@ -719,9 +715,7 @@
 			String error = "";
 			if (tutor == null) {
 				error = error + "Tutor needs to be selected for Student Evaluation! ";
-			} else if (!tutorRepository.existsByUsername(tutor.getUsername()))
-				;
-			{
+			} else if (!tutorRepository.existsByUsername(tutor.getUsername()))	{
 				error = error + "Tutor does not exist! ";
 			}
 			if (student == null) {
