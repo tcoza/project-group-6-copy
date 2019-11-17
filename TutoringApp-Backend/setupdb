@@ -1,8 +1,33 @@
 #!/bin/bash
 
 curl -d first=Traian\&last=Coza -X POST localhost:8080/students/traian
-curl -d first=Helen\&last=Lin -X POST localhost:8080/tutors/helen
-curl -d first=Alba\&last=Talelli -X POST localhost:8080/tutors/alba
 curl -d first=Arianit\&last=Vavla -X POST localhost:8080/students/arianit
 curl -d first=Odero\&last=Otieno -X POST localhost:8080/students/odero
-curl -d username=arianit&roomid=1&starttime=123456789 -X POST localhost:8080/scheduledgroupsessions
+curl -d first=Test\&last=Student1 -X POST localhost:8080/students/testStudent1
+curl -d first=Test\&last=Student2 -X POST localhost:8080/students/testStudent2
+curl -d first=Test\&last=Student3 -X POST localhost:8080/students/testStudent3
+curl -d first=Helen\&last=Lin -X POST localhost:8080/tutors/helen
+curl -d first=Alba\&last=Talelli -X POST localhost:8080/tutors/alba
+
+
+curl -d type=UNIVERSITY -X POST localhost:8080/teachinginstitutions/McGill
+curl -d type=UNIVERSITY -X POST localhost:8080/teachinginstitutions/Concordia
+curl -d type=CEGEP -X POST localhost:8080/teachinginstitutions/Dawson
+curl -d type=HIGHSCHOOL -X POST localhost:8080/teachinginstitutions/TestHighSchool
+
+curl -d name=IntroSoftwareEngineering\&school=McGill -X POST localhost:8080/courses/ECSE321
+curl -d name=DPM\&school=McGill -X POST localhost:8080/courses/ECSE211
+curl -d name=Circuits\&school=McGill -X POST localhost:8080/courses/ECSE200
+curl -d name=Electronics\&school=McGill -X POST localhost:8080/courses/ECSE331
+
+
+curl -d username=arianit\&roomid=1\&starttime=123456789 -X POST localhost:8080/scheduledgroupsessions
+
+
+curl -d username=arianit\&course=ECSE321 -X POST localhost:8080/creategrouprequest
+curl -d username=traian\&course=ECSE321 -X POST localhost:8080/creategrouprequest
+curl -d username=odero\&course=ECSE200 -X POST localhost:8080/creategrouprequest
+curl -d username=testStudent1\&course=ECSE211 -X POST localhost:8080/creategrouprequest
+curl -d username=arianit\&course=ECSE211 -X POST localhost:8080/creategrouprequest
+curl -d username=testStudent2\&course=ECSE331 -X POST localhost:8080/creategrouprequest
+

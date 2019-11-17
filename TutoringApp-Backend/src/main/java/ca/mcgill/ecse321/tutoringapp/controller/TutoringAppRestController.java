@@ -157,7 +157,7 @@ public class TutoringAppRestController {
 		//e.g. to get all session requests by a student, rest url is /student/sessionrequests
 	
 	/** @author Helen Lin */
-	@PostMapping(value = { "/privaterequests/", "/privaterequests" })
+	@PostMapping(value = { "/createprivaterequest/", "/createprivaterequest" })
 	public PrivateRequest createPrivateRequest(@RequestParam(name = "username", required=true) String username, @RequestParam(name="course", required=false) String course, @RequestParam(name="subject", required=false) String subject) throws IllegalArgumentException {
 		PrivateRequest request;
 		if (course != null) { //create course request
@@ -172,7 +172,7 @@ public class TutoringAppRestController {
 	}
 	
 	/** @author Helen Lin */
-	@PostMapping(value = { "/grouprequests/", "/grouprequests" })
+	@PostMapping(value = { "/creategrouprequest/", "/creategrouprequest" })
 	public GroupRequest createGroupRequest(@RequestParam(name = "username", required=true) String username, @RequestParam(name="course", required=false) String course, @RequestParam(name="subject", required=false) String subject) throws IllegalArgumentException {
 		GroupRequest request;
 		if (course != null) { //create course request
@@ -187,7 +187,7 @@ public class TutoringAppRestController {
 	}
 	
 	/** @author Helen Lin */
-	@PostMapping(value = { "/sessionrequests/", "/sessionrequests" })
+	@PostMapping(value = { "/createsessionrequest/", "/createsessionrequest" })
 	public SessionRequest createSessionRequest(@RequestParam(name = "username", required=true) String username, @RequestParam(name="course", required=false) String course, @RequestParam(name="subject", required=false) String subject, @RequestParam(name="isPrivateRequest", required=true) boolean isPrivateRequest) throws IllegalArgumentException {
 		SessionRequest request;
 		if (isPrivateRequest) { //create private request
