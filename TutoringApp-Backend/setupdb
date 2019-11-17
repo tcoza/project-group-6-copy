@@ -5,3 +5,4 @@ curl -d first=Helen\&last=Lin -X POST localhost:8080/tutors/helen
 curl -d first=Alba\&last=Talelli -X POST localhost:8080/tutors/alba
 curl -d first=Arianit\&last=Vavla -X POST localhost:8080/students/arianit
 curl -d first=Odero\&last=Otieno -X POST localhost:8080/students/odero
+curl -d username=arianit&roomid=1&starttime=123456789 -X POST localhost:8080/scheduledgroupsessions
