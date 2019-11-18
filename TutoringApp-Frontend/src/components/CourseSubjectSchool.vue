@@ -28,10 +28,20 @@
                     <th style="width: 30%">School name </th>
                     <th style="width: 30%">Classes Code</th>
                     <th style="width: 30%">Classes Name</th>
+
+                <tr v-for="index in classlist.length" v-bind:key="index">
+                    <td>{{ classlist[index-1].schoolName}}</td>
+                    <td>{{ classlist[index-1].classCode}}</td>
+                    <td>{{ classlist[index-1].className}}</td>
+                </tr>
             </table>
              <table class="table-subject" style="width: 33%" ref="table-subject">
                     <th style="width: 30%">School name </th>
                     <th style="width: 30%">Subjects</th>
+                <tr v-for="index in subjectlist.length" v-bind:key="index">
+                    <td>{{ subjectlist[index-1].schoolname}}</td>
+                    <td>{{ subjectlist[index-1].subjectName}}</td>
+                </tr>
             </table>
         </div>
         
@@ -41,18 +51,18 @@
                 <h1>Create Class</h1>
 
                 <label for="classCode"><b>Class Code</b></label>
-                <input type="text" placeholder="Enter class code" name="classCode" required>
+                <input type="text" placeholder="Enter class code" name="classCode" v-model="classCode" required>
 
                 <label for="className"><b>Class name</b></label>
-                <input type="text" placeholder="Enter class name" name="className" required>
+                <input type="text" placeholder="Enter class name" name="className" v-model="className" required>
 
                 <label for="TI"> <b>Teaching Institution </b> </label>
                
-                <select>
-                    <option v-for="institution in TIlist" v-bind:key="institution.name" v-bind:value="institution.name"> {{institution.name}}</option>
+                <select v-model="schoolNameC">
+                    <option v-for="institution in TIlist" v-bind:key="institution.schoolName" v-bind:value="institution.schoolName"> {{institution.schoolName}}</option>
                 </select>
 
-                <button type="submit" class="btn"> Create </button>
+                <button type="submit" class="btn" v-on:click = "addclass"> Create </button>
                 <button type="button" class="btn cancel" v-on:click="closeFormClass()">Close</button>
             </div>
         </div>
@@ -62,15 +72,15 @@
                 <h1>Create Subjects </h1>
 
                 <label for="subjectName"><b>Subject Name</b></label>
-                <input type="text" placeholder="Enter subject Name" name="subjectName" required>
+                <input type="text" placeholder="Enter subject Name" name="subjectName" v-model="subjectName" required>
 
                 <label for="TI"> <b>Teaching Institution </b> </label>
                
-                <select>
-                    <option v-for="institution in TIlist" v-bind:key="institution.name" v-bind:value="institution.name"> {{institution.name}}</option>
+                <select v-model="schoolNameS">
+                    <option v-for="institution in TIlist" v-bind:key="institution.schoolName" v-bind:value="institution.schoolName"> {{institution.schoolName}}</option>
                 </select>
 
-                <button type="submit" class="btn" v-on:click = "add()"> Create </button>
+                <button type="submit" class="btn" v-on:click = "addsubject()"> Create </button>
                 <button type="button" class="btn cancel" v-on:click="closeFormSubject()">Close</button>
             </div>
         </div>
@@ -80,18 +90,18 @@
                 <h1>Create A Teaching Institution </h1>
 
                 <label for="School name"><b>School Name</b></label>
-                <input type="text" placeholder="Enter School Name" name="schoolNametxt" v-model="schoolNametxt" required>
+                <input type="text" placeholder="Enter School Name" v-model="schoolNametxt" required>
 
                 <label for="SchoolType"> <b>Type of Teaching Institution </b> </label>
                
-                <select>
-                    <option name ="ES" value="Elementary School"> Elementary School </option>
-                    <option name ="HS" value="High School"> High School </option>
-                    <option name ="C" value="Cegep"> Cegep </option>
-                    <option name ="U" value ="Univercity"> Univercity </option>
+                <select v-model="schoolType">
+                    <option value="Elementary School"> Elementary School </option>
+                    <option value="High School" > High School </option>
+                    <option value="Cegep" > Cegep </option>
+                    <option value ="Univercity" > Univercity </option>
                 </select>
                 
-                <button type="submit" class="btn" v-on:click = "add()"> Create </button>
+                <button type="submit" class="btn" v-on:click = "addTI()"> Create </button>
                 <button type="button" class="btn cancel" v-on:click="closeFormSchool()">Close</button>
             </div>
         </div>
@@ -101,9 +111,11 @@
 
 <script>
   export default {
-    name: "TIlist",
     data: function() {
-        return { TIlist: [], schoolNametxt: undefined } 
+        return { TIlist: [], schoolNametxt: undefined, schoolType: undefined,
+                classlist: [], schoolNameC: undefined, classCode: undefined, className: undefined,
+                subjectlist: [], schoolNameS: undefined, subjectName: undefined
+        } 
     },
     methods: {
         classes() {
@@ -124,14 +136,33 @@
         closeFormSchool() {
             console.log(document.getElementById("myschool").style.display = "none");
         },
-        add(){
+        addTI(){
             console.log("Here");
             var institution =
             {
-                schoolType: undefined,
+                schoolType: this.schoolType,
                 schoolName: this.schoolNametxt
             }
             this.TIlist.push(institution);
+        },
+            addclass(){
+            console.log("Here");
+            var class1=
+            {
+                schoolName: this.schoolNameC,
+                classCode: this.classCode,
+                className: this.className
+            }
+            this.classlist.push(class1);
+        },
+            addsubject(){
+            console.log("Here");
+            var subject=
+            {
+                schoolname: this.schoolNameS,
+                subjectName: this.subjectName
+            }
+            this.subjectlist.push(subject);
         }
     }
   }
