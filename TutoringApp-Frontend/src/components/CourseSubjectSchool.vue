@@ -121,21 +121,21 @@
     {
         const userAction = async () => {
             const response = await fetch('http://localhost:8080/subejcts');
-            const myJson = await response.json(); //extract JSON from the http response
+            var myJson = await response.json(); //extract JSON from the http response
             // do something with myJson
             this.subejcts = myJson._embedded.subejcts
             this.subejcts.forEach((subject) => subject.name = subejct._links.self.href.substr(subejct._links.self.href.lastIndexOf('/')+1));
             this.subejcts.sort((a,b) => (a.name > b.name) ? 1 : -1);
 
-            const response = await fetch('http://localhost:8080/teachinginstitutions');
-            const myJson = await response.json(); //extract JSON from the http response
+            const response1 = await fetch('http://localhost:8080/teachinginstitutions');
+            myJson = await response1.json(); //extract JSON from the http response
             // do something with myJson
             this.teachinginstitutions = myJson._embedded.teachinginstitutions
             this.teachinginstitutions.forEach((school) => school.name = subejct._links.self.href.substr(school._links.self.href.lastIndexOf('/')+1));
             this.teachinginstitutions.sort((a,b) => (a.name > b.name) ? 1 : -1);
 
-            const response = await fetch('http://localhost:8080/courses');
-            const myJson = await response.json(); //extract JSON from the http response
+            const response2 = await fetch('http://localhost:8080/courses');
+            myJson = await response2.json(); //extract JSON from the http response
             // do something with myJson
             this.courses = myJson._embedded.courses
             this.courses.forEach((course) => course.name = course._links.self.href.substr(course._links.self.href.lastIndexOf('/')+1));

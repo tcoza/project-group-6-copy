@@ -99,28 +99,32 @@ export default {
             //for each groupRequest in all groupRequests, parse the id, requestor username, requested course/subject
             //other attributes can be accessed directly (not associations or requiring parsing of endpoint)
              
-           this.groupRequests.forEach(async (groupRequest) => {
-              //1) id is the hashcode substring at end of the session request's url
-              groupRequest.id = groupRequest._links.self.href.substr(groupRequest._links.self.href.lastIndexOf('/')+1); //parse id from endpoint path
-             
+            for (var i = 0; i < this.groupRequests.length; i++)
+            {
+                var groupRequest = this.groupRequests[i];
 
-              //2) requestor username is the substring at end of href of requestor link
-              const requestorResponse = await fetch(currentRequest._links.requestor.href);
-              const myRequestor = await requestorResponse.json();
-              currentRequest.requestor = myRequestor._links.self.href.substr(myRequestor._links.self.href.lastIndexOf('/')+1) //get student username
-            
-              //3) requestedCourse
-              const courseResponse = await fetch(currentRequest._links.requestedCourse.href);
-              const myCourse = await courseResponse.json();
-              currentRequest.requestedCourse = myCourse._links.self.href.substr(myCourse._links.self.href.lastIndexOf('/')+1) //get courseCode
-            
-              //4) requestedSubject 
-              const sbjResponse = await fetch(currentRequest._links.requestedSubject.href);
-              const mySbj = await sbjResponse.json();
-              currentRequest.requestedSubject = mySubj._links.self.href.substr(mySbj._links.self.href.lastIndexOf('/')+1) //get subject
-            
-           });
+                // 1)
+                groupRequest.id = groupRequest._links.self.href.substr(groupRequest._links.self.href.lastIndexOf('/')+1); //parse id from endpoint path
 
+                // 2)
+                const requestorResponse = await fetch(groupRequest._links.requestor.href);
+                const myRequestor = await requestorResponse.json();
+                groupRequest.requestor = myRequestor._links.self.href.substr(myRequestor._links.self.href.lastIndexOf('/')+1) //get student username
+
+                // For 3 and 4, check if either response is empty
+
+                // 3)
+                const courseResponse = await fetch(groupRequest._links.requestedCourse.href);
+                const myCourse = await courseResponse.json();
+                groupRequest.requestedCourse = myCourse._links.self.href.substr(myCourse._links.self.href.lastIndexOf('/')+1) //get courseCode
+
+                //4) requestedSubject 
+                console.log(groupRequest._links.requestedSubject.href);
+                continue;
+                const sbjResponse = await fetch(groupRequest._links.requestedSubject.href);
+                const mySbj = await sbjResponse.json();
+                groupRequest.requestedSubject = mySubj._links.self.href.substr(mySbj._links.self.href.lastIndexOf('/')+1) //get subject
+            }
            
            this.groupRequests.sort((a,b) => (a.requestedCourse > b.requestedCourse) ? 1 : -1);
         };
