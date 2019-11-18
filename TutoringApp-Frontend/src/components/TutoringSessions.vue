@@ -31,14 +31,7 @@
                     <td>{{ groupRequests[index-1].requestor }}</td>
                     <td>{{ groupRequests[index-1].requestedCourse }}</td>
                     <td>{{ groupRequests[index-1].requestedSubject }}</td>
-                    <td>
-                        <select
-                        v-model='groupRequests[index-1].isScheduled'
-                        v-on:change="statusChanged(index-1)">
-                            <option value="true">Scheduled</option>
-                            <option value="false">Pending</option>
-                        </select>
-                    </td>
+                    <td>{{ groupRequests[index-1].isScheduled ? "Scheduled" : "Pending" }}</td>
                     <td>{{ groupRequests[index-1].id }}</td>
                 </tr>
             </table>
@@ -156,18 +149,6 @@ export default {
         unsearch: function()
         {
             this.$refs.searchbox.style.display = "none";
-        },
-        statusChanged(index)
-        {
-            var url = 'http://localhost:8080/grouprequests/' + this.grouprequests[index].requestedCourse;
-            url += this.grouprequests[index].isActiveAccount == "true" ? '/reactivate' : '/deactivate';
-
-            const userAction = async () => {
-                const response = await fetch(url, { method: "POST" });
-                if (!response.ok)
-                    console.log(response);
-            }
-            userAction();
         },
         book()
         {
