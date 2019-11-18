@@ -13,18 +13,30 @@
 
         <div class="list">
 
-            <table style="width: 100%" ref="table">
+            <table style="width: 33%" ref="table-TI">
                 <tr>
-                    <th style="width: 30%">Teaching institution</th>
-                    <th style="width: 20%">Classes Code</th>
-                    <th style="width: 20%">Classes Name</th>
-                    <th style="width: 20%">Subjects</th>
+                    <th scope="col" style="width: 25%">Type of school</th>
+                    <th scope="col" style="width: 25%">School name</th>
                 </tr>
+                <tr v-for="index in TIlist.length" v-bind:key="index">
+                    <td>{{ TIlist[index-1].schoolType}}</td>
+                    <td>{{ TIlist[index-1].schoolName}}</td>
+                </tr>
+            </table>
+
+             <table class="table-class" style="width: 33%" ref="table-class">
+                    <th style="width: 30%">School name </th>
+                    <th style="width: 30%">Classes Code</th>
+                    <th style="width: 30%">Classes Name</th>
+            </table>
+             <table class="table-subject" style="width: 33%" ref="table-subject">
+                    <th style="width: 30%">School name </th>
+                    <th style="width: 30%">Subjects</th>
             </table>
         </div>
         
         <div class="class-popup" id="myclass">
-            <form action="/action_page.php" class="form-container">
+            <div class="form-container">
                 <h1>Create Class</h1>
 
                 <label for="classCode"><b>Class Code</b></label>
@@ -37,17 +49,17 @@
                ///////////
                
                 <select>
-                    <option v-for="institution in TInstitutions" v-bind:key="institution.name" v-bind:value="institution.name"> {{institution.name}}</option>
+                    <option v-for="institution in TIlist" v-bind:key="institution.name" v-bind:value="institution.name"> {{institution.name}}</option>
                 </select>
                 //////////////
 
                 <button type="submit" class="btn"> Create </button>
                 <button type="button" class="btn cancel" v-on:click="closeFormClass()">Close</button>
-            </form>
+            </div>
         </div>
 
         <div class="subject-popup" id="mysubject">
-            <form action="/action_page.php" class="form-container">
+            <div class="form-container">
                 <h1>Create Subjects </h1>
 
                 <label for="subjectName"><b>Subject Name</b></label>
@@ -57,34 +69,34 @@
                ///////////
                
                 <select>
-                    <option v-for="institution in TInstitutions" v-bind:key="institution.name" v-bind:value="institution.name"> {{institution.name}}</option>
+                    <option v-for="institution in TIlist" v-bind:key="institution.name" v-bind:value="institution.name"> {{institution.name}}</option>
                 </select>
                 //////////////
 
-                <button type="submit" class="btn"> Create </button>
+                <button type="submit" class="btn" v-on:click = "add()"> Create </button>
                 <button type="button" class="btn cancel" v-on:click="closeFormSubject()">Close</button>
-            </form>
+            </div>
         </div>
 
         <div class="school-popup" id="myschool">
-            <form action="/action_page.php" class="form-container">
+            <div class="form-container">
                 <h1>Create A Teaching Institution </h1>
 
                 <label for="School name"><b>School Name</b></label>
-                <input type="text" placeholder="Enter subject Name" name="subjectName" required>
+                <input type="text" placeholder="Enter School Name" name="schoolNametxt" v-model="schoolNametxt" required>
 
                 <label for="SchoolType"> <b>Type of Teaching Institution </b> </label>
                
                 <select>
-                    <option> Elementary School </option>
-                    <option> High School </option>
-                    <option> Cegep </option>
-                    <option> Univercity </option>
+                    <option name ="ES" value="Elementary School"> Elementary School </option>
+                    <option name ="HS" value="High School"> High School </option>
+                    <option name ="C" value="Cegep"> Cegep </option>
+                    <option name ="U" value ="Univercity"> Univercity </option>
                 </select>
                 
-                <button v-show="!editIndex" @click="add" class="btn"> Create</button>
+                <button type="submit" class="btn" v-on:click = "add()"> Create </button>
                 <button type="button" class="btn cancel" v-on:click="closeFormSchool()">Close</button>
-            </form>
+            </div>
         </div>
 
     </div>
@@ -92,6 +104,10 @@
 
 <script>
   export default {
+    name: "TIlist",
+    data: function() {
+        return { TIlist: [], schoolNametxt: undefined } 
+    },
     methods: {
         classes() {
             console.log(document.getElementById("myclass").style.display = "block");
@@ -111,12 +127,14 @@
         closeFormSchool() {
             console.log(document.getElementById("myschool").style.display = "none");
         },
-        add() {
-            this.originalData = null
-            this.items.push({ TeachingInstitution: ''})
-            this.editIndex = this.items.length - 1
-            this.originalData = null
-            this.editIndex = null
+        add(){
+            console.log("Here");
+            var institution =
+            {
+                schoolType: undefined,
+                schoolName: this.schoolNametxt
+            }
+            this.TIlist.push(institution);
         }
     }
   }
@@ -133,6 +151,18 @@ button.subejcts{
 }
 button.TI {
     margin: 0px 100px 20px 0px; 
+}
+
+.list{
+    display:flex;
+}
+
+.table-class{
+    margin: 0px 0px 0px 30px;
+}
+.table-subject{
+    display: table;
+    margin: 0px 0px 0px 30px;
 }
 
 /* The popup form - hidden by default */
