@@ -57,19 +57,19 @@
       <div id="fields">
         Tutor Username
         <br />
-        <input type="text" placeholder />
+        <input v-model="username" type="text" placeholder />
         <br />
         <br />Classroom ID
         <br />
-        <input type="text" placeholder />
+        <input v-model="classId" type="text" placeholder />
         <br />
         <br />Start Time
         <br />
-        <input type="text" placeholder />
+        <input v-model="startTime" type="text" placeholder />
         <br />
         <br />
       </div>
-      <button onClick="window.location.reload()">Book Session</button>
+      <button onClick="book">Book Session</button>
     </div>
   </div>
 </template>
@@ -78,7 +78,14 @@
 export default {
     name: "groupRequests",
     data: function() {
-        return { groupRequests: [], selected: undefined, query: undefined };
+        return {
+            groupRequests: [],
+            selected: undefined,
+            query: undefined,
+            username: undefined,
+            classId: undefined,
+            startTime: undefined
+        };
     },
     created: function()
     {
@@ -157,6 +164,22 @@ export default {
 
             const userAction = async () => {
                 const response = await fetch(url, { method: "POST" });
+                if (!response.ok)
+                    console.log(response);
+            }
+            userAction();
+        },
+        book()
+        {
+            var url = 'http://localhost:8080/tutors/' + this.tutors[index].username + "/setstatus";
+
+            const userAction = async () => {
+                const response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: "status=" + this.tutors[index].status
+                });
                 if (!response.ok)
                     console.log(response);
             }
