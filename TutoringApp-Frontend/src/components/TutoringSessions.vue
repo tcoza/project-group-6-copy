@@ -1,8 +1,56 @@
 <template>
     <div id="signin" v-cloak>
     <div class="bar">
-      <h2>Tutoring Session</h2>
+      <h2>Tutoring Sessions</h2>
     </div>
+
+    <div class="container">
+        <div
+            tabindex="0"
+            ref="scroll"
+            class="scroll"
+            v-on:keydown.up='$event.preventDefault(); select(selected-1)'
+            v-on:keydown.down='$event.preventDefault(); select(selected+1)'
+            v-on:keypress='search()'>
+            <table style="width: 100%" ref="table">
+                <tr>
+                    <th style="width: 25%">Date Created</th>
+                    <th style="width: 30%">Requestor</th>
+                    <th style="width: 30%">RequestedCourse</th>
+                    <th style="width: auto">Requested Subject</th>
+                    <th style="width: auto">Status</th>
+                    <th style="width: auto">Request ID</th>
+                </tr>
+                <tr
+                    v-for="index in groupRequests.length"
+                    v-bind:key="index"
+                    v-bind:tabindex="index"
+                    v-on:mousedown="select(index)"
+                    v-bind:class="[selected == index ? 'highlight' : '']">
+                    <td>{{ groupRequests[index-1].dateCreated }}</td>
+                    <td>{{ groupRequests[index-1].requestor }}</td>
+                    <td>{{ groupRequests[index-1].requestedCourse }}</td>
+                    <td>{{ groupRequests[index-1].requestedSubject }}</td>
+                    <td>
+                        <select
+                        v-model='groupRequests[index-1].isScheduled'
+                        v-on:change="statusChanged(index-1)">
+                            <option value="true">Scheduled</option>
+                            <option value="false">Pending</option>
+                        </select>
+                    </td>
+                    <td>{{ groupRequests[index-1].id }}</td>
+                </tr>
+            </table>
+        </div>
+        <input
+        ref="searchbox"
+        style="display: none"
+        v-model="query"
+        v-on:keydown.esc="$refs.scroll.focus()"
+        v-on:focusout="unsearch()" />
+    </div>
+
 
     <br />
     <div id="login">
@@ -27,6 +75,113 @@
 </template>
 
 <script>
+export default {
+    name: "groupRequests",
+    data: function() {
+        return { groupRequests: [], selected: undefined, query: undefined };
+    },
+    created: function()
+    {
+        const userAction = async () => {
+            const response = await fetch('http://localhost:8080/grouprequests');
+            const myJson = await response.json(); //extract JSON from the http response
+            this.groupRequests = myJson._embedded.grouprequests //get all group requests
+
+            //each request has the following attributes/associations:
+            
+            //2) dateCreated 
+            //3) isScheduled
+            //4) requestedCourse - "href": "http://localhost:8080/grouprequests/1756888288/requestedCourse"
+              // "requestedSubject": "href": "http://localhost:8080/grouprequests/1756888288/requestedSubject"
+              //requestor "href": "http://localhost:8080/grouprequests/1756888288/requestor"
+              //"scheduledGroupSession": "href": "http://localhost:8080/grouprequests/1756888288/scheduledGroupSession"
+
+            //for each groupRequest in all groupRequests, parse the id, requestor username, requested course/subject
+            //other attributes can be accessed directly (not associations or requiring parsing of endpoint)
+             
+           this.groupRequests.forEach(async (groupRequest) => {
+              //1) id is the hashcode substring at end of the session request's url
+              groupRequest.id = groupRequest._links.self.href.substr(groupRequest._links.self.href.lastIndexOf('/')+1); //parse id from endpoint path
+             
+
+              //2) requestor username is the substring at end of href of requestor link
+              const requestorResponse = await fetch(currentRequest._links.requestor.href);
+              const myRequestor = await requestorResponse.json();
+              currentRequest.requestor = myRequestor._links.self.href.substr(myRequestor._links.self.href.lastIndexOf('/')+1) //get student username
+            
+              //3) requestedCourse
+              const courseResponse = await fetch(currentRequest._links.requestedCourse.href);
+              const myCourse = await courseResponse.json();
+              currentRequest.requestedCourse = myCourse._links.self.href.substr(myCourse._links.self.href.lastIndexOf('/')+1) //get courseCode
+            
+              //4) requestedSubject 
+              const sbjResponse = await fetch(currentRequest._links.requestedSubject.href);
+              const mySbj = await sbjResponse.json();
+              currentRequest.requestedSubject = mySubj._links.self.href.substr(mySbj._links.self.href.lastIndexOf('/')+1) //get subject
+            
+           });
+
+           
+           this.groupRequests.sort((a,b) => (a.requestedCourse > b.requestedCourse) ? 1 : -1);
+        };
+
+        userAction();
+    },
+    methods:
+    {
+        select: function(index)
+        {
+            if (index < 1 || index > this.grouprequests.length)
+                return;
+            this.selected = index;
+            this.$refs.table.rows[index].focus();
+        },
+        search: function (query)
+        {
+            this.$refs.searchbox.style.display = "initial";
+            this.query = query;
+            this.$refs.searchbox.focus();
+        },
+        unsearch: function()
+        {
+            this.$refs.searchbox.style.display = "none";
+        },
+        statusChanged(index)
+        {
+            var url = 'http://localhost:8080/grouprequests/' + this.grouprequests[index].requestedCourse;
+            url += this.grouprequests[index].isActiveAccount == "true" ? '/reactivate' : '/deactivate';
+
+            const userAction = async () => {
+                const response = await fetch(url, { method: "POST" });
+                if (!response.ok)
+                    console.log(response);
+            }
+            userAction();
+        },
+        popup: function(message)
+        {
+            console.log(message);
+        }
+    },
+    watch:
+    {
+        query: function (val)
+        {
+            this.selected = 0;
+            if (this.query == "")
+                this.query = undefined;
+            for (var i = 0; i < this.grouprequests.length; i++)
+            {
+                if (this.grouprequests[i].requestedCourse.startsWith(this.query))
+                {
+                    this.select(i+1);
+                    this.search(this.query);
+                    break;
+                }
+            }
+        }
+    }
+}
 </script>
 
 <style src="./Style.css" />
@@ -34,7 +189,7 @@
 #login {
   position: absolute;  
   text-align: auto;
-  right: 150px;
+  right: 10px;
   width: 400px;
   margin: 0 right;
   padding: 10px;
@@ -48,5 +203,24 @@ input {
 #fields {
   text-align: left;
 }
-</style>
+
+div.container {
+    position: absolute;  
+    text-align: auto;
+    width: 70%;
+    padding: 10px;
+}
+
+div.scroll {
+  margin-top: 20px;
+  margin: auto;
+  height: 500px;
+  width: 100%;
+  padding: 5px;
+  text-align: left;
+  overflow-y: auto;
+  border: 3px solid #73ad21;
+}
+
+div.scroll:focus, tr:focus { outline: none; }
 </style>
