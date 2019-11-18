@@ -15,14 +15,19 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/helo',
+      path: '/hello',
       name: 'Hello',
       component: Hello
     },
     {
       path: '/app',
       name: 'TutoringApp',
-      component: TutoringApp
+      component: SignIn
+    },
+    {
+      path: '',
+      name: 'Start',
+      component: SignIn
     },
     {
       path: '/signin',

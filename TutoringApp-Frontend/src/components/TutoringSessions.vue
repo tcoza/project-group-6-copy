@@ -31,14 +31,7 @@
                     <td>{{ groupRequests[index-1].requestor }}</td>
                     <td>{{ groupRequests[index-1].requestedCourse }}</td>
                     <td>{{ groupRequests[index-1].requestedSubject }}</td>
-                    <td>
-                        <select
-                        v-model='groupRequests[index-1].isScheduled'
-                        v-on:change="statusChanged(index-1)">
-                            <option value="true">Scheduled</option>
-                            <option value="false">Pending</option>
-                        </select>
-                    </td>
+                    <td>{{ groupRequests[index-1].isScheduled ? "Scheduled" : "Pending" }}</td>
                     <td>{{ groupRequests[index-1].id }}</td>
                 </tr>
             </table>
@@ -57,19 +50,19 @@
       <div id="fields">
         Tutor Username
         <br />
-        <input type="text" placeholder />
+        <input v-model="username" type="text" placeholder />
         <br />
         <br />Classroom ID
         <br />
-        <input type="text" placeholder />
+        <input v-model="classId" type="text" placeholder />
         <br />
         <br />Start Time
         <br />
-        <input type="text" placeholder />
+        <input v-model="startTime" type="text" placeholder />
         <br />
         <br />
       </div>
-      <button onclick="">Book Session</button>
+      <button onClick="book">Book Session</button>
     </div>
   </div>
 </template>
@@ -78,7 +71,14 @@
 export default {
     name: "groupRequests",
     data: function() {
-        return { groupRequests: [], selected: undefined, query: undefined };
+        return {
+            groupRequests: [],
+            selected: undefined,
+            query: undefined,
+            username: undefined,
+            classId: undefined,
+            startTime: undefined
+        };
     },
     created: function()
     {
@@ -150,13 +150,17 @@ export default {
         {
             this.$refs.searchbox.style.display = "none";
         },
-        statusChanged(index)
+        book()
         {
-            var url = 'http://localhost:8080/grouprequests/' + this.grouprequests[index].requestedCourse;
-            url += this.grouprequests[index].isActiveAccount == "true" ? '/reactivate' : '/deactivate';
+            var url = 'http://localhost:8080/tutors/' + this.tutors[index].username + "/setstatus";
 
             const userAction = async () => {
-                const response = await fetch(url, { method: "POST" });
+                const response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: "status=" + this.tutors[index].status
+                });
                 if (!response.ok)
                     console.log(response);
             }
