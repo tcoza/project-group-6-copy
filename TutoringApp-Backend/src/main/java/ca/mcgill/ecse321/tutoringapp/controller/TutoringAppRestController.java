@@ -308,8 +308,9 @@ public class TutoringAppRestController {
 	public ScheduledGroupSession createScheduledGroupSession(
 			@RequestParam(name = "username", required = true) String tutorS,
 			@RequestParam (name = "roomid", required = true) int classRoomS, 
-			@RequestParam (name = "starttime", required = true) Time startTime) throws IllegalArgumentException {
+			@RequestParam (name = "starttime", required = true) String startTimeS) throws IllegalArgumentException {
 		ScheduledGroupSession scheduledGroupSession = new ScheduledGroupSession();
+		Time startTime = new java.sql.Time(Integer.parseInt(startTimeS));
 		scheduledGroupSession = service.createScheduledGroupSession(tutorS, classRoomS, startTime);
 		return scheduledGroupSession;
 		

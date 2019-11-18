@@ -31,4 +31,4 @@ curl -d username=testStudent1\&course=ECSE211 -X POST localhost:8080/creategroup
 curl -d username=arianit\&course=ECSE211 -X POST localhost:8080/creategrouprequest
 curl -d username=testStudent2\&course=ECSE331 -X POST localhost:8080/creategrouprequest
 
-curl -d username=arianit\&roomid=1\&starttime=123456789 -X POST localhost:8080/createscheduledgroupsession
+curl -d username=arianit\&roomid=1\&starttime=12:30 -X POST localhost:8080/createscheduledgroupsession
