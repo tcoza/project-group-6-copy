@@ -69,7 +69,7 @@
         <br />
         <br />
       </div>
-      <button onclick="">Book Session</button>
+      <button onClick="window.location.reload()">Book Session</button>
     </div>
   </div>
 </template>
