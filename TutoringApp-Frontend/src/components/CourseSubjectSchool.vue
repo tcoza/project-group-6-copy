@@ -18,7 +18,7 @@
                     <th scope="col" style="width: 25%">Type of school</th>
                     <th scope="col" style="width: 25%">School name</th>
                 </tr>
-                <tr v-for="index in TIlist.length">
+                <tr v-for="index in TIlist.length" v-bind:key="index">
                     <td>{{ TIlist[index-1].schoolType}}</td>
                     <td>{{ TIlist[index-1].schoolName}}</td>
                 </tr>
@@ -36,7 +36,8 @@
         </div>
         
         <div class="class-popup" id="myclass">
-            <form class="form-container">
+            <div class="form-container">
+
                 <h1>Create Class</h1>
 
                 <label for="classCode"><b>Class Code</b></label>
@@ -53,11 +54,11 @@
 
                 <button type="submit" class="btn"> Create </button>
                 <button type="button" class="btn cancel" v-on:click="closeFormClass()">Close</button>
-            </form>
+            </div>
         </div>
 
         <div class="subject-popup" id="mysubject">
-            <form class="form-container">
+        <div class="form-container">
                 <h1>Create Subjects </h1>
 
                 <label for="subjectName"><b>Subject Name</b></label>
@@ -66,20 +67,20 @@
                 <label for="TI"> <b>Teaching Institution </b> </label>
                
                 <select>
-                    <option v-for="institution in TInstitutions" v-bind:key="institution.name" v-bind:value="institution.name"> {{institution.name}}</option>
+                    <option v-for="institution in TIlist" v-bind:key="institution.name" v-bind:value="institution.name"> {{institution.name}}</option>
                 </select>
 
                 <button type="submit" class="btn" v-on:click = "add()"> Create </button>
                 <button type="button" class="btn cancel" v-on:click="closeFormSubject()">Close</button>
-            </form>
+            </div>
         </div>
 
         <div class="school-popup" id="myschool">
-            <form class="form-container">
+            <div class="form-container">
                 <h1>Create A Teaching Institution </h1>
 
                 <label for="School name"><b>School Name</b></label>
-                <input type="text" placeholder="Enter School Name" v-model="schoolnametxt" required>
+                <input type="text" placeholder="Enter School Name" name="schoolNametxt" v-model="schoolNametxt" required>
 
                 <label for="SchoolType"> <b>Type of Teaching Institution </b> </label>
                
@@ -92,7 +93,7 @@
                 
                 <button type="submit" class="btn" v-on:click = "add()"> Create </button>
                 <button type="button" class="btn cancel" v-on:click="closeFormSchool()">Close</button>
-            </form>
+            </div>
         </div>
 
     </div>
@@ -102,8 +103,7 @@
   export default {
     name: "TIlist",
     data: function() {
-        return { TIlist: []
-        } 
+        return { TIlist: [], schoolNametxt: undefined } 
     },
     methods: {
         classes() {
@@ -125,7 +125,13 @@
             console.log(document.getElementById("myschool").style.display = "none");
         },
         add(){
-            TIlist.push("schoolnametxt")
+            console.log("Here");
+            var institution =
+            {
+                schoolType: undefined,
+                schoolName: this.schoolNametxt
+            }
+            this.TIlist.push(institution);
         }
     }
   }
