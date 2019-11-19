@@ -18,7 +18,9 @@
     "jquery": "^3.4.1",
     "popper.js": "^1.12.9",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-date-pick": "^1.2.1",
+    "vue-router": "^3.0.1",
+    "vue2-timepicker": "^1.0.4"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

@@ -50,25 +50,40 @@
       <div id="fields">
         Tutor Username
         <br />
-        <input v-model="username" type="text" placeholder />
+        <select v-model="schoolNameS">
+            <option v-for="tutor in tutors" v-bind:key="tutor.username" v-bind:value="tutor.username"> {{tutor.username}}</option>
+        </select>        
         <br />
-        <br />Classroom ID
+        <br />Classroom
         <br />
-        <input v-model="classId" type="text" placeholder />
+        <select v-model="classroom">
+            <option value="C1"> Class 1 </option>
+            <option value="C2" > Class 2 </option>
+            <option value="C3" > Class 3 </option>
+        </select>         
         <br />
         <br />Start Time
         <br />
-        <input v-model="startTime" type="text" placeholder />
+        <vue-timepicker v-model="time" format="hh:mm A"></vue-timepicker>
+        <br />
+        <br />Booking Date
+        <br />
+        <date-pick class="calendar" v-model="date" :format="'YYYY-MM-DD'"></date-pick>
         <br />
         <br />
       </div>
-      <button onClick="book">Book Session</button>
+      <button v-on:click="book()" >Book Session</button>
     </div>
   </div>
 </template>
 
 <script>
+import DatePick from 'vue-date-pick';
+import VueTimepicker from 'vue2-timepicker';
+
+
 export default {
+    components: {DatePick,VueTimepicker},
     name: "groupRequests",
     data: function() {
         return {
@@ -77,8 +92,16 @@ export default {
             query: undefined,
             username: undefined,
             classId: undefined,
-            startTime: undefined
+            startTime: undefined,
+            date: '2019-01-01',
+            tutors:[],
+            time: {
+                hh: '',
+                mm: '',
+                A: ''
+            },
         };
+        
     },
     created: function()
     {
@@ -194,17 +217,19 @@ export default {
 
 <style src="./Style.css" />
 <style scoped>
+@import '~vue2-timepicker/dist/VueTimepicker.css';
+
 #login {
   position: absolute;  
   text-align: auto;
   right: 10px;
-  width: 400px;
+  width: 25%;
   margin: 0 right;
   padding: 10px;
   border: 3px solid #73ad21;
 }
 input {
-  width: 374px;
+  width: 100%;
   padding: 5px;
   margin: 5px 0;
 }
