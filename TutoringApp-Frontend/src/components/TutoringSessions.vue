@@ -201,7 +201,7 @@ export default {
   width: 400px;
   margin: 0 right;
   padding: 10px;
-  border: 3px solid #73ad21;
+  border: 3px solid #5c9bb7;
 }
 input {
   width: 374px;
@@ -227,7 +227,7 @@ div.scroll {
   padding: 5px;
   text-align: left;
   overflow-y: auto;
-  border: 3px solid #73ad21;
+  border: 3px solid #5c9bb7;
 }
 
 div.scroll:focus, tr:focus { outline: none; }

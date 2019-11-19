@@ -5,7 +5,8 @@
             <button class="logout" onclick="location.href='#/signin'">Log out</button>
         </div>
 
-        <h3> Welcome, Manager (name)! </h3>
+        <h3> Welcome, Manager {{username}}! </h3>
+        <h3 :displayName = "username"/>
         <li v-for="a in articles"  v-bind:key="a">
             <a v-bind:href="a.url" target="_self"> <img :src="a.image" /> </a>
             <p>{{a.title}}</p>
@@ -22,6 +23,12 @@
     import image5 from "../assets/courses.png"
 
     export default {
+        props: {
+            username: {
+                type : String,
+                default : ""
+            }
+        },
         data: function(){
             return{
                 articles: [{
@@ -47,8 +54,9 @@
                 }
                 ]
             }
-        }
-    }
+        },
+    
+  }
 </script>
 
 <style src="./Style.css" />

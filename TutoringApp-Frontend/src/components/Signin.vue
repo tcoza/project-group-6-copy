@@ -3,17 +3,16 @@
     <div class="bar">
       <h2>Sign In</h2>
     </div>
-
     <br />
     <div id="login">
       <div id="fields">
         Username
         <br />
-        <input type="text" value="Manager" />
+        <input type="text" placeholder="Enter (any) username" value="" v-model="manager" />
         <br />
         <br />Password
         <br />
-        <input type="Password" placeholder />
+        <input type="Password" placeholder="Enter (any) password" />
         <br />
         <br />
       </div>
@@ -21,7 +20,17 @@
     </div>
   </div>
 </template>
-
+<script>
+    import Homepage from './Homepage.vue'
+    export default {
+      data: function() {
+        return {
+          manager: undefined
+        };
+      },
+      components: { Homepage },
+    }
+</script>
 <style src="./Style.css" />
 <style scoped>
 #login {
