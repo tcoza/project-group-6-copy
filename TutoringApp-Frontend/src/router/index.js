@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
-import TutoringApp from '@/components/TutoringApp' //to remove
 import SignIn from '@/components/Signin'
 import Homepage from '@/components/Homepage'
 import Students from '@/components/Students'

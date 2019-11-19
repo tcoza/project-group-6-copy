@@ -1,8 +1,7 @@
 <template>
    <div id="main" v-cloak>
         <div class="bar">
-            <h2> TutoringApp Manager View - Home Page </h2> 
-            <button class="logout" onclick="location.href='#/signin'">Log out</button>
+             <h2> TutoringTurtles | Home </h2> 
         </div>
 
         <h3> Welcome, Manager {{username}}! </h3>
@@ -39,7 +38,13 @@
                     "image": image2,
                     "url":"http://127.0.0.1:8087/#/students",
                     "title":"Students"
-                },{
+                },
+                {
+                    "image": image5,
+                    "url":"http://127.0.0.1:8087/#/css",
+                    "title":"Courses, Subjects, Schools"
+                },
+                {
                     "image": image3,
                     "url":"http://127.0.0.1:8087/#/evaluations",
                     "title":"Evaluations"
@@ -47,10 +52,6 @@
                     "image": image4,
                     "url":"http://127.0.0.1:8087/#/tutoringsessions",
                     "title":"Tutoring Sessions"
-                },{
-                    "image": image5,
-                    "url":"http://127.0.0.1:8087/#/css",
-                    "title":"Courses, Subjects, Schools"
                 }
                 ]
             }
@@ -65,6 +66,14 @@
     margin:0px 0px 0px 60%;
 }
 
+<<<<<<< HEAD
+=======
+
+/*-------------------------
+    Grid layout
+--------------------------*/
+
+>>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
 li{
     list-style: none;
     width: 315px;
@@ -73,6 +82,10 @@ li{
     padding: 10px;
     float:left;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
 li img{
     width:250px;
     height:250px;

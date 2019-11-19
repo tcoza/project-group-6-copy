@@ -1,7 +1,7 @@
 <template>
   <div id="signin" v-cloak>
     <div class="bar">
-      <h2>Sign In</h2>
+      <h2>TutoringTurtles | Sign In</h2>
     </div>
     <br />
     <div id="login">
@@ -16,7 +16,7 @@
         <br />
         <br />
       </div>
-      <button onclick="location.href='#/home'">Sign in</button>
+      <button onclick="location.href='#/home'">Sign In</button>
     </div>
   </div>
 </template>
