@@ -1,8 +1,32 @@
 <template>
    <div id="main" v-cloak>
         <div class="bar">
-            <h2> TutoringApp Manager View - Home Page </h2> 
-            <button class="logout" onclick="location.href='#/signin'">Log out</button>
+            <table>
+                <td style="width:50%">
+                    <h2> TutoringTurtles | Home </h2> 
+                </td>
+                <td style="vertical-align:top">
+                    <button style="width:100px;height:60px;opacity:1;" disabled=true onclick="location.href='#/home'">Home</button>
+                </td>
+                <td style="vertical-align:top">
+                    <button style="width:100px;height:60px;" onclick="location.href='#/css'">Courses Subjects Schools</button>
+                </td>
+                <td style="vertical-align:top">
+                    <button style="width:100px;height:60px;" onclick="location.href='#/tutors'">Tutors</button>
+                </td >
+                <td style="vertical-align:top">
+                    <button style="width:100px;height:60px;" onclick="location.href='#/students'">Students</button>
+                </td>
+                <td style="vertical-align:top">
+                    <button style="width:100px;height:60px;" onclick="location.href='#/evaluations'">Evaluations</button>
+                </td>
+                <td style="vertical-align:top">
+                    <button style="width:100px;height:60px;" onclick="location.href='#/tutoringsessions'">Tutoring Sessions</button>
+                </td>
+                <td style="vertical-align:top;">
+                    <button style="width:100px;height:60px; margin:0px 0px 0px 120%;" onclick="location.href='#/signin'">Sign Out</button>
+                </td>
+            </table>
         </div>
 
         <h3> Welcome, Manager {{username}}! </h3>
@@ -39,7 +63,13 @@
                     "image": image2,
                     "url":"http://127.0.0.1:8087/#/students",
                     "title":"Students"
-                },{
+                },
+                {
+                    "image": image5,
+                    "url":"http://127.0.0.1:8087/#/css",
+                    "title":"Courses, Subjects, Schools"
+                },
+                {
                     "image": image3,
                     "url":"http://127.0.0.1:8087/#/evaluations",
                     "title":"Evaluations"
@@ -47,10 +77,6 @@
                     "image": image4,
                     "url":"http://127.0.0.1:8087/#/tutoringsessions",
                     "title":"Tutoring Sessions"
-                },{
-                    "image": image5,
-                    "url":"http://127.0.0.1:8087/#/css",
-                    "title":"Courses, Subjects, Schools"
                 }
                 ]
             }

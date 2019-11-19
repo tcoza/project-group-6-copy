@@ -1,7 +1,32 @@
 <template>
   <div class="eval">
     <div class="bar">
-      <h2>Evaluations</h2>
+      <table>
+                <td style="width:50%">
+                    <h2> TutoringTurtles | Evaluations </h2> 
+                </td>
+                <td style="vertical-align:top">
+                    <button style="width:100px;height:60px;" onclick="location.href='#/home'">Home</button>
+                </td>
+                <td style="vertical-align:top">
+                    <button style="width:100px;height:60px;" onclick="location.href='#/css'">Courses Subjects Schools</button>
+                </td>
+                <td style="vertical-align:top">
+                    <button style="width:100px;height:60px;" onclick="location.href='#/tutors'">Tutors</button>
+                </td >
+                <td style="vertical-align:top">
+                    <button style="width:100px;height:60px;" onclick="location.href='#/students'">Students</button>
+                </td>
+                <td style="vertical-align:top">
+                    <button style="width:100px;height:60px;opacity:1;" disabled=true onclick="location.href='#/evaluations'">Evaluations</button>
+                </td>
+                <td style="vertical-align:top">
+                    <button style="width:100px;height:60px;" onclick="location.href='#/tutoringsessions'">Tutoring Sessions</button>
+                </td>
+                <td style="vertical-align:top;">
+                    <button style="width:100px;height:60px; margin:0px 0px 0px 120%;" onclick="location.href='#/signin'">Sign Out</button>
+                </td>
+            </table>
     </div>
     <h3>Welcome, Manager!</h3>
     <div>
