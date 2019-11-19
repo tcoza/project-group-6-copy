@@ -28,7 +28,7 @@
                 </td>
             </table>
     </div>
-    <h3>Welcome, Manager!</h3>
+    <h3>View student and tutor evaluations here. You can delete an evaluation comment!</h3>
     <div>
     <div class = "title">
         <h4> Students </h4>

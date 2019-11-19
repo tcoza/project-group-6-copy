@@ -28,44 +28,54 @@
                 </td>
             </table>
         </div>
-            <h3> Welcome, Manager (name)! </h3>
-        
+        <h3>View schools, courses, and subjects here. You can add new courses, subjects or schools below!</h3>
+           
         <div class="buttonPart">
-            <button class="classes" v-on:click="classes()"> Create Classes</button>
-            <button class="subejcts" v-on:click="subjects()"> Create Subjects</button>
-            <button class="TI" v-on:click="TI()"> Create Teaching Institutions</button>
+            <button class="TI" v-on:click="closeFormClass();closeFormSubject();TI()"> ADD SCHOOL </button>
+            <button class="classes" v-on:click="closeFormSubject();closeFormSchool();classes()"> ADD COURSE </button>
+            <button class="subjects" v-on:click="closeFormClass();closeFormSchool();subjects()"> ADD SUBJECT </button>
         </div>
 
         <div class="list">
 
             <table style="width: 33%" ref="table-TI">
+                <tr >
+                    <th colspan='2' class="table-title" > SCHOOLS </th>
+                </tr>
                 <tr>
-                    <th scope="col" style="width: 25%">Type of school</th>
-                    <th scope="col" style="width: 25%">School name</th>
+                    <th scope="col" style="width: 25%">Type</th>
+                    <th scope="col" style="width: 25%">School Name</th>
                 </tr>
                 <tr v-for="index in TIlist.length" v-bind:key="index">
-                    <td>{{ TIlist[index-1].schoolType}}</td>
-                    <td>{{ TIlist[index-1].schoolName}}</td>
+                    <td>{{ TIlist[index-1].type}}</td>
+                    <td>{{ TIlist[index-1].name}}</td>
                 </tr>
             </table>
 
              <table class="table-class" style="width: 33%" ref="table-class">
-                    <th style="width: 30%">School name </th>
-                    <th style="width: 30%">Classes Code</th>
-                    <th style="width: 30%">Classes Name</th>
-
+                  <tr >
+                    <th colspan='3' class="table-title" >Courses</th>
+                </tr>
+                <tr>
+                     <th style="width: 30%">School</th>
+                    <th style="width: 30%">Course Code</th>
+                    <th style="width: 30%">Course Name</th>
+                 </tr>
                 <tr v-for="index in classlist.length" v-bind:key="index">
-                    <td>{{ classlist[index-1].schoolName}}</td>
-                    <td>{{ classlist[index-1].classCode}}</td>
-                    <td>{{ classlist[index-1].className}}</td>
+                    <td>{{ classlist[index-1].school}}</td>
+                    <td>{{ classlist[index-1].courseCode}}</td>
+                    <td>{{ classlist[index-1].name}}</td>
                 </tr>
             </table>
              <table class="table-subject" style="width: 33%" ref="table-subject">
-                    <th style="width: 30%">School name </th>
-                    <th style="width: 30%">Subjects</th>
+                  <tr >
+                    <th colspan='2' class="table-title" >Subjects</th>
+                </tr>
+                    <th style="width: 30%">School</th>
+                    <th style="width: 30%">Subject</th>
                 <tr v-for="index in subjectlist.length" v-bind:key="index">
-                    <td>{{ subjectlist[index-1].schoolname}}</td>
-                    <td>{{ subjectlist[index-1].subjectName}}</td>
+                    <td>{{ subjectlist[index-1].school}</td>
+                    <td>{{ subjectlist[index-1].name}}</td>
                 </tr>
             </table>
         </div>
@@ -73,61 +83,55 @@
         <div class="class-popup" id="myclass">
             <div class="form-container">
 
-                <h1>Create Class</h1>
+                <h1>Add A Course</h1>
 
-                <label for="classCode"><b>Class Code</b></label>
-                <input type="text" placeholder="Enter class code" name="classCode" v-model="classCode" required>
-
-                <label for="className"><b>Class name</b></label>
-                <input type="text" placeholder="Enter class name" name="className" v-model="className" required>
-
-                <label for="TI"> <b>Teaching Institution </b> </label>
-               
+                <input type="text" placeholder="Enter course code" name="classCode" v-model="classCode" required>
+                <input type="text" placeholder="Enter course name" name="className" v-model="className" required>
+                
+                <label for="TI"> <b> Select School </b> </label>
+                <br/>
                 <select v-model="schoolNameC">
                     <option v-for="institution in TIlist" v-bind:key="institution.schoolName" v-bind:value="institution.schoolName"> {{institution.schoolName}}</option>
                 </select>
-
-                <button type="submit" class="btn" v-on:click = "addclass"> Create </button>
-                <button type="button" class="btn cancel" v-on:click="closeFormClass()">Close</button>
+                <br/><br/>
+                <button type="submit" class="btn" v-on:click = "addclass"> CREATE </button>
+                <button type="button" class="btn cancel" v-on:click="closeFormClass()">CLOSE</button>
             </div>
         </div>
 
         <div class="subject-popup" id="mysubject">
         <div class="form-container">
-                <h1>Create Subjects </h1>
+                <h1> Add A Subject </h1>
+                <input type="text" placeholder="Enter subject name" name="subjectName" v-model="subjectName" required>
 
-                <label for="subjectName"><b>Subject Name</b></label>
-                <input type="text" placeholder="Enter subject Name" name="subjectName" v-model="subjectName" required>
-
-                <label for="TI"> <b>Teaching Institution </b> </label>
-               
+                <label for="TI"> <b> Select School </b> </label>
+                <br/>
                 <select v-model="schoolNameS">
                     <option v-for="institution in TIlist" v-bind:key="institution.schoolName" v-bind:value="institution.schoolName"> {{institution.schoolName}}</option>
                 </select>
-
-                <button type="submit" class="btn" v-on:click = "addsubject()"> Create </button>
-                <button type="button" class="btn cancel" v-on:click="closeFormSubject()">Close</button>
+                <br/><br/>
+                <button type="submit" class="btn" v-on:click = "addsubject()"> CREATE </button>
+                <button type="button" class="btn cancel" v-on:click="closeFormSubject()">CLOSE</button>
             </div>
         </div>
 
         <div class="school-popup" id="myschool">
             <div class="form-container">
-                <h1>Create A Teaching Institution </h1>
-
-                <label for="School name"><b>School Name</b></label>
-                <input type="text" placeholder="Enter School Name" v-model="schoolNametxt" required>
-
-                <label for="SchoolType"> <b>Type of Teaching Institution </b> </label>
-               
-                <select v-model="schoolType">
-                    <option value="Elementary School"> Elementary School </option>
-                    <option value="High School" > High School </option>
-                    <option value="Cegep" > Cegep </option>
-                    <option value ="Univercity" > Univercity </option>
-                </select>
+                <h1>Add A School</h1>
                 
-                <button type="submit" class="btn" v-on:click = "addTI()"> Create </button>
-                <button type="button" class="btn cancel" v-on:click="closeFormSchool()">Close</button>
+                <input type="text" placeholder="Enter School Name" v-model="schoolNametxt" required>
+                
+                <label for="TI"> <b> Select School Type </b> </label>
+                <br/>
+                <select v-model="schoolType">
+                    <option value="OTHER"> Elementary School / Other </option>
+                    <option value="HIGHSCHOOL" > High School </option>
+                    <option value="CEGEP" > CEGEP </option>
+                    <option value ="UNIVERSITY" > University </option>
+                </select>
+               <br/><br/>
+                <button type="submit" class="btn" v-on:click = "addTI()"> CREATE </button>
+                <button type="button" class="btn cancel" v-on:click="closeFormSchool()">CLOSE</button>
             </div>
         </div>
 
@@ -144,32 +148,60 @@
     },
     created: function()
     {
-        const userAction = async () => {
-            const response = await fetch('http://localhost:8080/subejcts');
-            var myJson = await response.json(); //extract JSON from the http response
-            // do something with myJson
-            this.subejcts = myJson._embedded.subejcts
-            this.subejcts.forEach((subject) => subject.name = subejct._links.self.href.substr(subejct._links.self.href.lastIndexOf('/')+1));
-            this.subejcts.sort((a,b) => (a.name > b.name) ? 1 : -1);
+        this.refreshFromBackend();
 
-            const response1 = await fetch('http://localhost:8080/teachinginstitutions');
-            myJson = await response1.json(); //extract JSON from the http response
-            // do something with myJson
-            this.teachinginstitutions = myJson._embedded.teachinginstitutions
-            this.teachinginstitutions.forEach((school) => school.name = subejct._links.self.href.substr(school._links.self.href.lastIndexOf('/')+1));
-            this.teachinginstitutions.sort((a,b) => (a.name > b.name) ? 1 : -1);
-
-            const response2 = await fetch('http://localhost:8080/courses');
-            myJson = await response2.json(); //extract JSON from the http response
-            // do something with myJson
-            this.courses = myJson._embedded.courses
-            this.courses.forEach((course) => course.name = course._links.self.href.substr(course._links.self.href.lastIndexOf('/')+1));
-            this.courses.sort((a,b) => (a.name > b.name) ? 1 : -1);
-
-        }
-        userAction();
     },
     methods: {
+        refreshFromBackend() {
+            const populateTI = async () => {
+                const response = await fetch('http://localhost:8080/teachinginstitutions');
+                const myJson = await response.json(); //extract JSON from the http response
+                this.TIlist = myJson._embedded.teachinginstitutions //get all schools
+                this.TIlist.forEach((school) => school.name = school._links.self.href.substr(school._links.self.href.lastIndexOf('/')+1));
+                this.TIlist.sort((a,b) => (a.name > b.name) ? 1 : -1);
+            };
+
+            const populateCourses = async () => {
+                const response = await fetch('http://localhost:8080/courses');
+                const myJson = await response.json(); //extract JSON from the http response
+                this.classlist = myJson._embedded.courses //get all courses
+                for (var i = 0; i < this.classlist.length; i++) {
+                    var course = this.classlist[i];
+
+                    //1) get coursecode
+                    course.courseCode = course._links.self.href.substr(course._links.self.href.lastIndexOf('/')+1) //parse course code from endpoint path
+
+                    //2) get school associated
+                    const schoolResponse = await fetch(course._links.school.href);
+                    const mySchool = await schoolResponse.json();
+                    course.school = mySchool._links.self.href.substr(mySchool._links.self.href.lastIndexOf('/')+1)
+                }
+                this.classlist.sort((a,b) => (a.courseCode > b.courseCode) ? 1 : -1);
+            };
+
+            const populateSubjects = async () => {
+                const response = await fetch('http://localhost:8080/subjects');
+                const myJson = await response.json(); //extract JSON from the http response
+                this.subjectlist = myJson._embedded.subjects //get all courses
+
+                for (var i = 0; i < this.subjectlist.length; i++){
+                    var sbj = this.subjectlist[i];
+
+                    //1) get subjectname
+                    sbj.name = sbj._links.self.href.substr(sbj._links.self.href.lastIndexOf('/')+1) //parse course code from endpoint path
+
+                    //2) get school associated
+                    const schoolResponse = await fetch(sbj._links.school.href);
+                    const mySchool = await schoolResponse.json();
+                    sbj.school = mySchool._links.self.href.substr(mySchool._links.self.href.lastIndexOf('/')+1)
+                }
+            this.subjectlist.sort((a,b) => (a.name > b.name) ? 1 : -1);
+            };
+
+            populateTI();
+            populateCourses();
+            populateSubjects();
+        },
         classes() {
             console.log(document.getElementById("myclass").style.display = "block");
         },
@@ -180,6 +212,9 @@
             console.log(document.getElementById("myschool").style.display = "block");
         },
         closeFormClass() {
+            //reset form
+            this.schoolNametxt="";
+            this.schoolNametxt="";
             console.log(document.getElementById("myclass").style.display = "none");
         },
         closeFormSubject() {
@@ -189,13 +224,29 @@
             console.log(document.getElementById("myschool").style.display = "none");
         },
         addTI(){
-            console.log("Here");
-            var institution =
-            {
-                schoolType: this.schoolType,
-                schoolName: this.schoolNametxt
+            //create a new TI using REST api services
+           // console.log("Here");
+            var url = 'http://localhost:8080/teachinginstitutions/' + this.schoolNametxt;
+            
+            const userAction = async () => {
+                const response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: "type=" + this.schoolType
+                });
+
+                if (!response.ok) {
+                    alert("Error adding a new school!");
+                }
+                else {
+                    alert("School successfully added!");
+                    this.refreshFromBackend();
+                }
+                   
+                this.closeFormSchool();
             }
-            this.TIlist.push(institution);
+            userAction();
         },
             addclass(){
             console.log("Here");
@@ -226,11 +277,15 @@
 button.classes {
     margin: 0px 100px 20px 0px; 
 }
-button.subejcts{
+button.subjects{
     margin: 0px 100px 20px 0px; 
 }
 button.TI {
     margin: 0px 100px 20px 0px; 
+}
+
+.table-title {
+    background-color: #afe5fc;
 }
 
 .list{

@@ -28,7 +28,7 @@
                 </td>
         </table>
     </div>
-    <h3>Welcome, Manager!</h3>
+    <h3>View all tutors here. You can verify a tutor, or terminate them below!</h3>
     <div class="container">
         <div
             tabindex="0"

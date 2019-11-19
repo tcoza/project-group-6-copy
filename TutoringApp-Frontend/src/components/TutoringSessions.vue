@@ -1,5 +1,6 @@
 <template>
     <div id="signin" v-cloak>
+
     <div class="bar">
         <table>
             <td style="width:30%">
@@ -28,6 +29,7 @@
             </td>
         </table>
     </div>
+    <h3>View all group tutoring requests from students here. You can book/ schedule a tutoring session!</h3>
 
     <div class="container">
         <div

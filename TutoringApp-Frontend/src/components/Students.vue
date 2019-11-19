@@ -28,7 +28,7 @@
                 </td>
         </table>
     </div>
-    <h3>Welcome, Manager!</h3>
+    <h3>View all students here. You can also remove students from the system!</h3>
     <div class="container">
         <div
             tabindex="0"
