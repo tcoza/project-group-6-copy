@@ -2,6 +2,7 @@
    <div id="main" v-cloak>
         <div class="bar">
             <h2> TutoringApp Manager View - Home Page </h2> 
+            <button class="logout" onclick="location.href='#/signin'">Log out</button>
         </div>
 
         <h3> Welcome, Manager (name)! </h3>
@@ -51,3 +52,8 @@
 </script>
 
 <style src="./Style.css" />
+<style scoped>
+.bar button{
+    margin:0px 0px 0px 750px;
+}
+</style>
