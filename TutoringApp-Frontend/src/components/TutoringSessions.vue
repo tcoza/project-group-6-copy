@@ -74,6 +74,7 @@
     <div id="login">
       <div id="fields">
 <<<<<<< HEAD
+<<<<<<< HEAD
         Tutor Username
         <br />
         <select v-model="schoolNameS">
@@ -98,6 +99,8 @@
         <br />
         <br />
 =======
+=======
+>>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
           <table style="width:100%;">
               <tr><td> Tutor Username</td> </tr>
               <tr>
@@ -128,6 +131,9 @@
             </td></tr>
         </table>
       
+<<<<<<< HEAD
+>>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
+=======
 >>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
       </div>
       <button v-on:click="book()" >Book Session</button>
@@ -306,6 +312,22 @@ li{
 }
 <<<<<<< HEAD
 =======
+
+<<<<<<< HEAD
+>>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
+=======
+.calendar .vdpInnerWrap {
+    border: 1px solid #5c9bb7 !important;
+}
+
+li{
+    list-style: none;
+    width:100px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 10px;
+    float:left;
+}
 
 >>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
 #login {
