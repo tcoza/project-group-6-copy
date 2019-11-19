@@ -2,7 +2,7 @@
   <div class="eval">
     <div class="bar">
       <table>
-                <td style="width:50%">
+                <td style="width:30%">
                     <h2> TutoringTurtles | Evaluations </h2> 
                 </td>
                 <td style="vertical-align:top">

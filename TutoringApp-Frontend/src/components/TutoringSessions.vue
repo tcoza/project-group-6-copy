@@ -2,7 +2,7 @@
     <div id="signin" v-cloak>
     <div class="bar">
         <table>
-            <td style="width:50%">
+            <td style="width:30%">
                 <h2>TutoringTurtles | Tutoring Sessions</h2>
             </td>
             <td style="vertical-align:top">
@@ -73,34 +73,6 @@
     <br />
     <div id="login">
       <div id="fields">
-<<<<<<< HEAD
-<<<<<<< HEAD
-        Tutor Username
-        <br />
-        <select v-model="schoolNameS">
-            <option v-for="tutor in tutors" v-bind:key="tutor.username" v-bind:value="tutor.username"> {{tutor.username}}</option>
-        </select>        
-        <br />
-        <br />Classroom
-        <br />
-        <select v-model="classroom">
-            <option value="C1"> Class 1 </option>
-            <option value="C2" > Class 2 </option>
-            <option value="C3" > Class 3 </option>
-        </select>         
-        <br />
-        <br />Start Time
-        <br />
-        <vue-timepicker v-model="time" format="hh:mm A" style></vue-timepicker>
-        <br />
-        <br />Booking Date
-        <br />
-        <date-pick class="calendar" v-model="date" :format="'YYYY-MM-DD'"></date-pick>
-        <br />
-        <br />
-=======
-=======
->>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
           <table style="width:100%;">
               <tr><td> Tutor Username</td> </tr>
               <tr>
@@ -130,11 +102,6 @@
                 <date-pick style="width:100%;" class=calendar v-model="selectedDate" :format="'YYYY-MM-DD'"></date-pick>
             </td></tr>
         </table>
-      
-<<<<<<< HEAD
->>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
-=======
->>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
       </div>
       <button v-on:click="book()" >Book Session</button>
     </div>
@@ -291,11 +258,7 @@ export default {
 <style src="./Style.css" />
 <style scoped>
 @import '~vue2-timepicker/dist/VueTimepicker.css';
-<<<<<<< HEAD
-li{
-    list-style: none;
-    width: 100px;
-=======
+
 
 .calendar .vdpInnerWrap {
     border: 1px solid #5c9bb7 !important;
@@ -304,32 +267,7 @@ li{
 li{
     list-style: none;
     width:100px;
->>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
-    margin: 0 auto;
-    text-align: left;
-    padding: 10px;
-    float:left;
 }
-<<<<<<< HEAD
-=======
-
-<<<<<<< HEAD
->>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
-=======
-.calendar .vdpInnerWrap {
-    border: 1px solid #5c9bb7 !important;
-}
-
-li{
-    list-style: none;
-    width:100px;
-    margin: 0 auto;
-    text-align: left;
-    padding: 10px;
-    float:left;
-}
-
->>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
 #login {
   position: absolute;  
   text-align: auto;

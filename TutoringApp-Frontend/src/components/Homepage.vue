@@ -1,7 +1,14 @@
 <template>
    <div id="main" v-cloak>
         <div class="bar">
-             <h2> TutoringTurtles | Home </h2> 
+            <table style="width:100%;">
+                <td style="vertical-align:top;">
+                    <h2> TutoringTurtles | Home </h2> 
+                </td>
+                <td style="vertical-align:top;">
+                    <button style="width:100px;height:60px; margin:0px 0px 0px 50%;" onclick="location.href='#/signin'">Sign Out</button>
+                    </td>
+            </table>
         </div>
 
         <h3> Welcome, Manager {{username}}! </h3>
@@ -66,20 +73,9 @@
     margin:0px 0px 0px 60%;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
-
 /*-------------------------
     Grid layout
 --------------------------*/
-
-<<<<<<< HEAD
->>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
-=======
->>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
 li{
     list-style: none;
     width: 315px;
@@ -88,14 +84,6 @@ li{
     padding: 10px;
     float:left;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
-=======
-
->>>>>>> 93281c33e1613b5a3fddfa775ab70666f69e1b8b
 li img{
     width:250px;
     height:250px;
