@@ -66,7 +66,7 @@
         <br />
         <br />Start Time
         <br />
-        <vue-timepicker v-model="time" format="hh:mm A"></vue-timepicker>
+        <vue-timepicker v-model="time" format="hh:mm A" style></vue-timepicker>
         <br />
         <br />Booking Date
         <br />
@@ -220,7 +220,14 @@ export default {
 <style src="./Style.css" />
 <style scoped>
 @import '~vue2-timepicker/dist/VueTimepicker.css';
-
+li{
+    list-style: none;
+    width: 100px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 10px;
+    float:left;
+}
 #login {
   position: absolute;  
   text-align: auto;

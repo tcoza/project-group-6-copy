@@ -64,4 +64,27 @@
 .bar button{
     margin:0px 0px 0px 60%;
 }
+
+li{
+    list-style: none;
+    width: 315px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 10px;
+    float:left;
+}
+li img{
+    width:250px;
+    height:250px;
+    object-fit: cover;
+    display:block;
+    border:none;
+}
+li p{
+    margin-left: 5%;
+    font-weight: normal;
+    color:#000000;
+    font-size: 20px;
+    
+}
 </style>
