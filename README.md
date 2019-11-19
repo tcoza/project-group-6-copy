@@ -2,6 +2,8 @@
 
 Project - TutoringApp
 
+To run the front end you need to do: npm install vue-date-pick
+                                     npm install vue2-timepicker
 
 Scope
 
