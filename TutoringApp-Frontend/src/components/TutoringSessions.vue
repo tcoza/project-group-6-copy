@@ -2,6 +2,8 @@
     <div id="signin" v-cloak>
     <div class="bar">
       <h2>Tutoring Sessions</h2>
+      <button class="back" onclick="location.href='#/home'">back</button>
+
     </div>
 
     <div class="container">
@@ -254,6 +256,8 @@ div.scroll {
   overflow-y: auto;
   border: 3px solid #5c9bb7;
 }
-
+.bar button{
+    margin:0px 0px 0px 80%;
+}
 div.scroll:focus, tr:focus { outline: none; }
 </style>

@@ -62,6 +62,6 @@
 <style src="./Style.css" />
 <style scoped>
 .bar button{
-    margin:0px 0px 0px 750px;
+    margin:0px 0px 0px 60%;
 }
 </style>

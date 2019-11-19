@@ -20,7 +20,7 @@
                 <tr>
                     <th style="width: 10%">First</th>
                     <th style="width: 10%">Last</th>
-                    <th style="width: 10%">Grade</th>
+                    <th style="width: 10%">Rating</th>
                     <th style="width: auto">Comment</th>
                     <th style="width: 10%">Status</th>
                 </tr>
@@ -32,7 +32,7 @@
                     v-bind:class="[selected == index ? 'highlight' : '']">
                     <td>{{ students[index-1].firstName }}</td>
                     <td>{{ students[index-1].lastName }}</td>
-                    <td>{{ students[index-1].grade }}</td>
+                    <td>{{ students[index-1].rating }}</td>
                     <td>{{ students[index-1].comment }}</td>
                     <td>
                         <select
@@ -48,7 +48,7 @@
                 <tr>
                     <th style="width: 10%">First</th>
                     <th style="width: 10%">Last</th>
-                    <th style="width: 10%">Grade</th>
+                    <th style="width: 10%">Rating</th>
                     <th style="width: auto">Comment</th>
                     <th style="width: 10%">Status</th>
                 </tr>
@@ -60,7 +60,7 @@
                     v-bind:class="[selected == index ? 'highlight' : '']">
                     <td>{{ tutors[index-1].firstName }}</td>
                     <td>{{ tutors[index-1].lastName }}</td>
-                    <td>{{ tutors[index-1].grade }}</td>
+                    <td>{{ tutors[index-1].rating }}</td>
                     <td>{{ tutors[index-1].comment }}</td>
                     <td>
                         <select
@@ -92,19 +92,19 @@ export default {
     created: function()
     {
         const userAction = async () => {
-            const response = await fetch('http://localhost:8080/createstudentevaluation');
+            const response = await fetch('http://localhost:8080/studentevaluations');
             var myJson = await response.json(); //extract JSON from the http response
             // do something with myJson
-            this.students = myJson._embedded.students
-            this.students.forEach((student) => student.username = student._links.self.href.substr(student._links.self.href.lastIndexOf('/')+1));
+            this.students = myJson._embedded.studentevaluations
+            this.students.forEach((student) => student.username = student._links.recipient.href.substr(student._links.recipient.href.lastIndexOf('/')+1));
             this.students.sort((a,b) => (a.username > b.username) ? 1 : -1);
 
-            const response1 = await fetch('http://localhost:8080/createtutorevaluation');
+            const response1 = await fetch('http://localhost:8080/tutorevaluations');
             myJson = await response1.json(); //extract JSON from the http response
             // do something with myJson
-            this.tutors = myJson._embedded.tutors
-            this.tutors.forEach((tutor) => tutor.username = tutor._links.self.href.substr(student._links.self.href.lastIndexOf('/')+1));
-            this.tutor.sort((a,b) => (a.username > b.username) ? 1 : -1);
+            this.tutors = myJson._embedded.tutorevaluations
+            this.tutors.forEach((tutor) => tutor.username = tutor._links.recipient.href.substr(tutor._links.recipient.href.lastIndexOf('/')+1));
+            this.tutors.sort((a,b) => (a.username > b.username) ? 1 : -1);
         }
         userAction();
     },
