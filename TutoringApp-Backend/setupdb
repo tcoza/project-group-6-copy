@@ -1,3 +1,50 @@
 #!/bin/bash
+
+curl -d first=Bob\&last=Builder -X POST localhost:8080/tutors/bobTutor
+curl -d first=Dora\&last=Explorer -X POST localhost:8080/tutors/doraTutor
+curl -d first=test1\&last=tutor1 -X POST localhost:8080/tutors/testTutor1
+curl -d first=test2\&last=tutor2 -X POST localhost:8080/tutors/testTutor2
+curl -d first=test3\&last=tutor3 -X POST localhost:8080/tutors/testTutor3
+curl -d first=test4\&last=tutor4 -X POST localhost:8080/tutors/testTutor4
+curl -d first=test5\&last=tutor5 -X POST localhost:8080/tutors/testTutor5
+
+curl -d first=Traian\&last=Coza -X POST localhost:8080/students/traian
+curl -d first=Arianit\&last=Vavla -X POST localhost:8080/students/arianit
+curl -d first=Odero\&last=Otieno -X POST localhost:8080/students/odero
+curl -d first=Test\&last=Student1 -X POST localhost:8080/students/testStudent1
+curl -d first=Test\&last=Student2 -X POST localhost:8080/students/testStudent2
+curl -d first=Test\&last=Student3 -X POST localhost:8080/students/testStudent3
+curl -d first=Helen\&last=Lin -X POST localhost:8080/tutors/helen
+curl -d first=Alba\&last=Talelli -X POST localhost:8080/tutors/alba
+
+curl -d type=UNIVERSITY -X POST localhost:8080/teachinginstitutions/McGill
+curl -d type=UNIVERSITY -X POST localhost:8080/teachinginstitutions/Concordia
+curl -d type=CEGEP -X POST localhost:8080/teachinginstitutions/Dawson
+curl -d type=HIGHSCHOOL -X POST localhost:8080/teachinginstitutions/TestHighSchool
+
+curl -d name=IntroSoftwareEngineering\&school=McGill -X POST localhost:8080/courses/ECSE321
+curl -d name=DPM\&school=McGill -X POST localhost:8080/courses/ECSE211
+curl -d name=Circuits\&school=McGill -X POST localhost:8080/courses/ECSE200
+curl -d name=Electronics\&school=McGill -X POST localhost:8080/courses/ECSE331
+
+
+curl -d rating=4\&studentUN=testStudent1\&tutorUN=testTutor3 -X POST localhost:8080/createstudentevaluation
+curl -d studentUN=testStudent1\&tutorUN=testTutor3\&isStudentEvaluation=true\&comment=yay! -X POST localhost:8080/createevaluationcomment
+curl -d rating=3\&studentUN=testStudent2\&tutorUN=testTutor5 -X POST localhost:8080/createstudentevaluation
+curl -d studentUN=testStudent2\&tutorUN=testTutor5\&isStudentEvaluation=true\&comment=test -X POST localhost:8080/createevaluationcomment
+curl -d rating=1\&studentUN=testStudent2\&tutorUN=testTutor1 -X POST localhost:8080/createstudentevaluation
+curl -d studentUN=testStudent2\&tutorUN=testTutor1\&isStudentEvaluation=true\&comment=hello -X POST localhost:8080/createevaluationcomment
+
+curl -d rating=5\&studentUN=traian\&tutorUN=helen -X POST localhost:8080/createstudentevaluation
+curl -d studentUN=traian\&tutorUN=helen\&isStudentEvaluation=true\&comment=great -X POST localhost:8080/createevaluationcomment
 curl -d rating=5\&studentUN=arianit\&tutorUN=alba -X POST localhost:8080/createtutorevaluation
 curl -d studentUN=arianit\&tutorUN=alba\&isStudentEvaluation=false\&comment=awesome -X POST localhost:8080/createevaluationcomment
+
+curl -d username=arianit\&course=ECSE321 -X POST localhost:8080/creategrouprequest
+curl -d username=traian\&course=ECSE321 -X POST localhost:8080/creategrouprequest
+curl -d username=odero\&course=ECSE200 -X POST localhost:8080/creategrouprequest
+curl -d username=testStudent1\&course=ECSE211 -X POST localhost:8080/creategrouprequest
+curl -d username=arianit\&course=ECSE211 -X POST localhost:8080/creategrouprequest
+curl -d username=testStudent2\&course=ECSE331 -X POST localhost:8080/creategrouprequest
+
+curl -d username=arianit\&roomid=1\&starttime=12:30 -X POST localhost:8080/createscheduledgroupsession
