@@ -141,7 +141,7 @@ div.scroll {
   padding: 5px;
   text-align: left;
   overflow-y: auto;
-  border: 3px solid #73ad21;
+  border: 3px solid #5c9bb7;
 }
 
 div.scroll:focus, tr:focus { outline: none; }
