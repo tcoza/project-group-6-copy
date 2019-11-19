@@ -42,9 +42,9 @@
                     <th style="width: 25%">Date Created</th>
                     <th style="width: 30%">Requestor</th>
                     <th style="width: 30%">RequestedCourse</th>
-                    <th style="width: auto">Requested Subject</th>
+                   <!-- <th style="width: auto">Requested Subject</th>  -->
                     <th style="width: auto">Status</th>
-                    <th style="width: auto">Request ID</th>
+                   <!-- <th style="width: auto">Request ID</th> -->
                 </tr>
                 <tr
                     v-for="index in groupRequests.length"
@@ -55,9 +55,9 @@
                     <td>{{ groupRequests[index-1].dateCreated }}</td>
                     <td>{{ groupRequests[index-1].requestor }}</td>
                     <td>{{ groupRequests[index-1].requestedCourse }}</td>
-                    <td>{{ groupRequests[index-1].requestedSubject }}</td>
+                   <!-- <td>{{ groupRequests[index-1].requestedSubject }}</td> -->
                     <td>{{ groupRequests[index-1].isScheduled ? "Scheduled" : "Pending" }}</td>
-                    <td>{{ groupRequests[index-1].id }}</td>
+                   <!-- <td>{{ groupRequests[index-1].id }}</td>  -->
                 </tr>
             </table>
         </div>
@@ -73,29 +73,36 @@
     <br />
     <div id="login">
       <div id="fields">
-        Tutor Username
-        <br />
-        <select v-model="schoolNameS">
-            <option v-for="tutor in tutors" v-bind:key="tutor.username" v-bind:value="tutor.username"> {{tutor.username}}</option>
-        </select>        
-        <br />
-        <br />Classroom
-        <br />
-        <select v-model="classroom">
-            <option value="C1"> Class 1 </option>
-            <option value="C2" > Class 2 </option>
-            <option value="C3" > Class 3 </option>
-        </select>         
-        <br />
-        <br />Start Time
-        <br />
-        <vue-timepicker v-model="time" format="hh:mm A"></vue-timepicker>
-        <br />
-        <br />Booking Date
-        <br />
-        <date-pick class="calendar" v-model="date" :format="'YYYY-MM-DD'"></date-pick>
-        <br />
-        <br />
+          <table style="width:100%;">
+              <tr><td> Tutor Username</td> </tr>
+              <tr>
+                  <td>
+                      <select style="width:100%;" v-model="selectedTutor">
+                          <option value="" disabled selected>Select a tutor</option>
+                          <option v-for="tutor in tutors" v-bind:key="tutor.username" v-bind:value="tutor.username"> {{tutor.username}}</option>
+                      </select> 
+                </td>
+              </tr>
+            <tr>
+                <td> Classroom </td>
+            </tr>
+            <tr><td>
+                <select  style="width:100%;" v-model="selectedClass">
+                    <option value="C1"> Class 1 </option>
+                    <option value="C2" > Class 2 </option>
+                    <option value="C3" > Class 3 </option>
+                </select> 
+            </td></tr>
+            <tr> <td> Start Time </td></tr>
+            <tr><td>
+                 <vue-timepicker input-width="100%" v-model="selectedTime" format="hh:mm A"></vue-timepicker>
+            </td></tr>
+             <tr> <td> Booking Date </td></tr>
+            <tr><td >
+                <date-pick style="width:100%;" class=calendar v-model="selectedDate" :format="'YYYY-MM-DD'"></date-pick>
+            </td></tr>
+        </table>
+      
       </div>
       <button v-on:click="book()" >Book Session</button>
     </div>
@@ -105,7 +112,7 @@
 <script>
 import DatePick from 'vue-date-pick';
 import VueTimepicker from 'vue2-timepicker';
-
+import Homepage from './Homepage.vue';
 
 export default {
     components: {DatePick,VueTimepicker},
@@ -113,40 +120,29 @@ export default {
     data: function() {
         return {
             groupRequests: [],
+            tutors:[],
             selected: undefined,
             query: undefined,
-            username: undefined,
-            classId: undefined,
-            startTime: undefined,
-            date: '2019-01-01',
-            tutors:[],
-            time: {
+            selectedTutor: undefined,
+            selectedTime: {
                 hh: '',
                 mm: '',
                 A: ''
             },
+            selectedDate: new Date().toISOString().slice(0,10), //display today's date
+            selectedClass: undefined
+            
         };
         
     },
     created: function()
     {
-        const userAction = async () => {
+        const populateRequests = async () => {
             const response = await fetch('http://localhost:8080/grouprequests');
             const myJson = await response.json(); //extract JSON from the http response
             this.groupRequests = myJson._embedded.grouprequests //get all group requests
 
-            //each request has the following attributes/associations:
-            
-            //2) dateCreated 
-            //3) isScheduled
-            //4) requestedCourse - "href": "http://localhost:8080/grouprequests/1756888288/requestedCourse"
-              // "requestedSubject": "href": "http://localhost:8080/grouprequests/1756888288/requestedSubject"
-              //requestor "href": "http://localhost:8080/grouprequests/1756888288/requestor"
-              //"scheduledGroupSession": "href": "http://localhost:8080/grouprequests/1756888288/scheduledGroupSession"
-
-            //for each groupRequest in all groupRequests, parse the id, requestor username, requested course/subject
-            //other attributes can be accessed directly (not associations or requiring parsing of endpoint)
-             
+            //each request has the following attributes/associations that need to be parsed
             for (var i = 0; i < this.groupRequests.length; i++)
             {
                 var groupRequest = this.groupRequests[i];
@@ -167,17 +163,33 @@ export default {
                 groupRequest.requestedCourse = myCourse._links.self.href.substr(myCourse._links.self.href.lastIndexOf('/')+1) //get courseCode
 
                 //4) requestedSubject 
-                console.log(groupRequest._links.requestedSubject.href);
-                continue;
-                const sbjResponse = await fetch(groupRequest._links.requestedSubject.href);
-                const mySbj = await sbjResponse.json();
-                groupRequest.requestedSubject = mySubj._links.self.href.substr(mySbj._links.self.href.lastIndexOf('/')+1) //get subject
+                //console.log(groupRequest._links.requestedSubject.href);
+               // continue;
+               // const sbjResponse = await fetch(groupRequest._links.requestedSubject.href);
+               // const mySbj = await sbjResponse.json();
+               // groupRequest.requestedSubject = mySubj._links.self.href.substr(mySbj._links.self.href.lastIndexOf('/')+1) //get subject
             }
            
            this.groupRequests.sort((a,b) => (a.requestedCourse > b.requestedCourse) ? 1 : -1);
         };
 
-        userAction();
+         const populateTutors = async () => {
+            const response = await fetch('http://localhost:8080/tutors');
+            const myJson = await response.json(); //extract JSON from the http response
+            this.tutors = myJson._embedded.tutors //get all tutors
+
+            //each tutor needs to have username parsed
+            for (var i = 0; i < this.tutors.length; i++)
+            {
+                var tutor = this.tutors[i];
+               tutor.username = tutor._links.self.href.substr(tutor._links.self.href.lastIndexOf('/')+1); //parse tutor username from url
+            }
+           
+           this.tutors.sort((a,b) => (a.username > b.username) ? 1 : -1);
+        };
+
+        populateRequests();
+        populateTutors();
     },
     methods:
     {
@@ -200,17 +212,21 @@ export default {
         },
         book()
         {
-            var url = 'http://localhost:8080/tutors/' + this.tutors[index].username + "/setstatus";
+            var url = 'http://localhost:8080/createscheduledgroupsession';
 
             const userAction = async () => {
                 const response = await fetch(url,
                 {
                     method: "POST",
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: "status=" + this.tutors[index].status
+                    body: "username=" + selectedTutor
+                    + "&roomid=" + selectedClass
+                    + "&starttime=" + selectedTime
                 });
                 if (!response.ok)
-                    console.log(response);
+                    alert("Error booking a session");
+                else
+                 alert("Session booked!");
             }
             userAction();
         },
@@ -244,11 +260,24 @@ export default {
 <style scoped>
 @import '~vue2-timepicker/dist/VueTimepicker.css';
 
+.calendar .vdpInnerWrap {
+    border: 1px solid #5c9bb7 !important;
+}
+
+li{
+    list-style: none;
+    width:100px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 10px;
+    float:left;
+}
+
 #login {
   position: absolute;  
   text-align: auto;
   right: 10px;
-  width: 25%;
+  width: 35%;
   margin: 0 right;
   padding: 10px;
   border: 3px solid #5c9bb7;
@@ -265,7 +294,7 @@ input {
 div.container {
     position: absolute;  
     text-align: auto;
-    width: 70%;
+    width: 60%;
     padding: 10px;
 }
 

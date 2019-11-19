@@ -1,32 +1,7 @@
 <template>
    <div id="main" v-cloak>
         <div class="bar">
-            <table>
-                <td style="width:50%">
-                    <h2> TutoringTurtles | Home </h2> 
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;opacity:1;" disabled=true onclick="location.href='#/home'">Home</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/css'">Courses Subjects Schools</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/tutors'">Tutors</button>
-                </td >
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/students'">Students</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/evaluations'">Evaluations</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/tutoringsessions'">Tutoring Sessions</button>
-                </td>
-                <td style="vertical-align:top;">
-                    <button style="width:100px;height:60px; margin:0px 0px 0px 120%;" onclick="location.href='#/signin'">Sign Out</button>
-                </td>
-            </table>
+             <h2> TutoringTurtles | Home </h2> 
         </div>
 
         <h3> Welcome, Manager {{username}}! </h3>
@@ -89,5 +64,34 @@
 <style scoped>
 .bar button{
     margin:0px 0px 0px 60%;
+}
+
+
+/*-------------------------
+    Grid layout
+--------------------------*/
+
+li{
+    list-style: none;
+    width: 315px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 10px;
+    float:left;
+}
+
+li img{
+    width:250px;
+    height:250px;
+    object-fit: cover;
+    display:block;
+    border:none;
+}
+li p{
+    margin-left: 5%;
+    font-weight: normal;
+    color:#000000;
+    font-size: 20px;
+    
 }
 </style>
