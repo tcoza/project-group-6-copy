@@ -40,7 +40,7 @@
 
             <table style="width: 33%" ref="table-TI">
                 <tr >
-                    <th colspan='2' class="table-title" > SCHOOLS </th>
+                    <th colspan='2' class="table-title" > Schools </th>
                 </tr>
                 <tr>
                     <th scope="col" style="width: 25%">Type</th>
@@ -67,6 +67,7 @@
                     <td>{{ classlist[index-1].name}}</td>
                 </tr>
             </table>
+
              <table class="table-subject" style="width: 33%" ref="table-subject">
                   <tr >
                     <th colspan='2' class="table-title" >Subjects</th>
@@ -74,7 +75,7 @@
                     <th style="width: 30%">School</th>
                     <th style="width: 30%">Subject</th>
                 <tr v-for="index in subjectlist.length" v-bind:key="index">
-                    <td>{{ subjectlist[index-1].school}</td>
+                    <td>{{ subjectlist[index-1].school}}</td>
                     <td>{{ subjectlist[index-1].name}}</td>
                 </tr>
             </table>
@@ -90,12 +91,12 @@
                 
                 <label for="TI"> <b> Select School </b> </label>
                 <br/>
-                <select v-model="schoolNameC">
-                    <option v-for="institution in TIlist" v-bind:key="institution.schoolName" v-bind:value="institution.schoolName"> {{institution.schoolName}}</option>
+                <select style="width:100%" v-model="schoolNameC">
+                    <option v-for="institution in TIlist" v-bind:key="institution.name" v-bind:value="institution.name"> {{institution.name}}</option>
                 </select>
                 <br/><br/>
                 <button type="submit" class="btn" v-on:click = "addclass"> CREATE </button>
-                <button type="button" class="btn cancel" v-on:click="closeFormClass()">CLOSE</button>
+                <button type="button" class="btn cancel" v-on:click="closeFormAll()">CLOSE</button>
             </div>
         </div>
 
@@ -106,12 +107,12 @@
 
                 <label for="TI"> <b> Select School </b> </label>
                 <br/>
-                <select v-model="schoolNameS">
-                    <option v-for="institution in TIlist" v-bind:key="institution.schoolName" v-bind:value="institution.schoolName"> {{institution.schoolName}}</option>
+                <select style="width:100%" v-model="schoolNameS">
+                    <option v-for="institution in TIlist" v-bind:key="institution.name" v-bind:value="institution.name"> {{institution.name}}</option>
                 </select>
                 <br/><br/>
                 <button type="submit" class="btn" v-on:click = "addsubject()"> CREATE </button>
-                <button type="button" class="btn cancel" v-on:click="closeFormSubject()">CLOSE</button>
+                <button type="button" class="btn cancel" v-on:click="closeFormAll()">CLOSE</button>
             </div>
         </div>
 
@@ -123,7 +124,7 @@
                 
                 <label for="TI"> <b> Select School Type </b> </label>
                 <br/>
-                <select v-model="schoolType">
+                <select style="width:100%" v-model="schoolType">
                     <option value="OTHER"> Elementary School / Other </option>
                     <option value="HIGHSCHOOL" > High School </option>
                     <option value="CEGEP" > CEGEP </option>
@@ -131,7 +132,7 @@
                 </select>
                <br/><br/>
                 <button type="submit" class="btn" v-on:click = "addTI()"> CREATE </button>
-                <button type="button" class="btn cancel" v-on:click="closeFormSchool()">CLOSE</button>
+                <button type="button" class="btn cancel" v-on:click="closeFormAll()">CLOSE</button>
             </div>
         </div>
 
@@ -149,7 +150,6 @@
     created: function()
     {
         this.refreshFromBackend();
-
     },
     methods: {
         refreshFromBackend() {
@@ -158,7 +158,9 @@
                 const myJson = await response.json(); //extract JSON from the http response
                 this.TIlist = myJson._embedded.teachinginstitutions //get all schools
                 this.TIlist.forEach((school) => school.name = school._links.self.href.substr(school._links.self.href.lastIndexOf('/')+1));
-                this.TIlist.sort((a,b) => (a.name > b.name) ? 1 : -1);
+                
+                //sort by school TYPE
+                this.TIlist.sort((a,b) => (a.type > b.type) ? 1 : -1);
             };
 
             const populateCourses = async () => {
@@ -176,7 +178,8 @@
                     const mySchool = await schoolResponse.json();
                     course.school = mySchool._links.self.href.substr(mySchool._links.self.href.lastIndexOf('/')+1)
                 }
-                this.classlist.sort((a,b) => (a.courseCode > b.courseCode) ? 1 : -1);
+                //sort by associated school
+                this.classlist.sort((a,b) => (a.school > b.school) ? 1 : -1);
             };
 
             const populateSubjects = async () => {
@@ -195,7 +198,8 @@
                     const mySchool = await schoolResponse.json();
                     sbj.school = mySchool._links.self.href.substr(mySchool._links.self.href.lastIndexOf('/')+1)
                 }
-            this.subjectlist.sort((a,b) => (a.name > b.name) ? 1 : -1);
+                //sort by associated school
+                this.subjectlist.sort((a,b) => (a.school > b.school) ? 1 : -1);
             };
 
             populateTI();
@@ -212,16 +216,28 @@
             console.log(document.getElementById("myschool").style.display = "block");
         },
         closeFormClass() {
-            //reset form
-            this.schoolNametxt="";
-            this.schoolNametxt="";
+             //reset form
+            this.classCode="";
+            this.className="";
+            this.schoolNameC="";
             console.log(document.getElementById("myclass").style.display = "none");
         },
         closeFormSubject() {
+             //reset form
+            this.schoolNameS="";
+            this.subjectName="";
             console.log(document.getElementById("mysubject").style.display = "none");
         },
         closeFormSchool() {
+            //reset form
+            this.schoolNametxt="";
+            this.schoolType="";
             console.log(document.getElementById("myschool").style.display = "none");
+        },
+        closeFormAll() {
+            this.closeFormSchool();
+            this.closeFormSubject();
+            this.closeFormClass();
         },
         addTI(){
             //create a new TI using REST api services
@@ -244,28 +260,60 @@
                     this.refreshFromBackend();
                 }
                    
-                this.closeFormSchool();
+                this.closeFormAll();
             }
             userAction();
         },
-            addclass(){
-            console.log("Here");
-            var class1=
-            {
-                schoolName: this.schoolNameC,
-                classCode: this.classCode,
-                className: this.className
+        addclass(){
+             //create a new Course using REST api services
+            // console.log("Here");
+            var url = 'http://localhost:8080/courses/' + this.classCode;
+            
+            const userAction = async () => {
+                const response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: "name=" + this.className + "&school=" + this.schoolNameC
+                });
+
+                if (!response.ok) {
+                     alert("Error adding a new course!");
+                }
+                 else {
+                    alert("Course successfully added!");
+                    this.refreshFromBackend();
+                }
+                
+                this.closeFormAll();
             }
-            this.classlist.push(class1);
+            userAction();
         },
-            addsubject(){
-            console.log("Here");
-            var subject=
-            {
-                schoolname: this.schoolNameS,
-                subjectName: this.subjectName
+        addsubject(){
+             //create a new Course using REST api services
+            // console.log("Here");
+            var url = 'http://localhost:8080/subjects/' + this.subjectName;
+            
+            const userAction = async () => {
+                const response = await fetch(url,
+                {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: "school=" + this.schoolNameS
+               });
+
+                if (!response.ok) {
+                     alert("Error adding a new subject!");
+                }
+                 else {
+                    alert("Subject successfully added!");
+                    this.refreshFromBackend();
+                }
+                
+                this.closeFormAll();
             }
-            this.subjectlist.push(subject);
+            userAction();
+            
         }
     }
   }
