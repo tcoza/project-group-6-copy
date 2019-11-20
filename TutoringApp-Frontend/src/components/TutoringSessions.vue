@@ -39,7 +39,7 @@
             v-on:keydown.up='$event.preventDefault(); select(selected-1)'
             v-on:keydown.down='$event.preventDefault(); select(selected+1)'
             v-on:keypress='search()'>
-            <table style="width: 100%" ref="table">
+            <table style="width: 100%" ref="table" >
                 <tr>
                     <th style="width: 25%">Date Created</th>
                     <th style="width: 30%">Requestor</th>

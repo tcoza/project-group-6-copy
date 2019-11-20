@@ -38,7 +38,7 @@
 
         <div class="list">
 
-            <table style="width: 33%" ref="table-TI">
+            <table class="border-class" style="width: 33%" ref="table-TI">
                 <tr >
                     <th colspan='2' class="table-title" > Schools </th>
                 </tr>
@@ -52,7 +52,7 @@
                 </tr>
             </table>
 
-             <table class="table-class" style="width: 33%" ref="table-class">
+             <table class="table-class border-class" style="width: 33%" ref="table-class">
                   <tr >
                     <th colspan='3' class="table-title" >Courses</th>
                 </tr>
@@ -68,7 +68,7 @@
                 </tr>
             </table>
 
-             <table class="table-subject" style="width: 33%" ref="table-subject">
+             <table class="table-subject border-class" style="width: 33%" ref="table-subject">
                   <tr >
                     <th colspan='2' class="table-title" >Subjects</th>
                 </tr>
@@ -342,6 +342,7 @@ button.TI {
 
 .table-class{
     margin: 0px 0px 0px 30px;
+    
 }
 .table-subject{
     display: table;
