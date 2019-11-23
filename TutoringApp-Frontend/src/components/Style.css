@@ -128,12 +128,7 @@ button {
   
 button:hover {opacity: 1}
 
-th { background-color: #5c9bb7; font-size: 14pt; }
-td { font-size: 12pt; }
 
-.highlight {
-    background-color: greenyellow;
-}
 
 .border-class {
     outline:3px solid #5c9bb7;

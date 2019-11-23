@@ -29,57 +29,38 @@
         </table>
     </div>
     <h3>View all students here. You can also remove students from the system!</h3>
-    <div class="container">
-        <div
-            tabindex="0"
-            ref="scroll"
-            class="scroll"
-            v-on:keydown.up='$event.preventDefault(); select(selected-1)'
-            v-on:keydown.down='$event.preventDefault(); select(selected+1)'
-            v-on:keypress='search()'>
-            <table style="width: 100%" ref="table">
-                <tr>
-                    <th style="width: 25%">Username</th>
-                    <th style="width: 30%">First</th>
-                    <th style="width: 30%">Last</th>
-                    <th style="width: auto">Status</th>
-                </tr>
-                <tr
-                    v-for="index in students.length"
-                    v-bind:key="index"
-                    v-bind:tabindex="index"
-                    v-on:mousedown="select(index)"
-                    v-bind:class="[selected == index ? 'highlight' : '']">
-                    <td>{{ students[index-1].username }}</td>
-                    <td>{{ students[index-1].firstName }}</td>
-                    <td>{{ students[index-1].lastName }}</td>
-                    <td>
-                        <select
-                        v-model='students[index-1].isActiveAccount'
-                        v-on:change="statusChanged(index-1)">
-                            <option value="true">Active</option>
-                            <option value="false">Removed</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <input
-        ref="searchbox"
-        style="display: none"
-        v-model="query"
-        v-on:keydown.esc="$refs.scroll.focus()"
-        v-on:focusout="unsearch()" />
-    </div>
+    <cooltable
+            v-bind:headers="[
+                { name: 'Username', width: '25%' },
+                { name: 'First', width: '30%' },
+                { name: 'Last', width: '30%' },
+                { name: 'Status', width: '15%' }]"
+            v-bind:columns="['username', 'firstName', 'lastName',
+            {
+                property: 'isActiveAccount',
+                onChange: statusChanged,
+                options: [
+                    { value: true, display: 'Active' },
+                    { value: false, display: 'Removed' }]
+            }]"
+            v-bind:list="students"
+            searchid="username"
+        />
   </div>
 </template>
 
 
 <script>
+import cooltable from "./CoolTable";
+
 export default {
     name: "students",
+    components:
+    {
+        cooltable
+    },
     data: function() {
-        return { students: [], selected: undefined, query: undefined };
+        return { students: [] };
     },
     created: function()
     {
@@ -95,23 +76,6 @@ export default {
     },
     methods:
     {
-        select: function(index)
-        {
-            if (index < 1 || index > this.students.length)
-                return;
-            this.selected = index;
-            this.$refs.table.rows[index].focus();
-        },
-        search: function (query)
-        {
-            this.$refs.searchbox.style.display = "initial";
-            this.query = query;
-            this.$refs.searchbox.focus();
-        },
-        unsearch: function()
-        {
-            this.$refs.searchbox.style.display = "none";
-        },
         statusChanged(index)
         {
             var url = 'http://localhost:8080/students/' + this.students[index].username;
@@ -151,23 +115,3 @@ export default {
 </script>
 
 <style src="./Style.css" />
-<style scoped>
-
-div.container {
-    width: 1000px;
-    text-align: right;
-}
-
-div.scroll {
-  margin-top: 20px;
-  margin: auto;
-  height: 500px;
-  width: 100%;
-  padding: 5px;
-  text-align: left;
-  overflow-y: auto;
-  border: 3px solid #5c9bb7;
-}
-
-div.scroll:focus, tr:focus { outline: none; }
-</style>
