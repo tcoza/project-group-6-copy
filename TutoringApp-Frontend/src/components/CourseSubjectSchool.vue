@@ -39,8 +39,8 @@
                     { name: 'School', width: '50%' },
                     { name: 'Subject', width: '50%' }]"
                 v-bind:columns="['school', 'name']"
-                v-bind:list="classlist"
-                searchid="subjectlist"
+                v-bind:list="subjectlist"
+                searchid="name"
                 width="33%"
             />
         </div>
