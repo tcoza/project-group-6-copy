@@ -50,8 +50,11 @@ export default
     {
         if (location.href.endsWith('#/home'))
             this.items = [ this.items.pop() ];      // Just signout button
-        else if (location.href.endsWith('#/signin'))
+        if (location.href.endsWith('#/signin'))
             this.items = [];    // Clear all
+        else if (this.login == undefined)
+            location.href = '#/signin';     // Redirect to Signin
+
     },
     methods:
     {
