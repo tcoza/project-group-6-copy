@@ -5,23 +5,37 @@
     <div id="login">
       <div id="fields">
         Username<br />
-        <input type="text" placeholder="Enter (any) username" value="" v-model="manager" /><br />
+        <input type="text" placeholder="Enter (any) username" v-model="manager" /><br />
         <br />Password<br />
         <input type="password" placeholder="Enter (any) password" /><br />
         <br />
       </div>
-      <button onclick="location.href='#/home'">Sign In</button>
+      <button v-on:click="signin()">Sign In</button>
     </div>
   </div>
 </template>
+
 <script>
     import topbar from './TopBar'
+    import VueCookies from 'vue-cookies'
+
     export default {
-      components: { topbar },
-      data: function() {
-        return {
-          manager: undefined
-        };
+      components: { topbar, VueCookies },
+      data: function()
+      {
+        return { manager: 'Manager' };
+      },
+      created: function()
+      {
+        VueCookies.remove('ManagerName');
+      },
+      methods:
+      {
+        signin: function()
+        {
+          VueCookies.set('ManagerName', this.manager);
+          location.href='#/home'
+        }
       }
     }
 </script>
