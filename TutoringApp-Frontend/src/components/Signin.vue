@@ -1,19 +1,13 @@
 <template>
   <div id="signin" v-cloak>
-    <div class="bar">
-      <h2>TutoringTurtles | Sign In</h2>
-    </div>
-    <br />
+    <topbar title="Sign in" />
+    
     <div id="login">
       <div id="fields">
-        Username
-        <br />
-        <input type="text" placeholder="Enter (any) username" value="" v-model="manager" />
-        <br />
-        <br />Password
-        <br />
-        <input type="Password" placeholder="Enter (any) password" />
-        <br />
+        Username<br />
+        <input type="text" placeholder="Enter (any) username" value="" v-model="manager" /><br />
+        <br />Password<br />
+        <input type="password" placeholder="Enter (any) password" /><br />
         <br />
       </div>
       <button onclick="location.href='#/home'">Sign In</button>
@@ -21,14 +15,14 @@
   </div>
 </template>
 <script>
-    import Homepage from './Homepage.vue'
+    import topbar from './TopBar'
     export default {
+      components: { topbar },
       data: function() {
         return {
           manager: undefined
         };
-      },
-      components: { Homepage },
+      }
     }
 </script>
 <style src="./Style.css" />
@@ -38,7 +32,7 @@
   width: 400px;
   margin: 0 auto;
   padding: 10px;
-  border: 3px solid #73ad21;
+  border: 3px solid #21ad9a;
 }
 
 input {

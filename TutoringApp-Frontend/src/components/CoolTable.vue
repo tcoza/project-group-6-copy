@@ -1,6 +1,6 @@
 <template>
-  <div class="cool-table">
-    <div class="container" v-bind:style="'width:' + width">
+  <div class="cool-table" v-bind:style="'width:' + width">
+    <div class="container">
         <div
             tabindex="0"
             ref="scroll"
@@ -9,10 +9,16 @@
             v-on:keydown.down='$event.preventDefault(); select(selected+1)'
             v-on:keypress='search()'>
             <table style="width: 100%" ref="table">
+                <tr v-if="title != undefined">
+                    <th class="title" style="text-align: center" v-bind:colspan="columns.length">
+                        {{ title }}
+                    </th>
+                </tr>
                 <tr>
                     <th
                         v-for="header in headers"
                         v-bind:key="header.name"
+                        v-bind:class="title == undefined ? 'title' : ''"
                         v-bind:style="'width: ' + header.width">
                         {{ header.name }}
                     </th>
@@ -26,6 +32,9 @@
                     <td v-for="column in columns" v-bind:key="column.hash">
                         <template v-if="typeof column == 'string'">
                             {{ list[index-1][column] }}
+                        </template>
+                        <template v-else-if="typeof column == 'function'">
+                            {{ column.call(list[index-1]) }}
                         </template>
                         <template v-else>
                             <select
@@ -59,6 +68,7 @@ export default {
     name: "cool-table",
     props:
     {
+        title: { type: String, required: false },
         headers: { type: Array, required: true },
         columns: { type: Array, required: true },
         list: { type: Array, required: true },
@@ -129,7 +139,7 @@ div.scroll {
 
 div.scroll:focus, tr:focus { outline: none; }
 
-th { background-color: #5c9bb7; font-size: 14pt; }
+table .title { background-color: #5c9bb7; font-size: 14pt; padding: 2px; }
 td { font-size: 12pt; }
 
 .highlight { background-color: rgb(0, 255, 255); }

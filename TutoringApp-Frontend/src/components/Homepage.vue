@@ -1,15 +1,6 @@
 <template>
    <div id="main" v-cloak>
-        <div class="bar">
-            <table style="width:100%;">
-                <td style="vertical-align:top;">
-                    <h2> TutoringTurtles | Home </h2> 
-                </td>
-                <td style="vertical-align:top;">
-                    <button style="width:100px;height:60px; margin:0px 0px 0px 50%;" onclick="location.href='#/signin'">Sign Out</button>
-                    </td>
-            </table>
-        </div>
+        <topbar title="Home" />
 
         <h3> Welcome, Manager {{username}}! </h3>
         <h3 :displayName = "username"/>
@@ -27,14 +18,10 @@
     import image3 from "../assets/evaluation.jpg"
     import image4 from "../assets/session.jpg"
     import image5 from "../assets/courses.png"
+    import topbar from "./TopBar"
 
     export default {
-        props: {
-            username: {
-                type : String,
-                default : ""
-            }
-        },
+        components: { topbar },
         data: function(){
             return{
                 articles: [{
@@ -69,9 +56,6 @@
 
 <style src="./Style.css" />
 <style scoped>
-.bar button{
-    margin:0px 0px 0px 60%;
-}
 
 /*-------------------------
     Grid layout

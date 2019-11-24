@@ -1,33 +1,6 @@
 <template>
     <div id="main" v-cloak>
-        <div class="bar">
-            <table>
-                <td style="width:50%">
-                    <h2> TutoringTurtles | Courses, Subjects, and Teaching Institutions </h2> 
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/home'">Home</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;opacity:1;" disabled=true onclick="location.href='#/css'">Courses Subjects Schools</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/tutors'">Tutors</button>
-                </td >
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/students'">Students</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/evaluations'">Evaluations</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/tutoringsessions'">Tutoring Sessions</button>
-                </td>
-                <td style="vertical-align:top;">
-                    <button style="width:100px;height:60px; margin:0px 0px 0px 120%;" onclick="location.href='#/signin'">Sign Out</button>
-                </td>
-            </table>
-        </div>
+        <topbar title="Courses, Subjects, and Teaching Institutions" />
         <h3>View schools, courses, and subjects here. You can add new courses, subjects or schools below!</h3>
            
         <div class="buttonPart">
@@ -37,48 +10,39 @@
         </div>
 
         <div class="list">
+            <cooltable
+                title="Schools"
+                v-bind:headers="[
+                    { name: 'Type', width: '50%' },
+                    { name: 'School Name', width: '50%' }]"
+                v-bind:columns="['type', 'name']"
+                v-bind:list="TIlist"
+                searchid="name"
+                width="33%"
+            />
 
-            <table class="border-class" style="width: 33%" ref="table-TI">
-                <tr >
-                    <th colspan='2' class="table-title" > Schools </th>
-                </tr>
-                <tr>
-                    <th scope="col" style="width: 25%">Type</th>
-                    <th scope="col" style="width: 25%">School Name</th>
-                </tr>
-                <tr v-for="index in TIlist.length" v-bind:key="index">
-                    <td>{{ TIlist[index-1].type}}</td>
-                    <td>{{ TIlist[index-1].name}}</td>
-                </tr>
-            </table>
+            <cooltable
+                title="Courses"
+                v-bind:headers="[
+                    { name: 'School', width: '30%' },
+                    { name: 'Course Code', width: '30%' },
+                    { name: 'Course Name', width: '40%' }]"
+                v-bind:columns="['school', 'courseCode', 'name']"
+                v-bind:list="classlist"
+                searchid="courseCode"
+                width="33%"
+            />
 
-             <table class="table-class border-class" style="width: 33%" ref="table-class">
-                  <tr >
-                    <th colspan='3' class="table-title" >Courses</th>
-                </tr>
-                <tr>
-                     <th style="width: 30%">School</th>
-                    <th style="width: 30%">Course Code</th>
-                    <th style="width: 30%">Course Name</th>
-                 </tr>
-                <tr v-for="index in classlist.length" v-bind:key="index">
-                    <td>{{ classlist[index-1].school}}</td>
-                    <td>{{ classlist[index-1].courseCode}}</td>
-                    <td>{{ classlist[index-1].name}}</td>
-                </tr>
-            </table>
-
-             <table class="table-subject border-class" style="width: 33%" ref="table-subject">
-                  <tr >
-                    <th colspan='2' class="table-title" >Subjects</th>
-                </tr>
-                    <th style="width: 30%">School</th>
-                    <th style="width: 30%">Subject</th>
-                <tr v-for="index in subjectlist.length" v-bind:key="index">
-                    <td>{{ subjectlist[index-1].school}}</td>
-                    <td>{{ subjectlist[index-1].name}}</td>
-                </tr>
-            </table>
+            <cooltable
+                title="Subjects"
+                v-bind:headers="[
+                    { name: 'School', width: '50%' },
+                    { name: 'Subject', width: '50%' }]"
+                v-bind:columns="['school', 'name']"
+                v-bind:list="classlist"
+                searchid="subjectlist"
+                width="33%"
+            />
         </div>
         
         <div class="class-popup" id="myclass">
@@ -128,7 +92,7 @@
                     <option value="OTHER"> Elementary School / Other </option>
                     <option value="HIGHSCHOOL" > High School </option>
                     <option value="CEGEP" > CEGEP </option>
-                    <option value ="UNIVERSITY" > University </option>
+                    <option value="UNIVERSITY" > University </option>
                 </select>
                <br/><br/>
                 <button type="submit" class="btn" v-on:click = "addTI()"> CREATE </button>
@@ -140,7 +104,15 @@
 </template>
 
 <script>
+import cooltable from "./CoolTable";
+import topbar from "./TopBar";
+
   export default {
+    components:
+    {
+        cooltable,
+        topbar
+    },
     data: function() {
         return { TIlist: [], schoolNametxt: undefined, schoolType: undefined,
                 classlist: [], schoolNameC: undefined, classCode: undefined, className: undefined,
@@ -207,32 +179,32 @@
             populateSubjects();
         },
         classes() {
-            console.log(document.getElementById("myclass").style.display = "block");
+            document.getElementById("myclass").style.display = "block";
         },
         subjects(){
-            console.log(document.getElementById("mysubject").style.display = "block");
+            document.getElementById("mysubject").style.display = "block";
         },
         TI(){
-            console.log(document.getElementById("myschool").style.display = "block");
+            document.getElementById("myschool").style.display = "block";
         },
         closeFormClass() {
              //reset form
             this.classCode="";
             this.className="";
             this.schoolNameC="";
-            console.log(document.getElementById("myclass").style.display = "none");
+            document.getElementById("myclass").style.display = "none";
         },
         closeFormSubject() {
              //reset form
             this.schoolNameS="";
             this.subjectName="";
-            console.log(document.getElementById("mysubject").style.display = "none");
+            document.getElementById("mysubject").style.display = "none";
         },
         closeFormSchool() {
             //reset form
             this.schoolNametxt="";
             this.schoolType="";
-            console.log(document.getElementById("myschool").style.display = "none");
+            document.getElementById("myschool").style.display = "none";
         },
         closeFormAll() {
             this.closeFormSchool();
