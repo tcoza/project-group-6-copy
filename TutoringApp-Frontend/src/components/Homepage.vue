@@ -1,19 +1,9 @@
 <template>
    <div id="main" v-cloak>
-        <div class="bar">
-            <table style="width:100%;">
-                <td style="vertical-align:top;">
-                    <h2> TutoringTurtles | Home </h2> 
-                </td>
-                <td style="vertical-align:top;">
-                    <button style="width:100px;height:60px; margin:0px 0px 0px 50%;" onclick="location.href='#/signin'">Sign Out</button>
-                    </td>
-            </table>
-        </div>
+        <topbar title="Home" />
 
-        <h3> Welcome, Manager {{username}}! </h3>
-        <h3 :displayName = "username"/>
-        <li v-for="a in articles"  v-bind:key="a">
+        <h3> Welcome, Manager! </h3>
+        <li v-for="a in articles"  v-bind:key="a.url">
             <a v-bind:href="a.url" target="_self"> <img :src="a.image" /> </a>
             <p>{{a.title}}</p>
         </li>
@@ -27,38 +17,34 @@
     import image3 from "../assets/evaluation.jpg"
     import image4 from "../assets/session.jpg"
     import image5 from "../assets/courses.png"
+    import topbar from "./TopBar"
 
     export default {
-        props: {
-            username: {
-                type : String,
-                default : ""
-            }
-        },
+        components: { topbar },
         data: function(){
             return{
                 articles: [{
-                    "image": image1,
-                    "url":"http://127.0.0.1:8087/#/tutors",
-                    "title":"Tutors"
+                    image: image1,
+                    url: "http://127.0.0.1:8087/#/tutors",
+                    title: "Tutors"
                 },{
-                    "image": image2,
-                    "url":"http://127.0.0.1:8087/#/students",
-                    "title":"Students"
+                    image: image2,
+                    url: "http://127.0.0.1:8087/#/students",
+                    title: "Students"
                 },
                 {
-                    "image": image5,
-                    "url":"http://127.0.0.1:8087/#/css",
-                    "title":"Courses, Subjects, Schools"
+                    image: image5,
+                    url: "http://127.0.0.1:8087/#/css",
+                    title: "Courses, Subjects, Schools"
                 },
                 {
-                    "image": image3,
-                    "url":"http://127.0.0.1:8087/#/evaluations",
-                    "title":"Evaluations"
+                    image: image3,
+                    url: "http://127.0.0.1:8087/#/evaluations",
+                    title: "Evaluations"
                 },{
-                    "image": image4,
-                    "url":"http://127.0.0.1:8087/#/tutoringsessions",
-                    "title":"Tutoring Sessions"
+                    image: image4,
+                    url: "http://127.0.0.1:8087/#/tutoringsessions",
+                    title:"Tutoring Sessions"
                 }
                 ]
             }
@@ -69,24 +55,21 @@
 
 <style src="./Style.css" />
 <style scoped>
-.bar button{
-    margin:0px 0px 0px 60%;
-}
 
 /*-------------------------
     Grid layout
 --------------------------*/
 li{
     list-style: none;
-    width: 315px;
+    width: 50%;
     margin: 0 auto;
     text-align: left;
     padding: 10px;
     float:left;
 }
 li img{
-    width:250px;
-    height:250px;
+    width: 100%;
+    height: 250px;
     object-fit: cover;
     display:block;
     border:none;

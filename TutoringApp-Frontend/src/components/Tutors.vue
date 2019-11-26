@@ -1,177 +1,64 @@
 <template>
   <div class="tutors">
-    <div class="bar">
-      <table>
-                <td style="width:30%;">
-                    <h2> TutoringTurtles | Tutors </h2> 
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/home'">Home</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/css'">Courses Subjects Schools</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;opacity:1;" onclick="location.href='#/tutors'" disabled=true >Tutors</button>
-                </td >
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/students'" >Students</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/evaluations'">Evaluations</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/tutoringsessions'">Tutoring Sessions</button>
-                </td>
-                <td style="vertical-align:top;">
-                    <button style="width:100px;height:60px; margin:0px 0px 0px 120%;" onclick="location.href='#/signin'">Sign Out</button>
-                </td>
-        </table>
-    </div>
+    <topbar title="Tutors" />
     <h3>View all tutors here. You can verify a tutor, or terminate them below!</h3>
-    <div class="container">
-        <div
-            tabindex="0"
-            ref="scroll"
-            class="scroll"
-            v-on:keydown.up='$event.preventDefault(); select(selected-1)'
-            v-on:keydown.down='$event.preventDefault(); select(selected+1)'
-            v-on:keypress='search()'>
-            <table style="width: 100%" ref="table">
-                <tr>
-                    <th style="width: 25%">Username</th>
-                    <th style="width: 30%">First</th>
-                    <th style="width: 30%">Last</th>
-                    <th style="width: auto">Status</th>
-                </tr>
-                <tr
-                    v-for="index in tutors.length"
-                    v-bind:key="index"
-                    v-bind:tabindex="index"
-                    v-on:mousedown="select(index)"
-                    v-bind:class="[selected == index ? 'highlight' : '']">
-                    <td>{{ tutors[index-1].username }}</td>
-                    <td>{{ tutors[index-1].firstName }}</td>
-                    <td>{{ tutors[index-1].lastName }}</td>
-                    <td>
-                        <select
-                        v-model='tutors[index-1].status'
-                        v-on:change="statusChanged(index-1)">
-                            <option value="PENDING">Pending</option>
-                            <option value="VERIFIED">Verified</option>
-                            <option value="TERMINATED">Terminated</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <input
-        ref="searchbox"
-        style="display: none"
-        v-model="query"
-        v-on:keydown.esc="$refs.scroll.focus()"
-        v-on:focusout="unsearch()" />
-    </div>
+    <cooltable
+            v-bind:headers="[
+                { name: 'Username', width: '25%' },
+                { name: 'First', width: '30%' },
+                { name: 'Last', width: '30%' },
+                { name: 'Status', width: '15%' }]"
+            v-bind:columns="['username', 'firstName', 'lastName',
+            {
+                property: 'status',
+                onChange: statusChanged,
+                options: [
+                    { value: 'PENDING', display: 'Pending' },
+                    { value: 'VERIFIED', display: 'Verified' },
+                    { value: 'TERMINATED', display: 'Terminated' }]
+            }]"
+            v-bind:list="tutors"
+            searchid="username"
+        />
   </div>
 </template>
 
 
 <script>
+import cooltable from "./CoolTable";
+import topbar from "./TopBar";
+import AXIOS from "./Axios";
+
 export default {
     name: "tutors",
+    components:
+    {
+        cooltable,
+        topbar
+    },
     data: function() {
-        return { tutors: [], selected: undefined, query: undefined };
+        return { tutors: [] };
     },
     created: function()
     {
-        const userAction = async () => {
-            const response = await fetch('http://localhost:8080/tutors');
-            const myJson = await response.json();
-            this.tutors = myJson._embedded.tutors
+        AXIOS.get('/tutors').then(response =>
+        {
+            this.tutors = response.data._embedded.tutors
             this.tutors.forEach((tutor) => tutor.username = tutor._links.self.href.substr(tutor._links.self.href.lastIndexOf('/')+1));
             this.tutors.sort((a,b) => (a.username > b.username) ? 1 : -1);
-        }
-        userAction();
+        })
+        .catch(e => console.log(e.response.data.message));
     },
     methods:
     {
-        select: function(index)
-        {
-            if (index < 1 || index > this.tutors.length)
-                return;
-            this.selected = index;
-            this.$refs.table.rows[index].focus();
-        },
-        search: function (query)
-        {
-            this.$refs.searchbox.style.display = "initial";
-            this.query = query;
-            this.$refs.searchbox.focus();
-        },
-        unsearch: function()
-        {
-            this.$refs.searchbox.style.display = "none";
-        },
         statusChanged(index)
         {
-            var url = 'http://localhost:8080/tutors/' + this.tutors[index].username + "/setstatus";
-
-            const userAction = async () => {
-                const response = await fetch(url,
-                {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: "status=" + this.tutors[index].status
-                });
-                if (!response.ok)
-                    console.log(response);
-            }
-            userAction();
-        },
-        popup: function(message)
-        {
-            console.log(message);
-        }
-    },
-    watch:
-    {
-        query: function (val)
-        {
-            this.selected = 0;
-            if (this.query == "")
-                this.query = undefined;
-            for (var i = 0; i < this.tutors.length; i++)
-            {
-                if (this.tutors[i].username.startsWith(this.query))
-                {
-                    this.select(i+1);
-                    this.search(this.query);
-                    break;
-                }
-            }
+            AXIOS.post('/tutors/'.concat(this.tutors[index].username).concat('/setstatus'),
+                    {}, { params: { status: this.tutors[index].status }})
+                    .catch(e => console.log(e.response.data.message));
         }
     }
 }
 </script>
 
 <style src="./Style.css" />
-<style scoped>
-
-div.container {
-    width: 1000px;
-    text-align: right;
-}
-
-div.scroll {
-  margin-top: 20px;
-  margin: auto;
-  height: 500px;
-  width: 100%;
-  padding: 5px;
-  text-align: left;
-  overflow-y: auto;
-  border: 3px solid #5c9bb7;
-}
-
-div.scroll:focus, tr:focus { outline: none; }
-</style>

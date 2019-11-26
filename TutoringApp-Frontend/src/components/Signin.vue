@@ -1,34 +1,42 @@
 <template>
   <div id="signin" v-cloak>
-    <div class="bar">
-      <h2>TutoringTurtles | Sign In</h2>
-    </div>
-    <br />
+    <topbar title="Sign in" />
+    
     <div id="login">
       <div id="fields">
-        Username
-        <br />
-        <input type="text" placeholder="Enter (any) username" value="" v-model="manager" />
-        <br />
-        <br />Password
-        <br />
-        <input type="Password" placeholder="Enter (any) password" />
-        <br />
+        Username<br />
+        <input type="text" placeholder="Enter (any) username" v-model="manager" /><br />
+        <br />Password<br />
+        <input type="password" placeholder="Enter (any) password" /><br />
         <br />
       </div>
-      <button onclick="location.href='#/home'">Sign In</button>
+      <button v-on:click="signin()">Sign In</button>
     </div>
   </div>
 </template>
+
 <script>
-    import Homepage from './Homepage.vue'
+    import topbar from './TopBar'
+    import VueCookies from 'vue-cookies'
+
     export default {
-      data: function() {
-        return {
-          manager: undefined
-        };
+      components: { topbar, VueCookies },
+      data: function()
+      {
+        return { manager: 'Manager' };
       },
-      components: { Homepage },
+      created: function()
+      {
+        VueCookies.remove('ManagerName');
+      },
+      methods:
+      {
+        signin: function()
+        {
+          VueCookies.set('ManagerName', this.manager);
+          location.href='#/home'
+        }
+      }
     }
 </script>
 <style src="./Style.css" />
@@ -38,7 +46,7 @@
   width: 400px;
   margin: 0 auto;
   padding: 10px;
-  border: 3px solid #73ad21;
+  border: 3px solid #21ad9a;
 }
 
 input {

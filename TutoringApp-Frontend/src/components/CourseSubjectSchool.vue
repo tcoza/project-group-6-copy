@@ -1,33 +1,6 @@
 <template>
     <div id="main" v-cloak>
-        <div class="bar">
-            <table>
-                <td style="width:50%">
-                    <h2> TutoringTurtles | Courses, Subjects, and Teaching Institutions </h2> 
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/home'">Home</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;opacity:1;" disabled=true onclick="location.href='#/css'">Courses Subjects Schools</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/tutors'">Tutors</button>
-                </td >
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/students'">Students</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/evaluations'">Evaluations</button>
-                </td>
-                <td style="vertical-align:top">
-                    <button style="width:100px;height:60px;" onclick="location.href='#/tutoringsessions'">Tutoring Sessions</button>
-                </td>
-                <td style="vertical-align:top;">
-                    <button style="width:100px;height:60px; margin:0px 0px 0px 120%;" onclick="location.href='#/signin'">Sign Out</button>
-                </td>
-            </table>
-        </div>
+        <topbar title="Courses, Subjects, and Teaching Institutions" />
         <h3>View schools, courses, and subjects here. You can add new courses, subjects or schools below!</h3>
            
         <div class="buttonPart">
@@ -37,48 +10,39 @@
         </div>
 
         <div class="list">
+            <cooltable
+                title="Schools"
+                v-bind:headers="[
+                    { name: 'Type', width: '50%' },
+                    { name: 'School Name', width: '50%' }]"
+                v-bind:columns="['type', 'name']"
+                v-bind:list="TIlist"
+                searchid="name"
+                width="33%"
+            />
 
-            <table class="border-class" style="width: 33%" ref="table-TI">
-                <tr >
-                    <th colspan='2' class="table-title" > Schools </th>
-                </tr>
-                <tr>
-                    <th scope="col" style="width: 25%">Type</th>
-                    <th scope="col" style="width: 25%">School Name</th>
-                </tr>
-                <tr v-for="index in TIlist.length" v-bind:key="index">
-                    <td>{{ TIlist[index-1].type}}</td>
-                    <td>{{ TIlist[index-1].name}}</td>
-                </tr>
-            </table>
+            <cooltable
+                title="Courses"
+                v-bind:headers="[
+                    { name: 'School', width: '30%' },
+                    { name: 'Course Code', width: '30%' },
+                    { name: 'Course Name', width: '40%' }]"
+                v-bind:columns="['school', 'courseCode', 'name']"
+                v-bind:list="classlist"
+                searchid="courseCode"
+                width="33%"
+            />
 
-             <table class="table-class border-class" style="width: 33%" ref="table-class">
-                  <tr >
-                    <th colspan='3' class="table-title" >Courses</th>
-                </tr>
-                <tr>
-                     <th style="width: 30%">School</th>
-                    <th style="width: 30%">Course Code</th>
-                    <th style="width: 30%">Course Name</th>
-                 </tr>
-                <tr v-for="index in classlist.length" v-bind:key="index">
-                    <td>{{ classlist[index-1].school}}</td>
-                    <td>{{ classlist[index-1].courseCode}}</td>
-                    <td>{{ classlist[index-1].name}}</td>
-                </tr>
-            </table>
-
-             <table class="table-subject border-class" style="width: 33%" ref="table-subject">
-                  <tr >
-                    <th colspan='2' class="table-title" >Subjects</th>
-                </tr>
-                    <th style="width: 30%">School</th>
-                    <th style="width: 30%">Subject</th>
-                <tr v-for="index in subjectlist.length" v-bind:key="index">
-                    <td>{{ subjectlist[index-1].school}}</td>
-                    <td>{{ subjectlist[index-1].name}}</td>
-                </tr>
-            </table>
+            <cooltable
+                title="Subjects"
+                v-bind:headers="[
+                    { name: 'School', width: '50%' },
+                    { name: 'Subject', width: '50%' }]"
+                v-bind:columns="['school', 'name']"
+                v-bind:list="subjectlist"
+                searchid="name"
+                width="33%"
+            />
         </div>
         
         <div class="class-popup" id="myclass">
@@ -128,7 +92,7 @@
                     <option value="OTHER"> Elementary School / Other </option>
                     <option value="HIGHSCHOOL" > High School </option>
                     <option value="CEGEP" > CEGEP </option>
-                    <option value ="UNIVERSITY" > University </option>
+                    <option value="UNIVERSITY" > University </option>
                 </select>
                <br/><br/>
                 <button type="submit" class="btn" v-on:click = "addTI()"> CREATE </button>
@@ -140,7 +104,16 @@
 </template>
 
 <script>
+import cooltable from "./CoolTable";
+import topbar from "./TopBar";
+import AXIOS from "./Axios";
+
   export default {
+    components:
+    {
+        cooltable,
+        topbar
+    },
     data: function() {
         return { TIlist: [], schoolNametxt: undefined, schoolType: undefined,
                 classlist: [], schoolNameC: undefined, classCode: undefined, className: undefined,
@@ -153,86 +126,81 @@
     },
     methods: {
         refreshFromBackend() {
-            const populateTI = async () => {
-                const response = await fetch('http://localhost:8080/teachinginstitutions');
-                const myJson = await response.json(); //extract JSON from the http response
-                this.TIlist = myJson._embedded.teachinginstitutions //get all schools
+            AXIOS.get('/teachinginstitutions').then(response =>
+            {
+                this.TIlist = response.data._embedded.teachinginstitutions
                 this.TIlist.forEach((school) => school.name = school._links.self.href.substr(school._links.self.href.lastIndexOf('/')+1));
-                
-                //sort by school TYPE
-                this.TIlist.sort((a,b) => (a.type > b.type) ? 1 : -1);
-            };
+                this.TIlist.sort((a,b) => (a.type > b.type) ? 1 : -1);  //sort by school TYPE
+            })
+            .catch(e => console.log(e.response.data.message));
 
-            const populateCourses = async () => {
-                const response = await fetch('http://localhost:8080/courses');
-                const myJson = await response.json(); //extract JSON from the http response
-                this.classlist = myJson._embedded.courses //get all courses
-                for (var i = 0; i < this.classlist.length; i++) {
+            AXIOS.get('/courses').then(response =>
+            {
+                this.classlist = response.data._embedded.courses;
+                this.classlist.sort((a,b) => (a.school > b.school) ? 1 : -1);   //sort by associated school
+            })
+            .then(async () =>
+            {
+                for (var i = 0; i < this.classlist.length; i++)
+                {
                     var course = this.classlist[i];
-
-                    //1) get coursecode
                     course.courseCode = course._links.self.href.substr(course._links.self.href.lastIndexOf('/')+1) //parse course code from endpoint path
 
-                    //2) get school associated
-                    const schoolResponse = await fetch(course._links.school.href);
-                    const mySchool = await schoolResponse.json();
-                    course.school = mySchool._links.self.href.substr(mySchool._links.self.href.lastIndexOf('/')+1)
+                    await AXIOS.get(course._links.school.href)
+                        .then(response => course.school = response.data._links.self.href.substr(response.data._links.self.href.lastIndexOf('/')+1))
+                        .catch(e => console.log(e.response.data.message));
                 }
-                //sort by associated school
-                this.classlist.sort((a,b) => (a.school > b.school) ? 1 : -1);
-            };
+                this.$forceUpdate();        // Little bug in vue requires this
+            })
+            .catch(e => console.log(e.response.data.message));
 
-            const populateSubjects = async () => {
-                const response = await fetch('http://localhost:8080/subjects');
-                const myJson = await response.json(); //extract JSON from the http response
-                this.subjectlist = myJson._embedded.subjects //get all courses
+            AXIOS.get('/subjects').then(response =>
+            {
+                this.subjectlist = response.data._embedded.subjects;
+                this.subjectlist.sort((a,b) => (a.school > b.school) ? 1 : -1);   //sort by associated school
+            })
+            .then(async () =>
+            {
+                for (var i = 0; i < this.subjectlist.length; i++)
+                {
+                    var subject = this.subjectlist[i];
+                    subject.name = subject._links.self.href.substr(subject._links.self.href.lastIndexOf('/')+1);
 
-                for (var i = 0; i < this.subjectlist.length; i++){
-                    var sbj = this.subjectlist[i];
-
-                    //1) get subjectname
-                    sbj.name = sbj._links.self.href.substr(sbj._links.self.href.lastIndexOf('/')+1) //parse course code from endpoint path
-
-                    //2) get school associated
-                    const schoolResponse = await fetch(sbj._links.school.href);
-                    const mySchool = await schoolResponse.json();
-                    sbj.school = mySchool._links.self.href.substr(mySchool._links.self.href.lastIndexOf('/')+1)
+                    await AXIOS.get(subject._links.school.href)
+                        .then(response => subject.school = response.data._links.self.href.substr(response.data._links.self.href.lastIndexOf('/')+1))
+                        .catch(e => console.log(e.response.data.message));
                 }
-                //sort by associated school
-                this.subjectlist.sort((a,b) => (a.school > b.school) ? 1 : -1);
-            };
-
-            populateTI();
-            populateCourses();
-            populateSubjects();
+                this.$forceUpdate();        // Little bug in vue requires this
+            })
+            .catch(e => console.log(e.response.data.message));
         },
         classes() {
-            console.log(document.getElementById("myclass").style.display = "block");
+            document.getElementById("myclass").style.display = "block";
         },
         subjects(){
-            console.log(document.getElementById("mysubject").style.display = "block");
+            document.getElementById("mysubject").style.display = "block";
         },
         TI(){
-            console.log(document.getElementById("myschool").style.display = "block");
+            document.getElementById("myschool").style.display = "block";
         },
         closeFormClass() {
              //reset form
             this.classCode="";
             this.className="";
             this.schoolNameC="";
-            console.log(document.getElementById("myclass").style.display = "none");
+            document.getElementById("myclass").style.display = "none";
         },
         closeFormSubject() {
              //reset form
             this.schoolNameS="";
             this.subjectName="";
-            console.log(document.getElementById("mysubject").style.display = "none");
+            document.getElementById("mysubject").style.display = "none";
         },
         closeFormSchool() {
             //reset form
             this.schoolNametxt="";
             this.schoolType="";
-            console.log(document.getElementById("myschool").style.display = "none");
+            document.getElementById("myschool").style.display = "none";
         },
         closeFormAll() {
             this.closeFormSchool();
@@ -240,80 +208,40 @@
             this.closeFormClass();
         },
         addTI(){
-            //create a new TI using REST api services
-           // console.log("Here");
-            var url = 'http://localhost:8080/teachinginstitutions/' + this.schoolNametxt;
-            
-            const userAction = async () => {
-                const response = await fetch(url,
-                {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: "type=" + this.schoolType
-                });
+            AXIOS.post('/teachinginstitutions/'.concat(this.schoolNametxt),
+                    {}, { params: { type: this.schoolType }})
+                    .then(response =>
+                    {
+                        alert("School successfully added!");
+                        this.refreshFromBackend();
+                    })
+                    .catch(e => alert("Error adding a new school!"));
 
-                if (!response.ok) {
-                    alert("Error adding a new school!");
-                }
-                else {
-                    alert("School successfully added!");
-                    this.refreshFromBackend();
-                }
-                   
-                this.closeFormAll();
-            }
-            userAction();
+            this.closeFormAll();
         },
         addclass(){
-             //create a new Course using REST api services
-            // console.log("Here");
-            var url = 'http://localhost:8080/courses/' + this.classCode;
-            
-            const userAction = async () => {
-                const response = await fetch(url,
-                {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: "name=" + this.className + "&school=" + this.schoolNameC
-                });
+            AXIOS.post('/courses/'.concat(this.classCode),
+                    {}, { params: { name: this.className, school: this.schoolNameC }})
+                    .then(response =>
+                    {
+                        alert("Course successfully added!");
+                        this.refreshFromBackend();
+                    })
+                    .catch(e => alert("Error adding a new course!"));
 
-                if (!response.ok) {
-                     alert("Error adding a new course!");
-                }
-                 else {
-                    alert("Course successfully added!");
-                    this.refreshFromBackend();
-                }
-                
-                this.closeFormAll();
-            }
-            userAction();
+            this.closeFormAll();
         },
         addsubject(){
-             //create a new Course using REST api services
-            // console.log("Here");
-            var url = 'http://localhost:8080/subjects/' + this.subjectName;
-            
-            const userAction = async () => {
-                const response = await fetch(url,
-                {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: "school=" + this.schoolNameS
-               });
+            AXIOS.post('/subjects/'.concat(this.subjectName),
+                    {}, { params: { school: this.schoolNameS }})
+                    .then(response =>
+                    {
+                        alert("Subject successfully added!");
+                        this.refreshFromBackend();
+                    })
+                    .catch(e => alert("Error adding a new subject!"));
 
-                if (!response.ok) {
-                     alert("Error adding a new subject!");
-                }
-                 else {
-                    alert("Subject successfully added!");
-                    this.refreshFromBackend();
-                }
-                
-                this.closeFormAll();
-            }
-            userAction();
-            
+            this.closeFormAll();
         }
     }
   }
@@ -322,31 +250,12 @@
 <style src="./Style.css" />
 <style scoped>
 
-button.classes {
+button {
     margin: 0px 100px 20px 0px; 
-}
-button.subjects{
-    margin: 0px 100px 20px 0px; 
-}
-button.TI {
-    margin: 0px 100px 20px 0px; 
-}
-
-.table-title {
-    background-color: #afe5fc;
 }
 
 .list{
     display:flex;
-}
-
-.table-class{
-    margin: 0px 0px 0px 30px;
-    
-}
-.table-subject{
-    display: table;
-    margin: 0px 0px 0px 30px;
 }
 
 /* The popup form - hidden by default */
