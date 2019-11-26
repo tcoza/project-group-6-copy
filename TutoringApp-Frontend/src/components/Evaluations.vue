@@ -48,6 +48,7 @@
 <script>
 import cooltable from "./CoolTable";
 import topbar from "./TopBar";
+import AXIOS from "./Axios";
 
 export default {
   name: "evaluations",
@@ -63,29 +64,25 @@ export default {
     };
   },
   created: function() {
-    const parseStudentEvals = async () => {
-      const response = await fetch("http://localhost:8080/studentevaluations");
-
-      if (response.ok) {
-        var myJson = await response.json(); //extract JSON from the http response
-        this.studentevals = myJson._embedded.studentevaluations;
-      }
-
-      //rating and date automatically parsed
+    AXIOS.get('/studentevaluations').then(response =>
+    {
+      this.studentevals = response.data._embedded.studentevaluations;
+      this.studentevals.sort((a, b) => (a.username > b.username ? 1 : -1));
+    })
+    .then(async () =>
+    {
       for (var i = 0; i < this.studentevals.length; i++) {
         var studenteval = this.studentevals[i];
 
         // 1) recipient username
-        const recipientResponse = await fetch(
-          studenteval._links.recipient.href
-        );
-        const myRecipient = await recipientResponse.json();
-        studenteval.username = myRecipient._links.self.href.substr(
-          myRecipient._links.self.href.lastIndexOf("/") + 1
-        ); //get student username
-        studenteval.firstName = myRecipient.firstName;
-        studenteval.lastName = myRecipient.lastName;
-
+        await AXIOS.get(studenteval._links.recipient.href).then(response =>
+        {
+          studenteval.username = response.data._links.self.href.substr(response.data._links.self.href.lastIndexOf("/")+1); //get student username
+          studenteval.firstName = response.data.firstName;
+          studenteval.lastName = response.data.lastName;
+        })
+        .catch(e => console.log(e.response.data.message));;
+        
         // 2) eval comment ONLY IF IT EXISTS
         // const commentResponse = await fetch(studenteval._links.evaluationComment.href);
         // if (commentResponse.ok) {
@@ -93,29 +90,30 @@ export default {
         //     studenteval.comment = myComment.comment;
         // }
       }
-      this.studentevals.sort((a, b) => (a.username > b.username ? 1 : -1));
-    };
-    const parseTutorEvals = async () => {
-      const response = await fetch("http://localhost:8080/tutorevaluations");
 
-      if (response.ok) {
-        var myJson = await response.json(); //extract JSON from the http response
-        this.tutorevals = myJson._embedded.tutorevauations; //NOTE THIS IS MISPELLED IN MODEL, KEEP THIS SPELLING
-      }
-
-      //rating and date automatically parsed
+      this.$forceUpdate();
+    })
+    .catch(e => console.log(e.response.data.message));
+    
+    AXIOS.get('/tutorevaluations').then(response =>
+    {
+      this.tutorevals = response.data._embedded.tutorevauations;
+      this.tutorevals.sort((a, b) => (a.username > b.username ? 1 : -1));
+    })
+    .then(async () =>
+    {
       for (var i = 0; i < this.tutorevals.length; i++) {
         var tutoreval = this.tutorevals[i];
 
         // 1) recipient username
-        const recipientResponse = await fetch(tutoreval._links.recipient.href);
-        const myRecipient = await recipientResponse.json();
-        tutoreval.username = myRecipient._links.self.href.substr(
-          myRecipient._links.self.href.lastIndexOf("/") + 1
-        ); //get student username
-        tutoreval.firstName = myRecipient.firstName;
-        tutoreval.lastName = myRecipient.lastName;
-
+        await AXIOS.get(tutoreval._links.recipient.href).then(response =>
+        {
+          tutoreval.username = response.data._links.self.href.substr(response.data._links.self.href.lastIndexOf("/")+1); //get student username
+          tutoreval.firstName = response.data.firstName;
+          tutoreval.lastName = response.data.lastName;
+        })
+        .catch(e => console.log(e.response.data.message));;
+        
         // 2) eval comment ONLY IF IT EXISTS
         // const commentResponse = await fetch(studenteval._links.evaluationComment.href);
         // if (commentResponse.ok) {
@@ -123,11 +121,11 @@ export default {
         //     studenteval.comment = myComment.comment;
         // }
       }
-      this.tutorevals.sort((a, b) => (a.username > b.username ? 1 : -1));
-    };
 
-    parseStudentEvals();
-    parseTutorEvals();
+      this.$forceUpdate();
+    })
+    .catch(e => console.log(e.response.data.message));
+
   },
   methods: {
     statusChangedS(index) {
