@@ -27,6 +27,7 @@
 <script>
 import cooltable from "./CoolTable";
 import topbar from "./TopBar";
+import AXIOS from "./Axios";
 
 export default {
     name: "tutors",
@@ -40,32 +41,21 @@ export default {
     },
     created: function()
     {
-        const userAction = async () => {
-            const response = await fetch('http://localhost:8080/tutors');
-            const myJson = await response.json();
-            this.tutors = myJson._embedded.tutors
+        AXIOS.get('/tutors').then(response =>
+        {
+            this.tutors = response.data._embedded.tutors
             this.tutors.forEach((tutor) => tutor.username = tutor._links.self.href.substr(tutor._links.self.href.lastIndexOf('/')+1));
             this.tutors.sort((a,b) => (a.username > b.username) ? 1 : -1);
-        }
-        userAction();
+        })
+        .catch(e => console.log(e.response.data.message));
     },
     methods:
     {
         statusChanged(index)
         {
-            var url = 'http://localhost:8080/tutors/' + this.tutors[index].username + "/setstatus";
-
-            const userAction = async () => {
-                const response = await fetch(url,
-                {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: "status=" + this.tutors[index].status
-                });
-                if (!response.ok)
-                    console.log(response);
-            }
-            userAction();
+            AXIOS.post('/tutors/'.concat(this.tutors[index].username).concat('/setstatus'),
+                    {}, { params: { status: this.tutors[index].status }})
+                    .catch(e => console.log(e.response.data.message));
         }
     }
 }

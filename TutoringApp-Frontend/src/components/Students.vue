@@ -24,8 +24,11 @@
 
 
 <script>
+
+
 import cooltable from "./CoolTable";
 import topbar from "./TopBar";
+import AXIOS from "./Axios";
 
 export default {
     name: "students",
@@ -39,29 +42,22 @@ export default {
     },
     created: function()
     {
-        const userAction = async () => {
-            const response = await fetch('http://localhost:8080/students');
-            const myJson = await response.json(); //extract JSON from the http response
-            // do something with myJson
-            this.students = myJson._embedded.students
+        AXIOS.get('/students').then(response =>
+        {
+            this.students = response.data._embedded.students;
             this.students.forEach((student) => student.username = student._links.self.href.substr(student._links.self.href.lastIndexOf('/')+1));
             this.students.sort((a,b) => (a.username > b.username) ? 1 : -1);
-        }
-        userAction();
+        })
+        .catch(e => console.log(e.response.data.message));
     },
     methods:
     {
         statusChanged(index)
         {
-            var url = 'http://localhost:8080/students/' + this.students[index].username;
-            url += this.students[index].isActiveAccount == "true" ? '/reactivate' : '/deactivate';
-
-            const userAction = async () => {
-                const response = await fetch(url, { method: "POST" });
-                if (!response.ok)
-                    console.log(response);
-            }
-            userAction();
+            AXIOS.post('/students/'.
+                    concat(this.students[index].username).
+                    concat(this.students[index].isActiveAccount ? '/reactivate' : '/deactivate'),
+                    {}, {}).catch(e => console.log(e.response.data.message));
         }
     }
 }
