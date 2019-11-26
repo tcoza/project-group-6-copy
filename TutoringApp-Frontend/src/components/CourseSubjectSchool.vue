@@ -134,25 +134,6 @@ import AXIOS from "./Axios";
             })
             .catch(e => console.log(e.response.data.message));
 
-            const populateCourses = async () => {
-                const response = await fetch('http://localhost:8080/courses');
-                const myJson = await response.json(); //extract JSON from the http response
-                this.classlist = myJson._embedded.courses //get all courses
-                for (var i = 0; i < this.classlist.length; i++) {
-                    var course = this.classlist[i];
-
-                    //1) get coursecode
-                    course.courseCode = course._links.self.href.substr(course._links.self.href.lastIndexOf('/')+1) //parse course code from endpoint path
-
-                    //2) get school associated
-                    const schoolResponse = await fetch(course._links.school.href);
-                    const mySchool = await schoolResponse.json();
-                    course.school = mySchool._links.self.href.substr(mySchool._links.self.href.lastIndexOf('/')+1)
-                }
-                //sort by associated school
-                this.classlist.sort((a,b) => (a.school > b.school) ? 1 : -1);
-            };
-
             AXIOS.get('/courses').then(response =>
             {
                 this.classlist = response.data._embedded.courses;
