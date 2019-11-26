@@ -41,9 +41,9 @@
             <tr>
               <td>
                 <select style="width:100%;" v-model="selectedClass">
-                  <option value="C1">Class 1</option>
-                  <option value="C2">Class 2</option>
-                  <option value="C3">Class 3</option>
+                  <option value="1">Class 1</option>
+                  <option value="2">Class 2</option>
+                  <option value="3">Class 3</option>
                 </select>
               </td>
             </tr>
@@ -79,9 +79,9 @@
 <script>
 import DatePick from "vue-date-pick";
 import VueTimepicker from "vue2-timepicker";
-import Homepage from "./Homepage.vue";
 import cooltable from "./CoolTable";
 import topbar from "./TopBar";
+import AXIOS from "./Axios"
 
 export default {
   components: { DatePick, VueTimepicker, cooltable, topbar },
@@ -103,39 +103,32 @@ export default {
     };
   },
   created: function() {
-    const populateRequests = async () => {
-      const response = await fetch("http://localhost:8080/grouprequests");
-      const myJson = await response.json(); //extract JSON from the http response
-      this.groupRequests = myJson._embedded.grouprequests; //get all group requests
 
-      //each request has the following attributes/associations that need to be parsed
+    AXIOS.get('/grouprequests').then(response =>
+    {
+      this.groupRequests = response.data._embedded.grouprequests; //get all group requests
+      this.groupRequests.sort((a, b) => a.requestedCourse > b.requestedCourse ? 1 : -1);
+    }).then(async () =>
+    {
       for (var i = 0; i < this.groupRequests.length; i++) {
         var groupRequest = this.groupRequests[i];
 
         // 1)
-        groupRequest.id = groupRequest._links.self.href.substr(
-          groupRequest._links.self.href.lastIndexOf("/") + 1
-        ); //parse id from endpoint path
+        groupRequest.id = groupRequest._links.self.href.substr(groupRequest._links.self.href.lastIndexOf("/") + 1); //parse id from endpoint path
 
         // 2)
-        const requestorResponse = await fetch(
-          groupRequest._links.requestor.href
-        );
-        const myRequestor = await requestorResponse.json();
-        groupRequest.requestor = myRequestor._links.self.href.substr(
-          myRequestor._links.self.href.lastIndexOf("/") + 1
-        ); //get student username
+        await AXIOS.get(groupRequest._links.requestor.href).then(response =>
+          groupRequest.requestor = response.data._links.self.href.substr(
+            response.data._links.self.href.lastIndexOf("/") + 1))
+            .catch(e => console.log(e.response.data.message));; //get student username
 
         // For 3 and 4, check if either response is empty
 
         // 3)
-        const courseResponse = await fetch(
-          groupRequest._links.requestedCourse.href
-        );
-        const myCourse = await courseResponse.json();
-        groupRequest.requestedCourse = myCourse._links.self.href.substr(
-          myCourse._links.self.href.lastIndexOf("/") + 1
-        ); //get courseCode
+        await AXIOS.get(groupRequest._links.requestedCourse.href).then(response => 
+          groupRequest.requestedCourse = response.data._links.self.href.substr(
+            response.data._links.self.href.lastIndexOf("/") + 1))
+            .catch(e => console.log(e.response.data.message));; //get courseCode
 
         //4) requestedSubject
         //console.log(groupRequest._links.requestedSubject.href);
@@ -145,50 +138,28 @@ export default {
         // groupRequest.requestedSubject = mySubj._links.self.href.substr(mySbj._links.self.href.lastIndexOf('/')+1) //get subject
       }
 
-      this.groupRequests.sort((a, b) =>
-        a.requestedCourse > b.requestedCourse ? 1 : -1
-      );
-    };
+      this.$forceUpdate();
+    })
+    .catch(e => console.log(e.response.data.message));
 
-    const populateTutors = async () => {
-      const response = await fetch("http://localhost:8080/tutors");
-      const myJson = await response.json(); //extract JSON from the http response
-      this.tutors = myJson._embedded.tutors; //get all tutors
-
-      //each tutor needs to have username parsed
-      for (var i = 0; i < this.tutors.length; i++) {
-        var tutor = this.tutors[i];
-        tutor.username = tutor._links.self.href.substr(
-          tutor._links.self.href.lastIndexOf("/") + 1
-        ); //parse tutor username from url
-      }
-
+    AXIOS.get('/tutors').then(response =>
+    {
+      this.tutors = response.data._embedded.tutors; //get all tutors
+      this.tutors.forEach(tutor => tutor.username = tutor._links.self.href.substr(tutor._links.self.href.lastIndexOf("/") + 1));
       this.tutors.sort((a, b) => (a.username > b.username ? 1 : -1));
-    };
-
-    populateRequests();
-    populateTutors();
+    })
+    .catch(e => console.log(e.response.data.message));
   },
   methods: {
     book() {
-      var url = "http://localhost:8080/createscheduledgroupsession";
-
-      const userAction = async () => {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body:
-            "username=" +
-            selectedTutor +
-            "&roomid=" +
-            selectedClass +
-            "&starttime=" +
-            selectedTime
-        });
-        if (!response.ok) alert("Error booking a session");
-        else alert("Session booked!");
-      };
-      userAction();
+      AXIOS.post('/createscheduledgroupsession', {}, { params:
+      {
+        username: this.selectedTutor,
+        roomid: this.selectedClass,
+        starttime: this.selectedTime
+      }})
+      .then(response => alert("Session booked!"))
+      .catch(e => alert("Error booking a session"));
     }
   }
 };
