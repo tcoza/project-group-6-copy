@@ -106,6 +106,7 @@
 <script>
 import cooltable from "./CoolTable";
 import topbar from "./TopBar";
+import AXIOS from "./Axios";
 
   export default {
     components:
@@ -125,15 +126,13 @@ import topbar from "./TopBar";
     },
     methods: {
         refreshFromBackend() {
-            const populateTI = async () => {
-                const response = await fetch('http://localhost:8080/teachinginstitutions');
-                const myJson = await response.json(); //extract JSON from the http response
-                this.TIlist = myJson._embedded.teachinginstitutions //get all schools
+            AXIOS.get('/teachinginstitutions').then(response =>
+            {
+                this.TIlist = response.data._embedded.teachinginstitutions
                 this.TIlist.forEach((school) => school.name = school._links.self.href.substr(school._links.self.href.lastIndexOf('/')+1));
-                
-                //sort by school TYPE
-                this.TIlist.sort((a,b) => (a.type > b.type) ? 1 : -1);
-            };
+                this.TIlist.sort((a,b) => (a.type > b.type) ? 1 : -1);  //sort by school TYPE
+            })
+            .catch(e => console.log(e.response.data.message));
 
             const populateCourses = async () => {
                 const response = await fetch('http://localhost:8080/courses');
@@ -154,29 +153,45 @@ import topbar from "./TopBar";
                 this.classlist.sort((a,b) => (a.school > b.school) ? 1 : -1);
             };
 
-            const populateSubjects = async () => {
-                const response = await fetch('http://localhost:8080/subjects');
-                const myJson = await response.json(); //extract JSON from the http response
-                this.subjectlist = myJson._embedded.subjects //get all courses
+            AXIOS.get('/courses').then(response =>
+            {
+                this.classlist = response.data._embedded.courses;
+                this.classlist.sort((a,b) => (a.school > b.school) ? 1 : -1);   //sort by associated school
+            })
+            .then(async () =>
+            {
+                for (var i = 0; i < this.classlist.length; i++)
+                {
+                    var course = this.classlist[i];
+                    course.courseCode = course._links.self.href.substr(course._links.self.href.lastIndexOf('/')+1) //parse course code from endpoint path
 
-                for (var i = 0; i < this.subjectlist.length; i++){
-                    var sbj = this.subjectlist[i];
-
-                    //1) get subjectname
-                    sbj.name = sbj._links.self.href.substr(sbj._links.self.href.lastIndexOf('/')+1) //parse course code from endpoint path
-
-                    //2) get school associated
-                    const schoolResponse = await fetch(sbj._links.school.href);
-                    const mySchool = await schoolResponse.json();
-                    sbj.school = mySchool._links.self.href.substr(mySchool._links.self.href.lastIndexOf('/')+1)
+                    await AXIOS.get(course._links.school.href)
+                        .then(response => course.school = response.data._links.self.href.substr(response.data._links.self.href.lastIndexOf('/')+1))
+                        .catch(e => console.log(e.response.data.message));
                 }
-                //sort by associated school
-                this.subjectlist.sort((a,b) => (a.school > b.school) ? 1 : -1);
-            };
+                this.$forceUpdate();        // Little bug in vue requires this
+            })
+            .catch(e => console.log(e.response.data.message));
 
-            populateTI();
-            populateCourses();
-            populateSubjects();
+            AXIOS.get('/subjects').then(response =>
+            {
+                this.subjectlist = response.data._embedded.subjects;
+                this.subjectlist.sort((a,b) => (a.school > b.school) ? 1 : -1);   //sort by associated school
+            })
+            .then(async () =>
+            {
+                for (var i = 0; i < this.subjectlist.length; i++)
+                {
+                    var subject = this.subjectlist[i];
+                    subject.name = subject._links.self.href.substr(subject._links.self.href.lastIndexOf('/')+1);
+
+                    await AXIOS.get(subject._links.school.href)
+                        .then(response => subject.school = response.data._links.self.href.substr(response.data._links.self.href.lastIndexOf('/')+1))
+                        .catch(e => console.log(e.response.data.message));
+                }
+                this.$forceUpdate();        // Little bug in vue requires this
+            })
+            .catch(e => console.log(e.response.data.message));
         },
         classes() {
             document.getElementById("myclass").style.display = "block";
@@ -212,80 +227,40 @@ import topbar from "./TopBar";
             this.closeFormClass();
         },
         addTI(){
-            //create a new TI using REST api services
-           // console.log("Here");
-            var url = 'http://localhost:8080/teachinginstitutions/' + this.schoolNametxt;
-            
-            const userAction = async () => {
-                const response = await fetch(url,
-                {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: "type=" + this.schoolType
-                });
+            AXIOS.post('/teachinginstitutions/'.concat(this.schoolNametxt),
+                    {}, { params: { type: this.schoolType }})
+                    .then(response =>
+                    {
+                        alert("School successfully added!");
+                        this.refreshFromBackend();
+                    })
+                    .catch(e => alert("Error adding a new school!"));
 
-                if (!response.ok) {
-                    alert("Error adding a new school!");
-                }
-                else {
-                    alert("School successfully added!");
-                    this.refreshFromBackend();
-                }
-                   
-                this.closeFormAll();
-            }
-            userAction();
+            this.closeFormAll();
         },
         addclass(){
-             //create a new Course using REST api services
-            // console.log("Here");
-            var url = 'http://localhost:8080/courses/' + this.classCode;
-            
-            const userAction = async () => {
-                const response = await fetch(url,
-                {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: "name=" + this.className + "&school=" + this.schoolNameC
-                });
+            AXIOS.post('/courses/'.concat(this.classCode),
+                    {}, { params: { name: this.className, school: this.schoolNameC }})
+                    .then(response =>
+                    {
+                        alert("Course successfully added!");
+                        this.refreshFromBackend();
+                    })
+                    .catch(e => alert("Error adding a new course!"));
 
-                if (!response.ok) {
-                     alert("Error adding a new course!");
-                }
-                 else {
-                    alert("Course successfully added!");
-                    this.refreshFromBackend();
-                }
-                
-                this.closeFormAll();
-            }
-            userAction();
+            this.closeFormAll();
         },
         addsubject(){
-             //create a new Course using REST api services
-            // console.log("Here");
-            var url = 'http://localhost:8080/subjects/' + this.subjectName;
-            
-            const userAction = async () => {
-                const response = await fetch(url,
-                {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: "school=" + this.schoolNameS
-               });
+            AXIOS.post('/subjects/'.concat(this.subjectName),
+                    {}, { params: { school: this.schoolNameS }})
+                    .then(response =>
+                    {
+                        alert("Subject successfully added!");
+                        this.refreshFromBackend();
+                    })
+                    .catch(e => alert("Error adding a new subject!"));
 
-                if (!response.ok) {
-                     alert("Error adding a new subject!");
-                }
-                 else {
-                    alert("Subject successfully added!");
-                    this.refreshFromBackend();
-                }
-                
-                this.closeFormAll();
-            }
-            userAction();
-            
+            this.closeFormAll();
         }
     }
   }
@@ -294,31 +269,12 @@ import topbar from "./TopBar";
 <style src="./Style.css" />
 <style scoped>
 
-button.classes {
+button {
     margin: 0px 100px 20px 0px; 
-}
-button.subjects{
-    margin: 0px 100px 20px 0px; 
-}
-button.TI {
-    margin: 0px 100px 20px 0px; 
-}
-
-.table-title {
-    background-color: #afe5fc;
 }
 
 .list{
     display:flex;
-}
-
-.table-class{
-    margin: 0px 0px 0px 30px;
-    
-}
-.table-subject{
-    display: table;
-    margin: 0px 0px 0px 30px;
 }
 
 /* The popup form - hidden by default */
