@@ -39,21 +39,10 @@ public class TutoringAppRestController {
 		return (Student)service.createUser("STUDENT", username, first, last);
 	}
 	
-	@PostMapping(value = "/clear/{table}")
-	public void deleteStudents(@PathVariable("table") String table)
-	{
-		switch (table)
-		{
-		case "students":
-			service.clearAllStudents();
-			break;
-		case "tutors":
-			service.clearAllTutors();
-			break;
-		default:
-			throw new IllegalArgumentException("Cannot clear table '" + table + "': functionality not implemented");
-		}
-	}
+	@PostMapping(value = "/students/{username}/delete")
+	public void deleteStudent(@PathVariable("username") String username) { service.deleteStudent(username); }
+	@PostMapping(value = "/tutors/{username}/delete")
+	public void deleteTutor(@PathVariable("username") String username) { service.deleteTutor(username); }
 	
 	/** @author Traian Coza */
 	@PostMapping(value = { "/tutors/{username}", "/tutors/{username}/" })
@@ -120,7 +109,7 @@ public class TutoringAppRestController {
 	
 	/** @author Traian Coza */
 	@PostMapping(value = { "/students/{username}/deactivate", "/tutors/{username}/deactivate/" })
-	public void deleteStudent(
+	public void deactivateStudent(
 			@PathVariable("username") String username)
 	{
 		service.setStudentStatus(username, false);

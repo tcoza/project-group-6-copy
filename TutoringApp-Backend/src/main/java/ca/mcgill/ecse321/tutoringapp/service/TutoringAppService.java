@@ -217,13 +217,17 @@
 		}
 
 		@Transactional
-		public void clearAllStudents() {
-			studentRepository.deleteAll();
+		public void deleteStudent(String username) {
+			if (!studentRepository.existsByUsername(username))
+				throw new IllegalArgumentException("Student does not exist!");
+			studentRepository.delete(studentRepository.findByUsername(username));
 		}
 		
 		@Transactional
-		public void clearAllTutors() {
-			tutorRepository.deleteAll();
+		public void deleteTutor(String username) {
+			if (!tutorRepository.existsByUsername(username))
+				throw new IllegalArgumentException("Tutor does not exist!");
+			tutorRepository.delete(tutorRepository.findTutorByUsername(username));
 		}
 		
 		// Get Tutor
