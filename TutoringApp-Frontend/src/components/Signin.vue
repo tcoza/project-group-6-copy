@@ -23,7 +23,7 @@
       components: { topbar, VueCookies },
       data: function()
       {
-        return { manager: 'Manager' };
+        return { manager: 'Marwan' };
       },
       created: function()
       {
