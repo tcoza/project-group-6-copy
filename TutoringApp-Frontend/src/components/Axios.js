@@ -14,7 +14,7 @@ let backendUrl = function () {
 
 let AXIOS = axios.create({
   baseURL: backendUrl
-  // headers: {'Access-Control-Allow-Origin': frontendUrl}
+  //headers: {'Access-Control-Allow-Origin': frontendUrl}
 });
 
 export default AXIOS

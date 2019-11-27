@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,6 +37,22 @@ public class TutoringAppRestController {
 			@RequestParam(name="last", required=true) String last)
 	{
 		return (Student)service.createUser("STUDENT", username, first, last);
+	}
+	
+	@PostMapping(value = "/clear/{table}")
+	public void deleteStudents(@PathVariable("table") String table)
+	{
+		switch (table)
+		{
+		case "students":
+			service.clearAllStudents();
+			break;
+		case "tutors":
+			service.clearAllTutors();
+			break;
+		default:
+			throw new IllegalArgumentException("Cannot clear table '" + table + "': functionality not implemented");
+		}
 	}
 	
 	/** @author Traian Coza */

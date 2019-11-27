@@ -216,8 +216,16 @@
 			return toList(appUserRepository.findAll());
 		}
 
-
-
+		@Transactional
+		public void clearAllStudents() {
+			studentRepository.deleteAll();
+		}
+		
+		@Transactional
+		public void clearAllTutors() {
+			tutorRepository.deleteAll();
+		}
+		
 		// Get Tutor
 		/** @author Alba Talelli */
 		@Transactional
