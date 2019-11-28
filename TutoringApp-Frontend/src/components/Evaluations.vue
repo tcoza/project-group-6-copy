@@ -64,6 +64,7 @@ export default {
     };
   },
   created: function() {
+
     AXIOS.get('/studentevaluations').then(response =>
     {
       this.studentevals = response.data._embedded.studentevaluations;
@@ -115,10 +116,11 @@ export default {
         })
         .catch(e => console.log(e.response.data.message));;
 
-        // 2) also get author username (we do not display it but need to for eval comments)
+       // 2) also get author username (we do not display it but need to for eval comments)
         await AXIOS.get(tutoreval._links.author.href).then(response =>
         {
           tutoreval.authorUN = response.data._links.self.href.substr(response.data._links.self.href.lastIndexOf("/")+1); //get author username
+          //console.log(tutoreval.authorUN);
         })
         .catch(e => console.log(e.response.data.message));;
       }
@@ -132,24 +134,24 @@ export default {
     statusChangedS(index) {
       //remove a comment or reset it to visible!
       let params = {
-        studentUN: this.studentsevals[index].username,
-        tutorUN: this.studentsevals[index].authorUN,
+        studentUN: this.studentevals[index].username,
+        tutorUN: this.studentevals[index].authorUN,
         isStudentEvaluation: true,
         visibility: this.studentevals[index].commentVisible
       }
       AXIOS.post('/setcommentvisibility/',
-                    {}, params).catch(e => console.log(e.response.data.message));
+                    {}, {params: params}).catch(e => console.log(e.response.data.message));
     },
     statusChangedT(index) {
       //remove a comment or reset it to visible!
       let params = {
-        studentUN: this.tutorevals[index].username,
-        tutorUN: this.tutorevals[index].authorUN,
+        studentUN: this.tutorevals[index].authorUN,
+        tutorUN: this.tutorevals[index].username,
         isStudentEvaluation: false,
         visibility: this.tutorevals[index].commentVisible
       }
       AXIOS.post('/setcommentvisibility/',
-                    {}, params).catch(e => console.log(e.response.data.message));
+                    {},{params: params}).catch(e => console.log(e.response.data.message));
     }
   }
 };
