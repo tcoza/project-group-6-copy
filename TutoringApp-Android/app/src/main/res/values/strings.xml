@@ -3,4 +3,8 @@
     <string name="newperson_button">Add Person</string>
     <string name="app_name">"TutoringApp-Android"</string>
     <string name="action_settings">"Something here"</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in_short">Sign in</string>
 </resources>
