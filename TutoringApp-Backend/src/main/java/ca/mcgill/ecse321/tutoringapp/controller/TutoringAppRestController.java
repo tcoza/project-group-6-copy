@@ -236,7 +236,7 @@ public class TutoringAppRestController {
 		}
 		
 		if (comment != null) {
-			this.service.createEvalComment(studentEval, comment);
+			service.createEvalComment(studentEval, comment);
 		}
 
 		return studentEval;
