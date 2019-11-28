@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
-import TutoringApp from '@/components/TutoringApp' //to remove
 import SignIn from '@/components/Signin'
 import Homepage from '@/components/Homepage'
 import Students from '@/components/Students'
@@ -15,14 +14,19 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/helo',
+      path: '/hello',
       name: 'Hello',
       component: Hello
     },
     {
       path: '/app',
       name: 'TutoringApp',
-      component: TutoringApp
+      component: SignIn
+    },
+    {
+      path: '',
+      name: 'Start',
+      component: SignIn
     },
     {
       path: '/signin',
