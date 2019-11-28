@@ -139,11 +139,11 @@
 
 		/** @author Traian */
 		@Transactional
-		public void deleteStudent(String username)
+		public void setStudentStatus(String username, boolean active)
 		{
 			if (username == null || !studentRepository.existsByUsername(username))
 				throw new IllegalArgumentException("Student '" + username + "' does not exist!");
-			studentRepository.delete(studentRepository.findByUsername(username));
+			studentRepository.findByUsername(username).setIsActiveAccount(active);
 		}
 		
 		@Transactional
@@ -216,8 +216,20 @@
 			return toList(appUserRepository.findAll());
 		}
 
-
-
+		@Transactional
+		public void deleteStudent(String username) {
+			if (!studentRepository.existsByUsername(username))
+				throw new IllegalArgumentException("Student does not exist!");
+			studentRepository.delete(studentRepository.findByUsername(username));
+		}
+		
+		@Transactional
+		public void deleteTutor(String username) {
+			if (!tutorRepository.existsByUsername(username))
+				throw new IllegalArgumentException("Tutor does not exist!");
+			tutorRepository.delete(tutorRepository.findTutorByUsername(username));
+		}
+		
 		// Get Tutor
 		/** @author Alba Talelli */
 		@Transactional
@@ -593,9 +605,7 @@
 			String error = "";
 			if (tutor == null) {
 				error = error + "Tutor needs to be selected for Tutor Evaluation! ";
-			} else if (!tutorRepository.existsByUsername(tutor.getUsername()))
-				;
-			{
+			} else if (!tutorRepository.existsByUsername(tutor.getUsername())){
 				error = error + "Tutor does not exist! ";
 			}
 			if (student == null) {
@@ -676,9 +686,7 @@
 			String error = "";
 			if (tutor == null) {
 				error = error + "Tutor needs to be selected for Student Evaluation! ";
-			} else if (!tutorRepository.existsByUsername(tutor.getUsername()))
-				;
-			{
+			} else if (!tutorRepository.existsByUsername(tutor.getUsername()))	{
 				error = error + "Tutor does not exist! ";
 			}
 			if (student == null) {
@@ -719,9 +727,7 @@
 			String error = "";
 			if (tutor == null) {
 				error = error + "Tutor needs to be selected for Student Evaluation! ";
-			} else if (!tutorRepository.existsByUsername(tutor.getUsername()))
-				;
-			{
+			} else if (!tutorRepository.existsByUsername(tutor.getUsername()))	{
 				error = error + "Tutor does not exist! ";
 			}
 			if (student == null) {

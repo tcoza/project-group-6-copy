@@ -276,8 +276,7 @@ public class TestTutoringAppService {
 		String nameS = "test high school";
 		service.createTeachingInstitution(nameS, "HIGHSCHOOL");
 		
-		List<TeachingInstitution> allSchools = service.getAllTeachingInstitution();
-		String school = allSchools.get(0).getName();
+		String school = service.getTeachingInstitution(nameS).getName();
 	
 		try {
 			service.createSubject(name,school);
@@ -477,8 +476,20 @@ public class TestTutoringAppService {
 
 		try {
 			service.createUser("STUDENT",username, "Helen", "Lin");
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		try {
 			service.createTeachingInstitution(school, "UNIVERSITY");
+		} catch (IllegalArgumentException e) {
+			fail();
+		}		
+		try {
 			service.createCourse(course, courseName , school);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}		
+		try {
 			service.createPrivateRequest(username, course, isCourse);
 		} catch (IllegalArgumentException e) {
 			fail();
@@ -776,11 +787,11 @@ public class TestTutoringAppService {
 		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "name", null, "Fancy name"));
 		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "name", "Name", null));
 		assertThrows(IllegalArgumentException.class, () -> service.createUser("STUDENT", "tcoza", "Already", "Exists"));
-		assertThrows(IllegalArgumentException.class, () -> service.deleteStudent(null));
-		assertThrows(IllegalArgumentException.class, () -> service.deleteStudent("non existent"));
-		service.deleteStudent("tcoza");
-		assertEquals(service.getAllStudents().size(), 0);
-		assertEquals(service.getAllUsers().size(), 0);
+		assertThrows(IllegalArgumentException.class, () -> service.setStudentStatus(null, false));
+		assertThrows(IllegalArgumentException.class, () -> service.setStudentStatus("non existent", false));
+		service.setStudentStatus("tcoza", false);
+		assertEquals(service.getAllStudents().size(), 1);
+		assertEquals(service.getAllUsers().size(), 1);
 	}
 	
 	/** @author Traian Coza */
