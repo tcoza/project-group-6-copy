@@ -2,11 +2,25 @@ package ca.mcgill.ecse321.tutoringapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.Socket;
+
+import cz.msebera.android.httpclient.Header;
 
 public class StudentsActivity extends AppCompatActivity {
 
@@ -16,14 +30,50 @@ public class StudentsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_students);
         getSupportActionBar().setTitle("Students");
 
-        TableLayout table = findViewById(R.id.table);
-        for (String[] user : users)
-            addStudent(table, truncate(user[0], 15), truncate(user[1], 10), truncate(user[2], 10), true);
+        final TableLayout table = findViewById(R.id.table);
+//        for (String[] user : users)
+//            addStudent(table, truncate(user[0], 15), truncate(user[1], 10), truncate(user[2], 10), true);
+
+        HttpUtils.get("/students", new RequestParams(), new JsonHttpResponseHandler()
+        {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response)
+            {
+                try
+                {
+                    for (int i = 0; i < response.getJSONObject("_embedded").getJSONArray("students").length(); i++)
+                    {
+                        JSONObject student = response.getJSONObject("_embedded").getJSONArray("students").getJSONObject(i);
+                        String username = student.getJSONObject("_links").getJSONObject("self").getString("href");
+                        username = username.substring(username.lastIndexOf('/') + 1);
+                        addStudent(
+                                table,
+                                username,
+                                student.getString("firstName"),
+                                student.getString("lastName"),
+                                student.getBoolean("isActiveAccount"));
+                    }
+                }
+                catch (JSONException ex)
+                {
+                    Log.e("network", ex.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse)
+            {
+                Log.e("network", "Sowwy");
+            }
+        });
     }
 
     private void addStudent(TableLayout table, String username, String first, String last, boolean active)
     {
         TableRow row = new TableRow(this);
+        username = truncate(username, 15);
+        first = truncate(first, 10);
+        last = truncate(last, 10);
         for (String data : new String[]{username, first, last})
         {
             TextView text = new TextView(this);
@@ -168,4 +218,24 @@ public class StudentsActivity extends AppCompatActivity {
                     {"zhengyucui", "Zheng", "Yu"},
                     {"ZijinNie", "Zijin", "Nie"}
             };
+}
+
+class TestNetworkTask extends AsyncTask<Void, Void, Void>
+{
+    @Override
+    protected Void doInBackground(Void... voids)
+    {
+        try
+        {
+            Socket socket = new Socket("10.0.2.2", 8080);
+            PrintStream out = new PrintStream(socket.getOutputStream());
+            out.println("Hello");
+            out.close();
+            socket.close();
+        }
+        catch (IOException ex)
+            { Log.e("socket", ex.getMessage()); }
+
+        return null;
+    }
 }

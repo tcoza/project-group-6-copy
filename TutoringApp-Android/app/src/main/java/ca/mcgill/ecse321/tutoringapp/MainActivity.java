@@ -2,18 +2,12 @@ package ca.mcgill.ecse321.tutoringapp;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -80,13 +74,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     public void addPerson(View v) {
         error = "";
         final TextView tv = (TextView) findViewById(R.id.newperson_name);
-        HttpUtils.post("persons/" + tv.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.get("persons/" + tv.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                refreshErrorMessage();
+                //refreshErrorMessage();
                 tv.setText("");
             }
             @Override
@@ -96,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
-                refreshErrorMessage();
+                //refreshErrorMessage();
             }
         });
     }*/
