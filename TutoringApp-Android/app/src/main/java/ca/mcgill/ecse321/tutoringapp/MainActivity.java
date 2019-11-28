@@ -10,6 +10,7 @@ import com.loopj.android.http.RequestParams;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +28,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        getSupportActionBar().setTitle("Welcome " + getIntent().getStringExtra(Login.USERNAME) + "!");
+
+        /* Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -38,9 +42,10 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        refreshErrorMessage();
+        refreshErrorMessage(); */
     }
 
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -94,5 +99,5 @@ public class MainActivity extends AppCompatActivity {
                 refreshErrorMessage();
             }
         });
-    }
+    }*/
 }
