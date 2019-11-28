@@ -2,11 +2,11 @@
 
 curl -d first=Bob\&last=Builder -X POST localhost:8080/tutors/bobTutor
 curl -d first=Dora\&last=Explorer -X POST localhost:8080/tutors/doraTutor
-curl -d first=test1\&last=tutor1 -X POST localhost:8080/tutors/testTutor1
-curl -d first=test2\&last=tutor2 -X POST localhost:8080/tutors/testTutor2
-curl -d first=test3\&last=tutor3 -X POST localhost:8080/tutors/testTutor3
-curl -d first=test4\&last=tutor4 -X POST localhost:8080/tutors/testTutor4
-curl -d first=test5\&last=tutor5 -X POST localhost:8080/tutors/testTutor5
+curl -d first=Marton\&last=Bur -X POST localhost:8080/tutors/marton
+curl -d first=Rijul\&last=Saini -X POST localhost:8080/tutors/rijul
+curl -d first=Anthony\&last=Ubah -X POST localhost:8080/tutors/anthony
+curl -d first=Angel\&last=Ortiz\ Regules -X POST localhost:8080/tutors/angel
+curl -d first=Albert\&last=Kragl -X POST localhost:8080/tutors/albert
 
 cat members | while read line
 do
@@ -30,6 +30,7 @@ curl -d name=DPM\&school=McGill -X POST localhost:8080/courses/ECSE211
 curl -d name=Circuits\&school=McGill -X POST localhost:8080/courses/ECSE200
 curl -d name=Electronics\&school=McGill -X POST localhost:8080/courses/ECSE331
 
+exit
 
 curl -d rating=4\&studentUN=tcoza\&tutorUN=alba -X POST localhost:8080/createstudentevaluation
 curl -d studentUN=tcoza\&tutorUN=alba\&isStudentEvaluation=true\&comment=Yay -X POST localhost:8080/createevaluationcomment
