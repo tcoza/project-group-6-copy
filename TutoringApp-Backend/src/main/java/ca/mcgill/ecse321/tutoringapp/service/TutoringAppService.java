@@ -657,9 +657,6 @@
 				error = error + "Student does not exist!";
 			}
 
-			if (tutorEvaluationRepository.existsByAuthorAndRecipient(student, tutor)) {
-				error = error + "Student already gave an evaluation for this Tutor!";
-			}
 			error = error.trim();
 
 			if (error.length() > 0) {
@@ -734,10 +731,6 @@
 				error = error + "Student needs to be selected for Student Evaluation!";
 			} else if (!studentRepository.existsByUsername(student.getUsername())) {
 				error = error + "Student does not exist!";
-			}
-
-			if (studentEvaluationRepository.existsByRecipientAndAuthor(student, tutor)) {
-				error = error + "Tutor already gave an evaluation for this Student!";
 			}
 			error = error.trim();
 
