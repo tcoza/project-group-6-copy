@@ -2,11 +2,8 @@ package ca.mcgill.ecse321.tutoringapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -20,58 +17,25 @@ public class StudentsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Students");
 
         TableLayout table = findViewById(R.id.table);
-        {
-            TableRow headers = new TableRow(this);
-            TextView username = new TextView(this);
-            username.setTextSize(18);
-            username.setText("Username");
-            username.setTypeface(Typeface.DEFAULT_BOLD);
-            TextView first = new TextView(this);
-            first.setText("First");
-            first.setTextSize(18);
-            first.setTypeface(Typeface.DEFAULT_BOLD);
-            TextView last = new TextView(this);
-            last.setTextSize(18);
-            last.setText("Last");
-            last.setTypeface(Typeface.DEFAULT_BOLD);
-            TextView active = new TextView(this);
-            active.setText("Active");
-            active.setTextSize(18);
-            active.setTypeface(Typeface.DEFAULT_BOLD);
-            headers.addView(username);
-            headers.addView(first);
-            headers.addView(last);
-            headers.addView(active);
-            table.addView(headers);
-        }
-
-
-        //TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
         for (String[] user : users)
-        {
-            TableRow row = new TableRow(this);
-            //row.setLayoutParams(params);
+            addStudent(table, truncate(user[0], 15), truncate(user[1], 10), truncate(user[2], 10), true);
+    }
 
-            TextView username = new TextView(this);
-            username.setTextSize(16);
-            username.setText(truncate(user[0], 15));
-            username.setPadding(10, 15, 0, 0);
-            TextView first = new TextView(this);
-            first.setTextSize(16);
-            first.setText(truncate(user[1], 10));
-            first.setPadding(0, 15, 10, 0);
-            TextView last = new TextView(this);
-            last.setTextSize(16);
-            last.setText(truncate(user[2], 10));
-            last.setPadding(0, 15, 10, 0);
-            CheckBox active = new CheckBox(this);
-            active.setChecked(true);
-            row.addView(username);
-            row.addView(first);
-            row.addView(last);
-            row.addView(active);
-            table.addView(row);
+    private void addStudent(TableLayout table, String username, String first, String last, boolean active)
+    {
+        TableRow row = new TableRow(this);
+        for (String data : new String[]{username, first, last})
+        {
+            TextView text = new TextView(this);
+            text.setTextSize(16);
+            text.setText(data);
+            text.setPadding(0,15,0,0);
+            row.addView(text);
         }
+        CheckBox activeCheckBox = new CheckBox(this);
+        activeCheckBox.setChecked(active);
+        row.addView(activeCheckBox);
+        table.addView(row);
     }
 
     private String truncate(String s, int l) { return s.length() > l ? s.substring(0,l-3) + "..." : s; }
