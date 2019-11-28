@@ -1,56 +1,59 @@
 <template>
   <div class="cool-table" v-bind:style="'width:' + width">
     <div class="container">
-        <div
-            tabindex="0"
-            ref="scroll"
-            class="scroll"
-            v-on:keydown.up='$event.preventDefault(); select(selected-1)'
-            v-on:keydown.down='$event.preventDefault(); select(selected+1)'
-            v-on:keypress='search()'>
-            <table style="width: 100%" ref="table">
-                <tr v-if="title != undefined">
-                    <th class="title" style="text-align: center" v-bind:colspan="columns.length">
-                        {{ title }}
-                    </th>
-                </tr>
-                <tr>
-                    <th
-                        v-for="header in headers"
-                        v-bind:key="header.name"
-                        v-bind:class="title == undefined ? 'title' : ''"
-                        v-bind:style="'width: ' + header.width">
-                        {{ header.name }}
-                    </th>
-                </tr>
-                <tr
-                    v-for="index in list.length"
-                    v-bind:key="index"
-                    v-bind:tabindex="index"
-                    v-on:mousedown="select(index)"
-                    v-bind:class="[selected == index ? 'highlight' : '']">
-                    <td v-for="column in columns" v-bind:key="column.hash">
-                        <template v-if="typeof column == 'string'">
-                            {{ list[index-1][column] }}
-                        </template>
-                        <template v-else-if="typeof column == 'function'">
-                            {{ column.call(list[index-1]) }}
-                        </template>
-                        <template v-else>
-                            <select
-                                v-model='list[index-1][column.property]'
-                                v-on:change="column.onChange(index-1)">
-                                    <option
-                                        v-for="opt in column.options"
-                                        v-bind:key="opt.value"
-                                        v-bind:value="opt.value">
-                                            {{ opt.display }}
-                                    </option>
-                            </select>
-                        </template>
-                    </td>
-                </tr>
-            </table>
+        <div style="background-color: #FFFFFFA0">
+            <div
+                tabindex="0"
+                ref="scroll"
+                class="scroll"
+                v-on:keydown.up='$event.preventDefault(); select(selected-1)'
+                v-on:keydown.down='$event.preventDefault(); select(selected+1)'
+                v-on:keypress='search()'>
+                <table style="width: 100%" ref="table">
+                    <tr v-if="title != undefined">
+                        <th class="title" style="text-align: center" v-bind:colspan="columns.length">
+                            {{ title }}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th
+                            v-for="header in headers"
+                            v-bind:key="header.name"
+                            v-bind:class="title == undefined ? 'title' : ''"
+                            v-bind:style="'width: ' + header.width">
+                            {{ header.name }}
+                        </th>
+                    </tr>
+                    <tr
+                        v-for="index in list.length"
+                        v-bind:key="index"
+                        v-bind:tabindex="index"
+                        v-on:mousedown="select(index)"
+                        v-bind:class="[selected == index ? 'highlight' : '']">
+                        <td v-for="column in columns" v-bind:key="column.hash"
+                            v-bind:style="hasBadWord(list[index-1][column]) ? 'color: red' : ''">
+                            <template v-if="typeof column == 'string'">
+                                {{ list[index-1][column] }}
+                            </template>
+                            <template v-else-if="typeof column == 'function'">
+                                {{ column.call(list[index-1]) }}
+                            </template>
+                            <template v-else>
+                                <select
+                                    v-model='list[index-1][column.property]'
+                                    v-on:change="column.onChange(index-1)">
+                                        <option
+                                            v-for="opt in column.options"
+                                            v-bind:key="opt.value"
+                                            v-bind:value="opt.value">
+                                                {{ opt.display }}
+                                        </option>
+                                </select>
+                            </template>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <input
         ref="searchbox"
@@ -73,7 +76,8 @@ export default {
         columns: { type: Array, required: true },
         list: { type: Array, required: true },
         searchid: { type: String, required: true },
-        width: { type: String, required: false, default: '100%' }
+        width: { type: String, required: false, default: '100%' },
+        badwords: { type: Array, required: false, default: function () { return []; } }
     },
     data: function() {
         return { selected: undefined, query: undefined };
@@ -96,6 +100,18 @@ export default {
         unsearch: function()
         {
             this.$refs.searchbox.style.display = "none";
+        },
+        hasBadWord: function(text)
+        {
+            if (typeof text != 'string')
+                return false;
+            var has = false;
+            this.badwords.forEach(bw =>
+            {
+                if (text.includes(bw))
+                    has = true;
+            });
+            return has;
         }
     },
     watch:

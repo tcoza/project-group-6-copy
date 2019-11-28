@@ -2,7 +2,7 @@
    <div id="main" v-cloak>
         <topbar title="Home" />
 
-        <h3> Welcome, Manager! </h3>
+        <h3> Welcome, {{ name }}! </h3>
         <li v-for="a in articles"  v-bind:key="a.url">
             <a v-bind:href="a.url" target="_self"> <img :src="a.image" /> </a>
             <p>{{a.title}}</p>
@@ -18,11 +18,13 @@
     import image4 from "../assets/session.jpg"
     import image5 from "../assets/courses.png"
     import topbar from "./TopBar"
+    import VueCookies from "vue-cookies"
 
     export default {
-        components: { topbar },
+        components: { topbar, VueCookies },
         data: function(){
             return{
+                name: VueCookies.get('ManagerName'),
                 articles: [{
                     image: image1,
                     url: "http://127.0.0.1:8087/#/tutors",

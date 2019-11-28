@@ -52,7 +52,7 @@
             </tr>
             <tr>
               <td>
-                <vue-timepicker input-width="100%" v-model="selectedTime" format="hh:mm:ss"></vue-timepicker>
+                <vue-timepicker input-width="100%" v-model="selectedTime" format="hh:mm A"></vue-timepicker>
               </td>
             </tr>
             <tr>
@@ -96,7 +96,7 @@ export default {
       selectedTime: {
         hh: "",
         mm: "",
-        ss: ""
+        A: ""
       },
       selectedDate: new Date().toISOString().slice(0, 10), //display today's date
       selectedClass: undefined
@@ -156,6 +156,8 @@ export default {
       time += parseInt(this.selectedTime.hh, 10) * 60;
       if (this.selectedTime.A == "PM")
          time += 12 * 60;
+      console.log(time);
+      console.log(this.selectedTutor);
 
       AXIOS.post('/createscheduledgroupsession', {}, { params:
       {

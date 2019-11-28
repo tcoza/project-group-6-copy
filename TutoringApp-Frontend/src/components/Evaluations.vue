@@ -21,6 +21,7 @@
             v-bind:list="studentevals"
             width="100%"
             searchid="username"
+            v-bind:badwords="['freak', 'heck', 'poop']"
         />
       
       <cooltable
@@ -41,6 +42,7 @@
             v-bind:list="tutorevals"
             width="100%"
             searchid="username"
+            v-bind:badwords="['freak', 'heck', 'poop']"
         />
     </div>
   </div>
@@ -120,7 +122,6 @@ export default {
         await AXIOS.get(tutoreval._links.author.href).then(response =>
         {
           tutoreval.authorUN = response.data._links.self.href.substr(response.data._links.self.href.lastIndexOf("/")+1); //get author username
-          //console.log(tutoreval.authorUN);
         })
         .catch(e => console.log(e.response.data.message));;
       }
