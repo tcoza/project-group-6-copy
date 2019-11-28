@@ -114,10 +114,11 @@ export default {
         })
         .catch(e => console.log(e.response.data.message));;
         
-        // 2) eval comment ONLY IF IT EXISTS
+        //2) eval comment ONLY IF IT EXISTS
         // const commentResponse = await fetch(studenteval._links.evaluationComment.href);
         // if (commentResponse.ok) {
         //     const myComment = await commentResponse.json();
+        //     console.log(myComment);
         //     studenteval.comment = myComment.comment;
         // }
       }

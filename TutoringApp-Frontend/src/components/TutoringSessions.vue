@@ -52,7 +52,7 @@
             </tr>
             <tr>
               <td>
-                <vue-timepicker input-width="100%" v-model="selectedTime" format="hh:mm A"></vue-timepicker>
+                <vue-timepicker input-width="100%" v-model="selectedTime" format="hh:mm:ss"></vue-timepicker>
               </td>
             </tr>
             <tr>
@@ -96,7 +96,7 @@ export default {
       selectedTime: {
         hh: "",
         mm: "",
-        A: ""
+        ss: ""
       },
       selectedDate: new Date().toISOString().slice(0, 10), //display today's date
       selectedClass: undefined
@@ -152,11 +152,16 @@ export default {
   },
   methods: {
     book() {
+      var time = parseInt(this.selectedTime.mm, 10);
+      time += parseInt(this.selectedTime.hh, 10) * 60;
+      if (this.selectedTime.A == "PM")
+         time += 12 * 60;
+
       AXIOS.post('/createscheduledgroupsession', {}, { params:
       {
         username: this.selectedTutor,
         roomid: this.selectedClass,
-        starttime: this.selectedTime
+        starttime: time
       }})
       .then(response => alert("Session booked!"))
       .catch(e => alert("Error booking a session"));

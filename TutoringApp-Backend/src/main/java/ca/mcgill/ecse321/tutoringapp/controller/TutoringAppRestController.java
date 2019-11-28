@@ -368,10 +368,11 @@ public class TutoringAppRestController {
 	@PostMapping(value = { "/createscheduledgroupsession/", "/createscheduledgroupsession" })
 	public ScheduledGroupSession createScheduledGroupSession(
 			@RequestParam(name = "username", required = true) String tutorS,
-			@RequestParam(name = "roomid", required = true) int classRoomS,
-			@RequestParam(name = "starttime", required = true) String startTimeS) throws IllegalArgumentException {
+			@RequestParam (name = "roomid", required = true) int classRoomS, 
+			@RequestParam (name = "starttime", required = true) int startTimeS) throws IllegalArgumentException {
 		ScheduledGroupSession scheduledGroupSession = new ScheduledGroupSession();
-		Time startTime = new java.sql.Time(Integer.parseInt(startTimeS));
+		@SuppressWarnings("deprecation")
+		Time startTime = new java.sql.Time(startTimeS / 60, startTimeS % 60, 00);
 		scheduledGroupSession = service.createScheduledGroupSession(tutorS, classRoomS, startTime);
 		return scheduledGroupSession;
 
