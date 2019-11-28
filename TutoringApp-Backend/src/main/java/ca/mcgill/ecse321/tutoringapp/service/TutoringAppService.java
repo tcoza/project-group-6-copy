@@ -33,8 +33,6 @@
 		@Autowired
 		CourseRepository courseRepository;
 		@Autowired
-		EvaluationCommentRepository evaluationCommentRepository;
-		@Autowired
 		EvaluationRepository evaluationRepository;
 		@Autowired
 		StudentEvaluationRepository studentEvaluationRepository;
@@ -754,53 +752,72 @@
 			return toList(evaluationRepository.findAll());
 		}
 
-		public EvaluationComment createEvalComment(Evaluation eval, String comment) {
+		public String createEvalComment(Evaluation eval, String comment) {
 			if (eval == null) {
 				throw new IllegalArgumentException ("Evaluation can't be empty");
 			}
 			if (comment == null) {
 				throw new IllegalArgumentException ("Comment can't be empty");
 			}
-			EvaluationComment evalComment = new EvaluationComment();
-			evalComment.setComment(comment);
-			evalComment.setEvaluation(eval);
-			evaluationCommentRepository.save(evalComment);
 
-			return evalComment;
+			eval.setEvaluationComment(comment);
+			eval.setCommentVisible(true);
+			evaluationRepository.save(eval);
+
+			return comment;
 		}
 
 		/** @author Alba */
 		@Transactional
-		public EvaluationComment getEvalComment(Evaluation eval) {
+		public String getEvalComment(Evaluation eval) {
 
 			if (eval == null) {
 				throw new IllegalArgumentException ("Evaluation can't be empty");
 			}
 
-			EvaluationComment evalComment = evaluationCommentRepository.findByEvaluation(eval);
+			String evalComment = eval.getEvaluationComment();
 
 			return evalComment;
 		}
 		// Can only be done from manager
 		/** @author Alba */
 		@Transactional
-		public void deletEvalComment(Evaluation eval) {
+		public void removeEvalComment(Evaluation eval) {
 
 			if (eval == null) {
 				throw new IllegalArgumentException ("Evaluation can't be empty");
 			}
+			
+			int ID = eval.getId();
 
-			int ID = evaluationCommentRepository.findByEvaluation(eval).getId();
-
-			if (!evaluationCommentRepository.existsById(ID)) {
-				throw new IllegalArgumentException ("This evaluation do not have a comment");
+			if (!evaluationRepository.existsById(ID)) {
+				throw new IllegalArgumentException ("This evaluation does not exist");
 			}
 			else {
+				eval.setCommentVisible(false);
+				evaluationRepository.save(eval);
 
+			}
+		}
+		
+		/**
+		 * This service method allows the manager to re-set the visibility of an evaluation comment
+		 * @param eval
+		 */
+		@Transactional
+		public void readdEvalComment(Evaluation eval) {
+			if (eval == null) {
+				throw new IllegalArgumentException ("Evaluation can't be empty");
+			}
+			
+			int ID = eval.getId();
 
-				EvaluationComment evalComment = evaluationCommentRepository.findByEvaluation(eval);
-				evaluationCommentRepository.delete(evalComment);
-
+			if (!evaluationRepository.existsById(ID)) {
+				throw new IllegalArgumentException ("This evaluation does not exist");
+			}
+			else {
+				eval.setCommentVisible(true);
+				evaluationRepository.save(eval);
 			}
 		}
 

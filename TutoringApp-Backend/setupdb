@@ -31,16 +31,11 @@ curl -d name=Circuits\&school=McGill -X POST localhost:8080/courses/ECSE200
 curl -d name=Electronics\&school=McGill -X POST localhost:8080/courses/ECSE331
 
 
-curl -d rating=4\&studentUN=tcoza\&tutorUN=alba -X POST localhost:8080/createstudentevaluation
-curl -d studentUN=tcoza\&tutorUN=alba\&isStudentEvaluation=true\&comment=Yay -X POST localhost:8080/createevaluationcomment
-curl -d rating=3\&studentUN=oderootieno\&tutorUN=doraTutor -X POST localhost:8080/createstudentevaluation
-curl -d studentUN=oderootieno\&tutorUN=doraTutor\&isStudentEvaluation=true\&comment=Nice -X POST localhost:8080/createevaluationcomment
-curl -d rating=1\&studentUN=willbouch\&tutorUN=bobTutor -X POST localhost:8080/createstudentevaluation
-curl -d studentUN=willbouch\&tutorUN=bobTutor\&isStudentEvaluation=true\&comment=Boo -X POST localhost:8080/createevaluationcomment
-curl -d rating=5\&studentUN=tcoza\&tutorUN=helen -X POST localhost:8080/createstudentevaluation
-curl -d studentUN=tcoza\&tutorUN=helen\&isStudentEvaluation=true\&comment=Great -X POST localhost:8080/createevaluationcomment
-curl -d rating=5\&studentUN=willbouch\&tutorUN=bobTutor -X POST localhost:8080/createtutorevaluation
-curl -d studentUN=willbouch\&tutorUN=bobTutor\&isStudentEvaluation=false\&comment=Booo -X POST localhost:8080/createevaluationcomment
+curl -d rating=4\&studentUN=tcoza\&tutorUN=alba\&comment=Great -X POST localhost:8080/createstudentevaluation
+curl -d rating=3\&studentUN=oderootieno\&tutorUN=doraTutor\&comment=Nice -X POST localhost:8080/createstudentevaluation
+curl -d rating=1\&studentUN=willbouch\&tutorUN=bobTutor\&comment=Boo -X POST localhost:8080/createstudentevaluation
+curl -d rating=5\&studentUN=tcoza\&tutorUN=helen\&comment=Awesome -X POST localhost:8080/createstudentevaluation
+curl -d rating=5\&studentUN=willbouch\&tutorUN=bobTutor\&comment=Awesome -X POST localhost:8080/createtutorevaluation
 
 curl -d username=arianit1999\&course=ECSE321 -X POST localhost:8080/creategrouprequest
 curl -d username=tcoza\&course=ECSE321 -X POST localhost:8080/creategrouprequest

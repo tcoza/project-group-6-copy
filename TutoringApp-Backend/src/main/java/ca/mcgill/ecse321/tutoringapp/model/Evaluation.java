@@ -18,17 +18,28 @@ public class Evaluation {
 	public Evaluation() {
 		
 	}
-	private EvaluationComment evaluationComment;
+	private String evaluationComment;	
 
-	@OneToOne(mappedBy = "evaluation", cascade = { CascadeType.ALL }, orphanRemoval = true)
-	public EvaluationComment getEvaluationComment() {
+	public String getEvaluationComment() {
 		return this.evaluationComment;
 	}
 
-	public void setEvaluationComment(EvaluationComment evaluationComment) {
+	public void setEvaluationComment(String evaluationComment) {
 		this.evaluationComment = evaluationComment;
 	}
 
+	
+	private boolean commentVisible;
+	
+	public boolean getCommentVisible() {
+		return this.commentVisible;
+	}
+
+	public void setCommentVisible(boolean commentVisible) {
+		this.commentVisible = commentVisible;
+	}
+	
+	
 	private int rating;
 
 	public void setRating(int value) {
