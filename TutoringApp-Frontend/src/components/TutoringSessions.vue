@@ -52,7 +52,7 @@
             </tr>
             <tr>
               <td>
-                <vue-timepicker input-width="100%" v-model="selectedTime" format="hh:mm A"></vue-timepicker>
+                <vue-timepicker input-width="100%" v-model="selectedTime" format="hh:mm:ss"></vue-timepicker>
               </td>
             </tr>
             <tr>
@@ -96,7 +96,7 @@ export default {
       selectedTime: {
         hh: "",
         mm: "",
-        A: ""
+        ss: ""
       },
       selectedDate: new Date().toISOString().slice(0, 10), //display today's date
       selectedClass: undefined
