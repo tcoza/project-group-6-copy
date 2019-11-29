@@ -39,8 +39,6 @@ public class TestTutoringAppService {
 	@Autowired
 	private CourseRepository courseRepository;
 	@Autowired
-	private EvaluationCommentRepository evaluationCommentRepository;
-	@Autowired
 	private EvaluationRepository evaluationRepository;
 	@Autowired
 	private StudentEvaluationRepository studentEvaluationRepository;
@@ -72,7 +70,6 @@ public class TestTutoringAppService {
 	public void clearDatabase() {
 		
 		evaluationRepository.deleteAll();
-		evaluationCommentRepository.deleteAll();
 		tutorEvaluationRepository.deleteAll();
 		studentEvaluationRepository.deleteAll();
 		

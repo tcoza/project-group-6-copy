@@ -10,9 +10,9 @@
                 { name: 'Rating', width: '10%'},
                 { name: 'Comment', width: '27%'},
                 { name: 'Status', width: '10%' }]"
-            v-bind:columns="['username', 'date', 'rating', 'comment',
+            v-bind:columns="['username', 'date', 'rating', 'evaluationComment',
             {
-                property: 'commentStatus',
+                property: 'commentVisible',
                 onChange: statusChangedS,
                 options: [
                     { value: true, display: 'Visible' },
@@ -21,6 +21,7 @@
             v-bind:list="studentevals"
             width="100%"
             searchid="username"
+            v-bind:badwords="['freak', 'heck', 'poop']"
         />
       
       <cooltable
@@ -30,9 +31,9 @@
                 { name: 'Rating', width: '10%'},
                 { name: 'Comment', width: '27%'},
                 { name: 'Status', width: '10%' }]"
-            v-bind:columns="['username', 'date', 'rating', 'comment',
+            v-bind:columns="['username', 'date', 'rating', 'evaluationComment',
             {
-                property: 'commentStatus',
+                property: 'commentVisible',
                 onChange: statusChangedT,
                 options: [
                     { value: true, display: 'Visible' },
@@ -41,6 +42,7 @@
             v-bind:list="tutorevals"
             width="100%"
             searchid="username"
+            v-bind:badwords="['freak', 'heck', 'poop']"
         />
     </div>
   </div>
@@ -64,6 +66,7 @@ export default {
     };
   },
   created: function() {
+
     AXIOS.get('/studentevaluations').then(response =>
     {
       this.studentevals = response.data._embedded.studentevaluations;
@@ -80,15 +83,16 @@ export default {
           studenteval.username = response.data._links.self.href.substr(response.data._links.self.href.lastIndexOf("/")+1); //get student username
           studenteval.firstName = response.data.firstName;
           studenteval.lastName = response.data.lastName;
+
         })
         .catch(e => console.log(e.response.data.message));;
         
-        // 2) eval comment ONLY IF IT EXISTS
-        // const commentResponse = await fetch(studenteval._links.evaluationComment.href);
-        // if (commentResponse.ok) {
-        //     const myComment = await commentResponse.json();
-        //     studenteval.comment = myComment.comment;
-        // }
+        // 2) also get author username (we do not display it but need to for eval comments)
+        await AXIOS.get(studenteval._links.author.href).then(response =>
+        {
+          studenteval.authorUN = response.data._links.self.href.substr(response.data._links.self.href.lastIndexOf("/")+1); //get author username
+        })
+        .catch(e => console.log(e.response.data.message));;
       }
 
       this.$forceUpdate();
@@ -113,14 +117,13 @@ export default {
           tutoreval.lastName = response.data.lastName;
         })
         .catch(e => console.log(e.response.data.message));;
-        
-        //2) eval comment ONLY IF IT EXISTS
-        // const commentResponse = await fetch(studenteval._links.evaluationComment.href);
-        // if (commentResponse.ok) {
-        //     const myComment = await commentResponse.json();
-        //     console.log(myComment);
-        //     studenteval.comment = myComment.comment;
-        // }
+
+       // 2) also get author username (we do not display it but need to for eval comments)
+        await AXIOS.get(tutoreval._links.author.href).then(response =>
+        {
+          tutoreval.authorUN = response.data._links.self.href.substr(response.data._links.self.href.lastIndexOf("/")+1); //get author username
+        })
+        .catch(e => console.log(e.response.data.message));;
       }
 
       this.$forceUpdate();
@@ -130,25 +133,26 @@ export default {
   },
   methods: {
     statusChangedS(index) {
-      // //remove a comment
-      // var url = 'http://localhost:8080/createstudentevaluation/' + this.studentevals[index].username;
-      // url += this.studentevals[index].isActiveAccount == "true" ? '/reactivate' : '/deactivate';
-      // const userAction = async () => {
-      //     const response = await fetch(url, { method: "POST" });
-      //     if (!response.ok)
-      //         console.log(response);
-      // }
-      // userAction();
+      //remove a comment or reset it to visible!
+      let params = {
+        studentUN: this.studentevals[index].username,
+        tutorUN: this.studentevals[index].authorUN,
+        isStudentEvaluation: true,
+        visibility: this.studentevals[index].commentVisible
+      }
+      AXIOS.post('/setcommentvisibility/',
+                    {}, {params: params}).catch(e => console.log(e.response.data.message));
     },
     statusChangedT(index) {
-      // var url = 'http://localhost:8080/createtutorevaluation/' + this.tutorevals[index].username;
-      // url += this.tutorevals[index].isActiveAccount == "true" ? '/reactivate' : '/deactivate';
-      // const userAction = async () => {
-      //     const response = await fetch(url, { method: "POST" });
-      //     if (!response.ok)
-      //         console.log(response);
-      // }
-      // userAction();
+      //remove a comment or reset it to visible!
+      let params = {
+        studentUN: this.tutorevals[index].authorUN,
+        tutorUN: this.tutorevals[index].username,
+        isStudentEvaluation: false,
+        visibility: this.tutorevals[index].commentVisible
+      }
+      AXIOS.post('/setcommentvisibility/',
+                    {},{params: params}).catch(e => console.log(e.response.data.message));
     }
   }
 };
