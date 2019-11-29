@@ -5,10 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.PopupWindow;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -18,11 +17,6 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.PrintStream;
-import java.net.ConnectException;
-import java.net.Socket;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -41,10 +35,12 @@ public class StudentsActivity extends AppCompatActivity {
     private void addStudent(TableLayout table, String username, String first, String last, boolean active)
     {
         TableRow row = new TableRow(this);
-        username = truncate(username, 15);
-        first = truncate(first, 10);
-        last = truncate(last, 10);
-        for (String data : new String[]{username, first, last})
+        for (String data : new String[]
+                {
+                        truncate(username, 15),
+                        truncate(first, 10),
+                        truncate(last, 10)
+                })
         {
             TextView text = new TextView(this);
             text.setTextSize(16);
@@ -54,6 +50,7 @@ public class StudentsActivity extends AppCompatActivity {
         }
         CheckBox activeCheckBox = new CheckBox(this);
         activeCheckBox.setChecked(active);
+        activeCheckBox.setOnCheckedChangeListener(new OnStudentCheckChanged(username));
         row.addView(activeCheckBox);
         table.addView(row);
     }
@@ -93,6 +90,27 @@ public class StudentsActivity extends AppCompatActivity {
         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse)
         {
             StudentsActivity.this.getSupportActionBar().setTitle("Error loading Students: " + throwable.getMessage());
+        }
+    }
+
+    private class OnStudentCheckChanged implements OnCheckedChangeListener
+    {
+        private String username;
+
+        public OnStudentCheckChanged(String username) { this.username = username; }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+        {
+            HttpUtils.post("/students/" + username + "/" + (isChecked ? "reactivate" : "deactivate"),
+                    new RequestParams(), new JsonHttpResponseHandler()
+                    {
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse)
+                        {
+                            StudentsActivity.this.getSupportActionBar().setTitle("Error changing " + username + " status: " + throwable.getMessage());
+                        }
+                    });
         }
     }
 }
