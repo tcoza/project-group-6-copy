@@ -10,7 +10,11 @@ public class HttpUtils {
     private static String baseUrl;
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    static { baseUrl = DEFAULT_BASE_URL; }
+    static
+    {
+        baseUrl = DEFAULT_BASE_URL;
+        client.setMaxRetriesAndTimeout(1,1000);
+    }
 
     public static String getBaseUrl() {
         return baseUrl;

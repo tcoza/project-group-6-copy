@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.ConnectException;
 import java.net.Socket;
 
 import cz.msebera.android.httpclient.Header;
@@ -33,43 +34,9 @@ public class StudentsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_students);
         getSupportActionBar().setTitle("Students");
 
-        final TableLayout table = findViewById(R.id.table);
-//        for (String[] user : users)
-//            addStudent(table, truncate(user[0], 15), truncate(user[1], 10), truncate(user[2], 10), true);
+        GetStudentsResponseHandler handler = new GetStudentsResponseHandler((TableLayout) findViewById(R.id.table));
+        try { HttpUtils.get("/students", new RequestParams(), handler); } finally {}
 
-        HttpUtils.get("/students", new RequestParams(), new JsonHttpResponseHandler()
-        {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response)
-            {
-                try
-                {
-                    for (int i = 0; i < response.getJSONObject("_embedded").getJSONArray("students").length(); i++)
-                    {
-                        JSONObject student = response.getJSONObject("_embedded").getJSONArray("students").getJSONObject(i);
-                        String username = student.getJSONObject("_links").getJSONObject("self").getString("href");
-                        username = username.substring(username.lastIndexOf('/') + 1);
-                        addStudent(
-                                table,
-                                username,
-                                student.getString("firstName"),
-                                student.getString("lastName"),
-                                student.getBoolean("isActiveAccount"));
-                    }
-                }
-                catch (JSONException ex)
-                {
-                    Log.e("network", ex.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse)
-            {
-                new PopupWindow(findViewById(R.id.rootLayout), ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                        .showAtLocation(findViewById(R.id.rootLayout), Gravity.CENTER, 0, 0);
-            }
-        });
     }
 
     private void addStudent(TableLayout table, String username, String first, String last, boolean active)
@@ -94,152 +61,39 @@ public class StudentsActivity extends AppCompatActivity {
 
     private String truncate(String s, int l) { return s.length() > l ? s.substring(0,l-3) + "..." : s; }
 
-    private String[][] users =
-            {
-                    {"17awakil", "17awakil", "(none)"},
-                    {"adambabs", "adambabs", "(none)"},
-                    {"albat3ross", "Han", "Zhou"},
-                    {"AlexanderAsfar", "AlexanderAsfar", "(none)"},
-                    {"alitapan", "Ali", "Tapan"},
-                    {"anasdeis", "Anas", "Deis"},
-                    {"Anasshahidd21", "Anas", "Shahid"},
-                    {"And7ew", "And7ew", "(none)"},
-                    {"angel6497", "angel6497", "(none)"},
-                    {"anthony-ubah", "anthony-ubah", "(none)"},
-                    {"APorporino", "Anthony", "Porporino"},
-                    {"archarbar", "Victor", "Zhong"},
-                    {"arianit1999", "Arianit", "Vavla"},
-                    {"arneetsinghkalra", "Arneet", "Kalra"},
-                    {"benjaminweiss46", "Benjamin", "Weiss"},
-                    {"BradMcBain", "Brad", "McBain"},
-                    {"brendanmarks", "brendanmarks", "(none)"},
-                    {"calebsh", "calebsh", "(none)"},
-                    {"Catosine", "Cytosine", "(none)"},
-                    {"cboustros", "cboustros", "(none)"},
-                    {"chadspector", "chadspector", "(none)"},
-                    {"Charles0115", "Charles0115", "(none)"},
-                    {"CharlesBourbeau", "Charles", "Bourbeau"},
-                    {"ChelseaM-C", "Chelsea", "Myers-Colet"},
-                    {"Cpt0Teemo", "Yoan", "Poulmarc'k"},
-                    {"danbensouss", "danbensouss", "(none)"},
-                    {"DarienMC", "Darien", "Muse-Charbonneau"},
-                    {"davidkronish", "David", "Kronish"},
-                    {"DominicWen73", "Dominic", "Wener"},
-                    {"du-hr", "Haoran", "Du"},
-                    {"dumplingsforbreakfast", "Gloria", "Li"},
-                    {"ecse321testuser", "ecse321testuser", "(none)"},
-                    {"eliastam", "eliastam", "(none)"},
-                    {"Elie-Elia", "Elie-Elia", "(none)"},
-                    {"felixsimard", "Felix", "Simard"},
-                    {"FunnyQDaniel", "FunnyQDaniel", "(none)"},
-                    {"Georges1998", "George", "Kandalaft"},
-                    {"ggnjt", "ggnjt", "(none)"},
-                    {"glenxoseph", "glenxoseph", "(none)"},
-                    {"gmourant", "Georges", "Mourant"},
-                    {"gregpiche", "gregpiche", "(none)"},
-                    {"hadizia", "hadizia", "(none)"},
-                    {"haoweiqiu", "Haowei", "(none)"},
-                    {"helen-m-lin", "helen-m-lin", "(none)"},
-                    {"HuzaifaElahi", "Muhammad", "Huzaifa"},
-                    {"idodin", "Imad", "Dodin"},
-                    {"ImaneChafi", "ImaneChafi", "(none)"},
-                    {"imbur", "Marton", "Bur"},
-                    {"isaacdif", "Isaac", "Di"},
-                    {"iyatan", "Iyatan", "Atchoro"},
-                    {"jacobsilcoff", "Jacob", "Silcoff"},
-                    {"jasondaou", "Jason", "Daou"},
-                    {"jerryled", "jerryled", "(none)"},
-                    {"JiMing-Li", "JiMing-Li", "(none)"},
-                    {"jmrchow", "Jeremy", "Chow"},
-                    {"KarlDoumar", "KarlDoumar", "(none)"},
-                    {"karleid", "Karl", "Eid"},
-                    {"kehwhy", "kehwhy", "(none)"},
-                    {"konzert", "konzert", "(none)"},
-                    {"kraglalbert", "Albert", "Kragl"},
-                    {"Krownsi", "Alex", "Gruenwald"},
-                    {"Kyjauna", "Kyjauna", "(none)"},
-                    {"KyleDouglasMyers", "KyleDouglasMyers", "(none)"},
-                    {"Langdo99", "Langdo99", "(none)"},
-                    {"liutianci1887", "liutianci1887", "(none)"},
-                    {"liuzheyu1998", "Zheyu", "Liu"},
-                    {"loucadufault", "loucadufault", "(none)"},
-                    {"luusteve", "luusteve", "(none)"},
-                    {"M1984", "YuhangZhang", "(none)"},
-                    {"mahroo12", "mahroo12", "(none)"},
-                    {"MaireadMaloney", "Mairead", "Maloney"},
-                    {"maizeng2008", "maizeng2008", "(none)"},
-                    {"marw12", "marw12", "(none)"},
-                    {"marwankanaan", "Marwan", "Kanaan"},
-                    {"mattcaccavelli", "mattcaccavelli", "(none)"},
-                    {"maxbuteau", "Maxime", "Buteau"},
-                    {"mehdiammar", "Mehdi", "Ammar"},
-                    {"menglinhe", "Menglin", "He"},
-                    {"mertgurkan", "mertgurkan", "(none)"},
-                    {"MichelMajdalani", "MichelMajdalani", "(none)"},
-                    {"michr12", "Mich", "Riendeau"},
-                    {"mlej8", "Michael", "Li"},
-                    {"mlsmlk", "mlsmlk", "(none)"},
-                    {"mnoor984", "mnoor984", "(none)"},
-                    {"mrplt", "Murat", "Polat"},
-                    {"mustafain117", "Mustafain", "Ali"},
-                    {"NelsonZeng25", "Nelson", "Zeng"},
-                    {"NicolasAbdelnour", "Nicolas", "Abdelnour"},
-                    {"ocayci1", "Onur", "Cayci"},
-                    {"OderoOtieno", "Odero", "Otieno"},
-                    {"OldPineapple", "OldPineapple", "(none)"},
-                    {"osmanvee", "Osman", "Warsi"},
-                    {"PaulHooley", "Paul", "Hooley"},
-                    {"petarbasta", "Petar", "Basta"},
-                    {"pppparadox", "pppparadox", "(none)"},
-                    {"preyansh98", "Preyansh", "Kaushik"},
-                    {"randylimcgill", "randylimcgill", "(none)"},
-                    {"rezaandwenhao", "Owen", "(Wenhao)"},
-                    {"Rijul5", "RIJUL", "SAINI"},
-                    {"ryanarndtsen", "ryanarndtsen", "(none)"},
-                    {"samihilal1234", "samihilal1234", "(none)"},
-                    {"sanihaseeb", "Sani", "Haseeb"},
-                    {"schen136", "Grace", "Chen"},
-                    {"sharonkat", "Sharon", "Kattar"},
-                    {"Silectron", "Silectron", "(none)"},
-                    {"sofiiad", "sofiiad", "(none)"},
-                    {"ssmith21", "Sean", "Smith"},
-                    {"sungengyi", "Gengyi", "Sun"},
-                    {"talellia", "Alba", "Talelli"},
-                    {"talhariaz3077", "Talha", "(none)"},
-                    {"taylorlynn", "taylorlynn", "(none)"},
-                    {"thehomelessredranger", "Edward", "Latulipe-Kang"},
-                    {"tondro1", "Alex", "Choi"},
-                    {"Tony9984", "Tony", "(none)"},
-                    {"TrvTab", "TrvTab", "(none)"},
-                    {"turekin", "turekin", "(none)"},
-                    {"twedds95", "Patrick", "Tweddell"},
-                    {"tylerrwatsonn", "tylerrwatsonn", "(none)"},
-                    {"udchemen", "Uyiren", "Chemen"},
-                    {"watem", "Matthew", "Williams"},
-                    {"willbouch", "willbouch", "(none)"},
-                    {"WilliamYkZhang", "William", "Zhang"},
-                    {"Yuankang-Wei", "Frank-Wei", "(none)"},
-                    {"zhengyucui", "Zheng", "Yu"},
-                    {"ZijinNie", "Zijin", "Nie"}
-            };
-}
-
-class TestNetworkTask extends AsyncTask<Void, Void, Void>
-{
-    @Override
-    protected Void doInBackground(Void... voids)
+    private class GetStudentsResponseHandler extends JsonHttpResponseHandler
     {
-        try
-        {
-            Socket socket = new Socket("10.0.2.2", 8080);
-            PrintStream out = new PrintStream(socket.getOutputStream());
-            out.println("Hello");
-            out.close();
-            socket.close();
-        }
-        catch (IOException ex)
-            { Log.e("socket", ex.getMessage()); }
+        private TableLayout table;
+        public GetStudentsResponseHandler(TableLayout table) { this.table = table; }
 
-        return null;
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, JSONObject response)
+        {
+            try
+            {
+                for (int i = 0; i < response.getJSONObject("_embedded").getJSONArray("students").length(); i++)
+                {
+                    JSONObject student = response.getJSONObject("_embedded").getJSONArray("students").getJSONObject(i);
+                    String username = student.getJSONObject("_links").getJSONObject("self").getString("href");
+                    username = username.substring(username.lastIndexOf('/') + 1);
+                    addStudent(
+                            table,
+                            username,
+                            student.getString("firstName"),
+                            student.getString("lastName"),
+                            student.getBoolean("isActiveAccount"));
+                }
+            }
+            catch (JSONException ex)
+            {
+                Log.e("network", ex.getMessage());
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse)
+        {
+            StudentsActivity.this.getSupportActionBar().setTitle("Error loading Students: " + throwable.getMessage());
+        }
     }
 }

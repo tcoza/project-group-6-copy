@@ -16,79 +16,70 @@
             android:orientation="vertical" >
 
             <ImageButton
-                android:id="@+id/imageButton19"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:scaleType="center"
                 app:srcCompat="@drawable/youtube" />
 
             <TextView
-                android:id="@+id/textView14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10"
-                android:paddingBottom="20"
+                android:paddingLeft="10dp"
+                android:paddingBottom="20dp"
                 android:text="Tutors"
                 android:textSize="24sp" />
 
             <ImageButton
-                android:id="@+id/imageButton18"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
+                android:onClick="studentsClicked"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/money" />
 
             <TextView
-                android:id="@+id/textView13"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10"
-                android:paddingBottom="20"
+                android:paddingLeft="10dp"
+                android:paddingBottom="20dp"
                 android:text="Students"
                 android:textSize="24sp" />
 
             <ImageButton
-                android:id="@+id/imageButton17"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 app:srcCompat="@drawable/courses" />
 
             <TextView
-                android:id="@+id/textView12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10"
-                android:paddingBottom="20"
                 android:text="Courses, Subjects and Schools"
+                android:paddingLeft="10dp"
+                android:paddingBottom="20dp"
                 android:textSize="24sp" />
 
             <ImageButton
-                android:id="@+id/imageButton16"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 app:srcCompat="@drawable/evaluation" />
 
             <TextView
-                android:id="@+id/textView11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10"
-                android:paddingBottom="20"
+                android:paddingLeft="10dp"
+                android:paddingBottom="20dp"
                 android:text="Evaluation Comments"
                 android:textSize="24sp" />
 
             <ImageButton
-                android:id="@+id/imageButton11"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 app:srcCompat="@drawable/session" />
 
             <TextView
-                android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10"
-                android:paddingBottom="20"
+                android:paddingLeft="10dp"
+                android:paddingBottom="20dp"
                 android:text="Group Sessions"
                 android:textSize="24sp" />
         </LinearLayout>

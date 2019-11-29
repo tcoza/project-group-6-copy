@@ -19,7 +19,7 @@ public class Login extends AppCompatActivity
 
     public void signIn(View view)
     {
-        Intent intent = new Intent(this, StudentsActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(USERNAME, ((EditText)findViewById(R.id.username)).getText().toString());
         startActivity(intent);
     }
