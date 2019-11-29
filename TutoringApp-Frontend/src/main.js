@@ -6,8 +6,13 @@ import App from './App'
 import router from './router'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueSimpleAlert from "vue-simple-alert";
+import Notifications from 'vue-notification'
 
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
+Vue.use(VueSimpleAlert);
+Vue.use(Notifications);
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

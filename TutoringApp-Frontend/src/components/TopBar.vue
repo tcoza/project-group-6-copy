@@ -62,9 +62,11 @@ export default
         {
             if (link == undefined)
                 return location.href;
-            else
-                location.href = link
-        }
+            else {
+                if (link == '#/signin') this.$notify({title: 'Signed out',text: 'Have a great day!',});
+                location.href = link;
+            }
+        }   
     }
 }
 </script>

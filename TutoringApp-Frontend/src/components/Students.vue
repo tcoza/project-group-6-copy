@@ -13,8 +13,9 @@
                 property: 'isActiveAccount',
                 onChange: statusChanged,
                 options: [
-                    { value: true, display: 'Active' },
-                    { value: false, display: 'Removed' }]
+                    { value: true, display: 'Active'},
+                    { value: false, display: 'Removed' }],
+                
             }]"
             v-bind:list="students"
             searchid="username"
@@ -57,7 +58,12 @@ export default {
             AXIOS.post('/students/'.
                     concat(this.students[index].username).
                     concat(this.students[index].isActiveAccount ? '/reactivate' : '/deactivate'),
-                    {}, {}).catch(e => console.log(e.response.data.message));
+                    {}, {}
+            ).then(r => this.$alert("Successfully changed student account status!", '', 'success'))
+            .catch(e => {
+            this.$alert("Error changing student account status", '', 'error');
+            console.log(e.response.data.message);
+        });
         }
     }
 }

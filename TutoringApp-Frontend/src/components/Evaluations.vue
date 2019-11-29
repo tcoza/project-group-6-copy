@@ -4,6 +4,7 @@
     <h3>View student and tutor evaluations here. You can delete an evaluation comment!</h3>
     <div style="display: flex">
         <cooltable
+            title="Evaluations for Students"
             v-bind:headers="[
                 { name: 'Username', width: '18%' },
                 { name: 'Date', width: '15%'},
@@ -21,10 +22,11 @@
             v-bind:list="studentevals"
             width="100%"
             searchid="username"
-            v-bind:badwords="['freak', 'heck', 'poop']"
+            v-bind:badwords="['freak', 'heck', 'poop', '***']"
         />
       
       <cooltable
+            title="Evaluations for Tutors"
             v-bind:headers="[
                 { name: 'Username', width: '18%' },
                 { name: 'Date', width: '15%'},
@@ -42,7 +44,7 @@
             v-bind:list="tutorevals"
             width="100%"
             searchid="username"
-            v-bind:badwords="['freak', 'heck', 'poop']"
+            v-bind:badwords="['freak', 'heck', 'poop', '***']"
         />
     </div>
   </div>
@@ -140,8 +142,14 @@ export default {
         isStudentEvaluation: true,
         visibility: this.studentevals[index].commentVisible
       }
-      AXIOS.post('/setcommentvisibility/',
-                    {}, {params: params}).catch(e => console.log(e.response.data.message));
+      AXIOS.post('/setcommentvisibility/',{}, {params: params})
+      .then(r => this.$alert("Successfully changed comment visibility!", '', 'success'))
+      .catch(e => {
+        this.$alert("Error changing comment visibility", '', 'error');
+        console.log(e.response.data.message);
+      });
+    
+    
     },
     statusChangedT(index) {
       //remove a comment or reset it to visible!
@@ -151,8 +159,13 @@ export default {
         isStudentEvaluation: false,
         visibility: this.tutorevals[index].commentVisible
       }
-      AXIOS.post('/setcommentvisibility/',
-                    {},{params: params}).catch(e => console.log(e.response.data.message));
+      
+      AXIOS.post('/setcommentvisibility/',{}, {params: params})
+      .then(r => this.$alert("Successfully changed comment visibility!", '', 'success'))
+      .catch(e => {
+        this.$alert("Error changing comment visibility", '', 'error');
+        console.log(e.response.data.message);
+      });
     }
   }
 };

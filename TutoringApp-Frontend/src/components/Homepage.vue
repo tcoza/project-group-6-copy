@@ -1,7 +1,6 @@
 <template>
    <div id="main" v-cloak>
         <topbar title="Home" />
-
         <h3> Welcome, {{ name }}! </h3>
         <li v-for="a in articles"  v-bind:key="a.url">
             <a v-bind:href="a.url" target="_self"> <img :src="a.image" /> </a>
@@ -11,17 +10,18 @@
     </div>
 </template>
 
+
 <script>
-    import image1 from "../assets/Youtube.jpg"
-    import image2 from "../assets/money.jpg"
+    import image1 from "../assets/tutor.jpg"
+    import image2 from "../assets/students.jpg"
     import image3 from "../assets/evaluation.jpg"
     import image4 from "../assets/session.jpg"
-    import image5 from "../assets/courses.png"
+    import image5 from "../assets/courses.jpg"
     import topbar from "./TopBar"
     import VueCookies from "vue-cookies"
 
     export default {
-        components: { topbar, VueCookies },
+        components: { topbar, VueCookies},
         data: function(){
             return{
                 name: VueCookies.get('ManagerName'),
@@ -50,8 +50,8 @@
                 }
                 ]
             }
-        },
-    
+        }
+        
   }
 </script>
 
@@ -69,13 +69,15 @@ li{
     padding: 10px;
     float:left;
 }
-li img{
+li img {
     width: 100%;
     height: 250px;
     object-fit: cover;
+    object-position: 50% 5%;
     display:block;
     border:none;
 }
+
 li p{
     margin-left: 5%;
     font-weight: normal;

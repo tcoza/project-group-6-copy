@@ -2,12 +2,12 @@
   <div id="signin" v-cloak>
     <topbar title="Sign in" />
     
-    <div id="login">
+    <div id="login"  style="background-color: #FFFFFFA0">
       <div id="fields">
         Username<br />
-        <input type="text" placeholder="Enter (any) username" v-model="manager" /><br />
+        <input type="text" placeholder="Enter username" v-model="manager" /><br />
         <br />Password<br />
-        <input type="password" placeholder="Enter (any) password" /><br />
+        <input type="password" placeholder="Enter password" /><br />
         <br />
       </div>
       <button v-on:click="signin()">Sign In</button>
@@ -33,8 +33,10 @@
       {
         signin: function()
         {
+          this.$notify({title: 'Signed in',text: 'Welcome back!',});
           VueCookies.set('ManagerName', this.manager);
           location.href='#/home'
+         
         }
       }
     }
