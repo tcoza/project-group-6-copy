@@ -34,8 +34,7 @@ public class StudentsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_students);
         getSupportActionBar().setTitle("Students");
 
-        GetStudentsResponseHandler handler = new GetStudentsResponseHandler((TableLayout) findViewById(R.id.table));
-        try { HttpUtils.get("/students", new RequestParams(), handler); } finally {}
+        HttpUtils.get("/students", new RequestParams(), new GetStudentsResponseHandler((TableLayout) findViewById(R.id.table)));
 
     }
 
