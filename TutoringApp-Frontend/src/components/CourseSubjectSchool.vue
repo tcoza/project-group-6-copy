@@ -212,10 +212,10 @@ import AXIOS from "./Axios";
                     {}, { params: { type: this.schoolType }})
                     .then(response =>
                     {
-                        alert("School successfully added!");
+                        this.$alert("School successfully added!", '', 'success');
                         this.refreshFromBackend();
                     })
-                    .catch(e => alert("Error adding a new school!"));
+                    .catch(e => this.$alert("Error adding a new school!", '', 'error'));
 
             this.closeFormAll();
         },
@@ -224,10 +224,10 @@ import AXIOS from "./Axios";
                     {}, { params: { name: this.className, school: this.schoolNameC }})
                     .then(response =>
                     {
-                        alert("Course successfully added!");
+                        this.$alert("Course successfully added!", '', 'success');
                         this.refreshFromBackend();
                     })
-                    .catch(e => alert("Error adding a new course!"));
+                    .catch(e => this.$alert("Error adding a new course!", '', 'error'));
 
             this.closeFormAll();
         },
@@ -236,10 +236,10 @@ import AXIOS from "./Axios";
                     {}, { params: { school: this.schoolNameS }})
                     .then(response =>
                     {
-                        alert("Subject successfully added!");
+                        this.$alert("Subject successfully added!", '', 'success');
                         this.refreshFromBackend();
                     })
-                    .catch(e => alert("Error adding a new subject!"));
+                    .catch(e => this.$alert("Error adding a new subject!"), '', 'error');
 
             this.closeFormAll();
         }

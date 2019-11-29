@@ -17,7 +17,7 @@
         width="70%"
       />
 
-      <div id="login" style="width: 30%">
+      <div id="login" style="width: 30%; background-color: #FFFFFFA0">
         <div id="fields">
           <table style="width:100%;">
             <tr>
@@ -81,7 +81,7 @@ import DatePick from "vue-date-pick";
 import VueTimepicker from "vue2-timepicker";
 import cooltable from "./CoolTable";
 import topbar from "./TopBar";
-import AXIOS from "./Axios"
+import AXIOS from "./Axios";
 
 export default {
   components: { DatePick, VueTimepicker, cooltable, topbar },
@@ -165,8 +165,8 @@ export default {
         roomid: this.selectedClass,
         starttime: time
       }})
-      .then(response => alert("Session booked!"))
-      .catch(e => alert("Error booking a session"));
+      .then(response => this.$alert("Session booked!", '' , 'success'))
+      .catch(e => this.$alert("Error booking a session" ,'' , 'error'));
     }
   }
 };

@@ -55,7 +55,11 @@ export default {
         {
             AXIOS.post('/tutors/'.concat(this.tutors[index].username).concat('/setstatus'),
                     {}, { params: { status: this.tutors[index].status }})
-                    .catch(e => console.log(e.response.data.message));
+            .then(r => this.$alert("Tutor account status successfully changed!", '', 'success'))
+            .catch(e => {
+                console.log(e.response.data.message);
+                this.$alert("Error changing tutor account status", '', 'error');
+            });
         }
     }
 }
