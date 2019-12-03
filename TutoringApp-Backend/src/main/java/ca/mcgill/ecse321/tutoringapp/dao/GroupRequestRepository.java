@@ -13,28 +13,30 @@ import ca.mcgill.ecse321.tutoringapp.model.Student;
 import ca.mcgill.ecse321.tutoringapp.model.Subject;
 
 /**
+ * This interface is the CRUD repository for all GroupRequests for group
+ * tutoring sessions in the Tutoring System. It is mapped as a
+ * RepositoryRestResource that can be viewed with GET requests at /grouprequests
  * 
  * @author Helen
- *
  */
 @CrossOrigin
 @RepositoryRestResource(collectionResourceRel = "grouprequests", path = "grouprequests")
 public interface GroupRequestRepository extends CrudRepository<GroupRequest, Integer> {
 
 	GroupRequest findById(int id);
-	//find by requested course
-		List<GroupRequest> findByRequestedCourse(Course requestedCourse);
 
-		//find by requested subject
-		List<GroupRequest> findByRequestedSubject(Subject requestedSubject);
+	// find by requested course
+	List<GroupRequest> findByRequestedCourse(Course requestedCourse);
 
-		//find by requestor
-		List<GroupRequest> findByRequestor(Student requestor);
+	// find by requested subject
+	List<GroupRequest> findByRequestedSubject(Subject requestedSubject);
 
-		//find all scheduled or unscheduled sessions
-		List<GroupRequest> findByIsScheduled(boolean isScheduled);
+	// find by requestor
+	List<GroupRequest> findByRequestor(Student requestor);
 
-		//find all
-		List<GroupRequest> findAll();
+	// find all scheduled or unscheduled sessions
+	List<GroupRequest> findByIsScheduled(boolean isScheduled);
+
+	// find all
+	List<GroupRequest> findAll();
 }
-

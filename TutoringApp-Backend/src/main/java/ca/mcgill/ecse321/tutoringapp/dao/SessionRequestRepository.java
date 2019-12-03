@@ -13,28 +13,32 @@ import ca.mcgill.ecse321.tutoringapp.model.Student;
 import ca.mcgill.ecse321.tutoringapp.model.Subject;
 
 /**
- * @author Helen
+ * This interface is the CRUD repository for all SessionRequests for (group and
+ * private) tutoring sessions in the Tutoring System. It is mapped as a
+ * RepositoryRestResource that can be viewed with GET requests at
+ * /sessionrequests
  * 
+ * @author Helen
  */
 @CrossOrigin
 @RepositoryRestResource(collectionResourceRel = "sessionrequests", path = "sessionrequests")
 public interface SessionRequestRepository extends CrudRepository<SessionRequest, Integer> {
 
 	SessionRequest findById(int id);
-	
-	//find by requested course
+
+	// find by requested course
 	List<SessionRequest> findByRequestedCourse(Course requestedCourse);
-		
-	//find by requested subject
+
+	// find by requested subject
 	List<SessionRequest> findByRequestedSubject(Subject requestedSubject);
-	
-	//find by requestor
+
+	// find by requestor
 	List<SessionRequest> findByRequestor(Student requestor);
-	
-	//find all scheduled or unscheduled sessions
+
+	// find all scheduled or unscheduled sessions
 	List<GroupRequest> findByIsScheduled(boolean isScheduled);
-		
-	//find all
+
+	// find all
 	List<SessionRequest> findAll();
 
 }

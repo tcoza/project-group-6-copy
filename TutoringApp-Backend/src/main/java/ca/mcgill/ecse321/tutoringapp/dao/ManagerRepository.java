@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import ca.mcgill.ecse321.tutoringapp.model.Manager;
 
 /**
+ * This interface is the CRUD repository for all Managers in the Tutoring
+ * System. It is mapped as a RepositoryRestResource that can be viewed with GET
+ * requests at /managers
  * 
  * @author Traian
- *
  */
 @CrossOrigin
 @RepositoryRestResource(collectionResourceRel = "managers", path = "managers")

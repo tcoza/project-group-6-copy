@@ -12,27 +12,31 @@ import ca.mcgill.ecse321.tutoringapp.model.Student;
 import ca.mcgill.ecse321.tutoringapp.model.Subject;
 
 /**
- *
+ * This interface is the CRUD repository for all PrivateRequests for individual
+ * tutoring sessions in the Tutoring System. It is mapped as a
+ * RepositoryRestResource that can be viewed with GET requests at
+ * /privaterequests
+ * 
  * @author Helen
- *
  */
 @CrossOrigin
 @RepositoryRestResource(collectionResourceRel = "privaterequests", path = "privaterequests")
 public interface PrivateRequestRepository extends CrudRepository<PrivateRequest, Integer> {
 
 	PrivateRequest findById(int id);
-	//find by requested course
+
+	// find by requested course
 	List<PrivateRequest> findByRequestedCourse(Course requestedCourse);
-		
-	//find by requested subject
+
+	// find by requested subject
 	List<PrivateRequest> findByRequestedSubject(Subject requestedSubject);
-	
-	//find by requestor
+
+	// find by requestor
 	List<PrivateRequest> findByRequestor(Student requestor);
-	
-	//find all scheduled or unscheduled sessions
+
+	// find all scheduled or unscheduled sessions
 	List<PrivateRequest> findByIsScheduled(boolean isScheduled);
-	
-	//find all
+
+	// find all
 	List<PrivateRequest> findAll();
 }
