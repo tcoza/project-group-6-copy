@@ -6,11 +6,17 @@ import javax.persistence.Id;
 import java.util.Set;
 import javax.persistence.OneToMany;
 
+/**
+ * This auto-generated is our model class for TeachingInstitution. The primary
+ * key is the school's name. A TeachingInstitution has an InstitutionType, and
+ * can have many courses or subjects that are taught at that school.
+ */
 @Entity
 public class TeachingInstitution {
 	public TeachingInstitution() {
-		
+
 	}
+
 	private String name;
 
 	public void setName(String value) {

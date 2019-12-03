@@ -7,17 +7,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
-
 import java.sql.Date;
-import java.util.Set;
-import javax.persistence.ManyToMany;
 
+/**
+ * This auto-generated is our model class for SessionRequest, a super-class of
+ * PrivateRequest and GroupRequest. The primary key is the request 'id'. Table
+ * per class inheritance strategy is used for our JPA mapping to the persistence
+ * layer. A SessionRequest has a Student requestor, a date created, a boolean
+ * value for whether it was scheduled or not, and an associated course or
+ * subject for the request.
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class SessionRequest {
 	public SessionRequest() {
-		
+
 	}
+
 	private Date dateCreated;
 
 	public void setDateCreated(Date value) {
@@ -60,7 +66,7 @@ public class SessionRequest {
 	public void setRequestor(Student requestor) {
 		this.requestor = requestor;
 	}
-	
+
 	private Subject requestedSubject;
 
 	@ManyToOne
@@ -82,7 +88,5 @@ public class SessionRequest {
 	public void setRequestedCourse(Course requestedCourse) {
 		this.requestedCourse = requestedCourse;
 	}
-
-	
 
 }

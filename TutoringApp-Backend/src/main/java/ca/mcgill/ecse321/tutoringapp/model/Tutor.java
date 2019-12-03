@@ -6,11 +6,20 @@ import java.util.Set;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+/**
+ * This auto-generated is our model class for Tutor, a child-class of AppUser.
+ * The primary key is the username. Table per class inheritance strategy is used
+ * for our JPA mapping to the persistence layer. A tutor can be be the recipient
+ * of many TutorEvaluations, be the author of many StudentEvaluations, be a
+ * qualified tutor for many courses or subjects, and be the assigned tutor for
+ * many scheduled tutoring sessions.
+ */
 @Entity
 public class Tutor extends AppUser {
 	public Tutor() {
 		super();
 	}
+
 	private TutorStatus status = TutorStatus.PENDING;
 
 	public void setStatus(TutorStatus value) {
@@ -31,10 +40,10 @@ public class Tutor extends AppUser {
 	public void setCourse(Set<Course> courses) {
 		this.course = courses;
 	}
-	
+
 	private Set<TutorEvaluation> tutorEvaluation;
 
-	@OneToMany(mappedBy = "recipient", cascade = { CascadeType.ALL }, orphanRemoval=true)
+	@OneToMany(mappedBy = "recipient", cascade = { CascadeType.ALL }, orphanRemoval = true)
 	public Set<TutorEvaluation> getTutorEvaluation() {
 		return this.tutorEvaluation;
 	}

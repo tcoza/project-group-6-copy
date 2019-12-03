@@ -11,14 +11,23 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+/**
+ * This auto-generated is our model class for Evaluation, a super-class of
+ * StudentEvaluation and TutorEvaluation. The primary key is the evaluation
+ * 'id'. Table per class inheritance strategy is used for our JPA mapping to the
+ * persistence layer. An Evaluation has a date for when it was created, an
+ * integer value for the rating given, and has an optional evaluation comment
+ * and a boolean value for its visibility.
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Evaluation {
-	
+
 	public Evaluation() {
-		
+
 	}
-	private String evaluationComment;	
+
+	private String evaluationComment;
 
 	public String getEvaluationComment() {
 		return this.evaluationComment;
@@ -28,9 +37,8 @@ public class Evaluation {
 		this.evaluationComment = evaluationComment;
 	}
 
-	
 	private boolean commentVisible;
-	
+
 	public boolean getCommentVisible() {
 		return this.commentVisible;
 	}
@@ -38,8 +46,7 @@ public class Evaluation {
 	public void setCommentVisible(boolean commentVisible) {
 		this.commentVisible = commentVisible;
 	}
-	
-	
+
 	private int rating;
 
 	public void setRating(int value) {

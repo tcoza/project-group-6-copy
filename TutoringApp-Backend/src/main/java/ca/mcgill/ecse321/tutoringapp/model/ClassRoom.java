@@ -4,11 +4,19 @@ import javax.persistence.Entity;
 import java.util.Set;
 import javax.persistence.OneToMany;
 
+/**
+ * This auto-generated is our model class for ClassRoom, a child-class of Room.
+ * The primary key is the room 'id'. Table per class inheritance strategy is
+ * used for our JPA mapping to the persistence layer. A Classroom has a max
+ * studentCapacity of 15 students, and a Classroom can have many scheduled group
+ * tutoring sessions booked for it.
+ */
 @Entity
 public class ClassRoom extends Room {
 	public ClassRoom() {
 		super();
 	}
+
 	private Set<ScheduledGroupSession> scheduledGroupSession;
 
 	@OneToMany(mappedBy = "room")

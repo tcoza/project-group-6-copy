@@ -5,11 +5,20 @@ import javax.persistence.ManyToOne;
 import java.util.Set;
 import javax.persistence.OneToMany;
 
+/**
+ * This auto-generated is our model class for ScheduledGroupSession, a
+ * child-class of ScheduledSession. The primary key is the session'id'. Table
+ * per class inheritance strategy is used for our JPA mapping to the persistence
+ * layer. A ScheduledGroupSession has an integer value for the number of
+ * registered students, and a classroom it will be held at, and can have many
+ * GroupSessionRequest that it fulfills.
+ */
 @Entity
 public class ScheduledGroupSession extends ScheduledSession {
 	public ScheduledGroupSession() {
 		super();
 	}
+
 	private ClassRoom room;
 
 	@ManyToOne(optional = false)

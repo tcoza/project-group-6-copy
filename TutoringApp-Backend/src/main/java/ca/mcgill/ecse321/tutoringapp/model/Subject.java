@@ -8,11 +8,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
 
+/**
+ * This auto-generated is our model class for Subject. The primary key is the
+ * subject's name. A Subject has an associated school that it is taught at, and
+ * can be many tutors that are qualified to teach it, as well as many
+ * SessionRequests for tutoring sessions for this subject.
+ */
 @Entity
 public class Subject {
 	public Subject() {
-		
+
 	}
+
 	private String name;
 
 	public void setName(String value) {
@@ -23,7 +30,6 @@ public class Subject {
 	public String getName() {
 		return this.name;
 	}
-
 
 	private TeachingInstitution school;
 
@@ -49,7 +55,7 @@ public class Subject {
 
 	private Set<SessionRequest> request;
 
-	@OneToMany(mappedBy = "requestedSubject", cascade = { CascadeType.ALL }, orphanRemoval=true)
+	@OneToMany(mappedBy = "requestedSubject", cascade = { CascadeType.ALL }, orphanRemoval = true)
 	public Set<SessionRequest> getRequest() {
 		return this.request;
 	}
@@ -57,6 +63,5 @@ public class Subject {
 	public void setRequest(Set<SessionRequest> requests) {
 		this.request = requests;
 	}
-
 
 }

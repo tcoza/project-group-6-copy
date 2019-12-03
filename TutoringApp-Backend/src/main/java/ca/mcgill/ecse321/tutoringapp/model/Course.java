@@ -8,11 +8,18 @@ import java.util.Set;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+/**
+ * This auto-generated is our model class for Course. The primary key is the
+ * coursecode. A Course has an associated school that it is taught at, and can
+ * be many tutors that are qualified to teach it, as well as many
+ * SessionRequests for tutoring sessions for this course.
+ */
 @Entity
 public class Course {
 	public Course() {
-		
+
 	}
+
 	private String courseCode;
 
 	public void setCourseCode(String value) {
@@ -58,7 +65,7 @@ public class Course {
 
 	private Set<SessionRequest> request;
 
-	@OneToMany(mappedBy = "requestedCourse", cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy = "requestedCourse", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<SessionRequest> getRequest() {
 		return this.request;
 	}
@@ -66,7 +73,5 @@ public class Course {
 	public void setRequest(Set<SessionRequest> requests) {
 		this.request = requests;
 	}
-
-	
 
 }

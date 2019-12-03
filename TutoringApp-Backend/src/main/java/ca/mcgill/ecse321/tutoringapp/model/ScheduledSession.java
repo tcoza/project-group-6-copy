@@ -10,12 +10,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+/**
+ * This auto-generated is our model class for ScheduledSession, a super-class of
+ * ScheduledPrivateSession and ScheduledGroupSession. The primary key is the
+ * session'id'. Table per class inheritance strategy is used for our JPA mapping
+ * to the persistence layer. A ScheduledSession has boolean value for if the
+ * session is full, an assignedTutor, and a date and start/end time.
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class ScheduledSession {
 	public ScheduledSession() {
-		
+
 	}
+
 	private int id;
 
 	public void setId(int value) {
@@ -80,6 +88,5 @@ public class ScheduledSession {
 	public void setAssignedTutor(Tutor assignedTutor) {
 		this.assignedTutor = assignedTutor;
 	}
-
 
 }

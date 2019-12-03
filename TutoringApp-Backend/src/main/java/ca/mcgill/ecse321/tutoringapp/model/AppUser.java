@@ -5,14 +5,18 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
-
+/**
+ * This auto-generated is our model class for AppUser, the super-class of
+ * Manager, Student, and Tutor. The primary key is the username. Table per class
+ * inheritance strategy is used for our JPA mapping to the persistence layer.
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class AppUser {
 	public AppUser() {
-		
+
 	}
-	
+
 	private String firstName;
 
 	public void setFirstName(String value) {
