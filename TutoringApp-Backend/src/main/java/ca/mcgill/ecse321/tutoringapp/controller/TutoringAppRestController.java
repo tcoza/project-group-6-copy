@@ -27,8 +27,7 @@ public class TutoringAppRestController {
 //	 e.g. /teachinginstitutions/{name}/courses to get all courses at that teaching
 //	 institution
 
-	// ******************************* APP USER, STUDENT, TUTOR, MANAGER
-	// ***************************************************************************
+	// ******************************* APP USER, STUDENT, TUTOR, MANAGER***************************************************************************
 
 	/**
 	 * This controller method creates a new student account.
@@ -194,8 +193,7 @@ public class TutoringAppRestController {
 		service.setStudentStatus(username, true);
 	}
 
-	// ******************************** COURSE, SUBJECT, TEACHING INSTITUTION
-	// **********************************************************************
+	// ******************************** COURSE, SUBJECT, TEACHING INSTITUTION**********************************************************************
 
 	/**
 	 * This controller method creates a new subject associated with an existing
@@ -220,6 +218,8 @@ public class TutoringAppRestController {
 	 * 
 	 * @author Alba Talelli
 	 * @param name School (Teaching Insititution) name
+	 * @param type the type of institution ("OTHER", "CEGEP", "HIGHSCHOOL", or
+	 *             "UNIVERSITY")
 	 * @return the new School created
 	 * @throws IllegalArgumentException
 	 */
@@ -273,8 +273,7 @@ public class TutoringAppRestController {
 		return service.createSmallRoom();
 	}
 
-	// ******************************** SESSION REQUESTS (group, private and
-	// general) *****************************************************
+	// ******************************** SESSION REQUESTS (group, private and general) *****************************************************
 
 //	 NOTE: @GetMapping is done automatically through @RepositoryRestController in
 //	 each CRUD repository
@@ -366,8 +365,7 @@ public class TutoringAppRestController {
 		return request;
 	}
 
-	// ************************************EVALUATIONS (TUTOR AND STUDENT
-	// EVALUATIONS) *************************************************************
+	// ************************************EVALUATIONS (TUTOR AND STUDENT EVALUATIONS) *************************************************************
 
 	/**
 	 * This controller method creates an evaluation/feedback for a student
