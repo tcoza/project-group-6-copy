@@ -28,6 +28,7 @@
             android:name=".StudentsActivity"
             android:parentActivityName=".MainActivity"
             />
+        <activity android:name=".TutorActivity"/>
     </application>
 
 </manifest>
