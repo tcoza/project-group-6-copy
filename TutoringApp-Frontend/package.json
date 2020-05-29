@@ -18,7 +18,7 @@
     "bootstrap": "^4.0.0-beta.2",
     "bootstrap-vue": "latest",
     "easy-circular-progress": "^1.0.4",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "popper.js": "^1.12.9",
     "vue": "^2.5.2",
     "vue-cookies": "^1.5.13",
